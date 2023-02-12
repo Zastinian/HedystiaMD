@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@open-wa/wa-automate": "^4.55.4",
+    "ytdl-core": "^4.11.2"
+  }
+}

@@ -1,0 +1,11 @@
+_IGNORE_ZHYCORP/
+ZHYCORP.data.json
+yarn.lock
+node_modules/
+.env
+
+# managed
+**.data.json
+**.node-persist**
+**_IGNORE_**
+# end managed
