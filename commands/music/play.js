@@ -19,7 +19,8 @@ module.exports = {
         .pipe(fs.createWriteStream(vid))
         .on("finish", async () => {
           try {
-            await bot.sendPtt(message.chatId, vid, message.id).then(() => {
+            await bot.sendPtt(message.chatId, vid, message.id).then(async () => {
+              await bot.reply(message.chatId, lang.play.info3, message.id);
               fs.unlinkSync(vid);
             });
           } catch (error) {
