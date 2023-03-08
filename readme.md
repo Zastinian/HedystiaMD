@@ -8,8 +8,8 @@
 ## Host
 
 > You can host it from this hosting.
-
-[Boxmine](hhttps://boxmineworld.com/)
+>
+> - [Boxmine](hhttps://boxmineworld.com/)
 
 ## Contributors
 
