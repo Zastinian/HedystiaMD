@@ -4,12 +4,7 @@
 
 > - [Invite_Discord_Bot](https://mresmile.com/invite) (Discord bot invitation)
 > - [Website](https://mresmile.com/)
-
-## Host
-
-> You can host it from this hosting.
->
-> - [Boxmine](hhttps://boxmineworld.com/)
+> - [Boxmine](hhttps://boxmineworld.com/) (You can host it from this hosting)
 
 ## Contributors
 
