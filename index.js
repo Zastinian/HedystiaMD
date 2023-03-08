@@ -22,6 +22,7 @@ const client = new Client({
       width: 800,
       height: 600,
     },
+    headless: true,
   },
   disableMediaDownload: true,
 });
