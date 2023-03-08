@@ -7,7 +7,9 @@
 
 ## Host
 
-> You can host it from this hosting. [Boxmine](hhttps://boxmineworld.com/)<br>
+> You can host it from this hosting.
+
+[Boxmine](hhttps://boxmineworld.com/)
 
 ## Contributors
 
