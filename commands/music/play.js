@@ -9,6 +9,7 @@ const downloader = new DownloadYTFile({
   fileNameGenerator: (videoTitle) => {
     return videoTitle;
   },
+  maxDownloadSize: 16 * 1024 * 1024,
 });
 
 module.exports = {
