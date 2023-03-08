@@ -9,22 +9,16 @@ const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
-    args: [
-      "--disable-gpu",
-      "--disable-dev-shm-usage",
-      "--disable-setuid-sandbox",
-      "--no-sandbox",
-      "--disable-dev-shm-usage",
-      "--limit-cpu=0.25",
-      "--max-old-space-size=150",
-    ],
+    args: ["--disable-gpu", "--disable-dev-shm-usage", "--disable-setuid-sandbox", "--no-sandbox", "--disable-dev-shm-usage"],
     defaultViewport: {
       width: 800,
       height: 600,
     },
-    headless: true,
   },
+  maxConcurrency: 0.25,
+  maxBrowserMemory: 150 * 1024 * 1024,
   disableMediaDownload: true,
+  maxCachedMessages: 250,
 });
 
 client.commands = commands;

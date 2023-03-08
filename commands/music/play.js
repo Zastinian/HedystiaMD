@@ -1,5 +1,5 @@
 const {MessageMedia} = require("whatsapp-web.js");
-const fs = require("fs");
+const fs = require("fs").promises;
 const yts = require("yt-search");
 const DownloadYTFile = require("yt-dl-playlist");
 const downloader = new DownloadYTFile({
@@ -34,9 +34,9 @@ module.exports = {
         await downloader.download(videoID, `${videoID}.mp3`);
         const media = MessageMedia.fromFilePath("./downloads/" + videoID + ".mp3");
         await message.reply(media);
-        fs.unlinkSync("./downloads/" + videoID + ".mp3");
+        await fs.unlink("./downloads/" + videoID + ".mp3");
       } catch (e) {
-        fs.unlinkSync("./downloads/" + videoID + ".mp3");
+        await fs.unlink("./downloads/" + videoID + ".mp3");
         message.reply(lang.play.error);
       }
     }
