@@ -5,7 +5,7 @@
   "play": {
     "info": "I'm looking for and downloading the song!",
     "error": "I can't play anything larger than 16mb!",
-    "info2": "*You must put the song*\n\n*nExample:*\n{0}play Christian Nodal No te contaron mal",
+    "info2": "*You must put the song*\n\n*Example:*\n{0}play Christian Nodal No te contaron mal",
     "error2": "There was an error searching for the song"
   }
 }
