@@ -1,11 +1,6 @@
-_IGNORE_ZHYCORP/
-ZHYCORP.data.json
+.pnp.cjs
+.pnp.loader.mjs
 yarn.lock
-node_modules/
-.env
-
-# managed
-**.data.json
-**.node-persist**
-**_IGNORE_**
-# end managed
+ffmpeg/
+.yarn
+.wwebjs_auth/

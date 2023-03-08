@@ -1,11 +1,11 @@
 {
   "help": {
-    "info": "*Help menu*\n\n*Commands:*\n✹ {0}help\n✹ {0}play"
+    "info": "*Help Menu*\n\n*Commands:*\n✹ {0}help\n✹ {0}play"
   },
   "play": {
     "info": "I'm looking for and downloading the song!",
     "error": "I can't play anything larger than 16mb!",
-    "info2": "*You must put a youtube link*\n\n*Example:*\n{0}play https://www.youtube.com/watch?v=Eq4A8Hp4U_4",
-    "info3": "Ready, it will not appear in whatsapp cell phone only in whatsapp web"
+    "info2": "*You must put the song*\n\n*nExample:*\n{0}play Christian Nodal No te contaron mal",
+    "error2": "There was an error searching for the song"
   }
 }

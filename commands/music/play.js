@@ -1,35 +1,43 @@
+const {MessageMedia} = require("whatsapp-web.js");
 const fs = require("fs");
-const ytdl = require("ytdl-core");
-const getRandom = (ext) => {
-  return `${Math.floor(Math.random() * 10000)}${ext}`;
-};
+const yts = require("yt-search");
+const DownloadYTFile = require("yt-dl-playlist");
+const downloader = new DownloadYTFile({
+  outputPath: "./downloads",
+  ffmpegPath: "/usr/bin/ffmpeg",
+  maxParallelDownload: 1,
+  fileNameGenerator: (videoTitle) => {
+    return videoTitle;
+  },
+});
+
 module.exports = {
   name: "play",
   run: async (bot, message, lang, args) => {
-    if (!args[0]) return await bot.reply(message.chatId, lang.play.info2, message.id);
-    const url = args.join(" ");
-    const vid = getRandom(".mp3");
-    if (ytdl.validateURL(url)) {
-      await bot.reply(message.chatId, lang.play.info, message.id);
-      ytdl(url, {
-        format: "mp3",
-        filter: "audioonly",
-        quality: "lowest",
-      })
-        .pipe(fs.createWriteStream(vid))
-        .on("finish", async () => {
-          try {
-            await bot.sendPtt(message.chatId, vid, message.id).then(async () => {
-              await bot.reply(message.chatId, lang.play.info3, message.id);
-              fs.unlinkSync(vid);
-            });
-          } catch (error) {
-            await bot.reply(message.chatId, lang.play.error, message.id);
-            fs.unlinkSync(vid);
-          }
+    if (!args[0]) return await message.reply(lang.play.info2);
+    findYtSong(args.slice(0).join(" "), message);
+    async function findYtSong(songName, message) {
+      try {
+        const r = await yts(songName);
+        const videos = r.videos.slice(0, 1);
+        videos.forEach(function (v) {
+          downloadSong(v.videoId, v.title, message);
         });
-    } else {
-      return await bot.reply(message.chatId, lang.play.info2, message.id);
+      } catch (e) {
+        message.reply(lang.play.error2);
+      }
+    }
+    async function downloadSong(videoID, songName, message) {
+      try {
+        message.reply(lang.play.info);
+        await downloader.download(videoID, `${videoID}.mp3`);
+        const media = MessageMedia.fromFilePath("./downloads/" + videoID + ".mp3");
+        await message.reply(media);
+        fs.unlinkSync("./downloads/" + videoID + ".mp3");
+      } catch (e) {
+        fs.unlinkSync("./downloads/" + videoID + ".mp3");
+        message.reply(lang.play.error);
+      }
     }
   },
 };

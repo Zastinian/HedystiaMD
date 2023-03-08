@@ -7,10 +7,7 @@ function loadCommands(bot) {
       const command = require(`../commands/${folder}/${file}`);
       if (command.name) {
         bot.commands.set(command.name, command);
-        console.log(`Normal: ${file} ✔️`);
       } else {
-        console.log(`Normal: ${file}
-            ❌ => Missing a help.name or help.name is not in string`);
         continue;
       }
     }

@@ -5,7 +5,7 @@
   "play": {
     "info": "Estoy buscando y descargando la cancion!",
     "error": "No puedo reproducir algo que pese mas de 16mb!",
-    "info2": "*Debes poner un enlace de youtube*\n\n*Ejemplo:*\n{0}play https://www.youtube.com/watch?v=Eq4A8Hp4U_4",
-    "info3": "Listo, no saldra en whatsapp de celular solo en whatsapp web"
+    "info2": "*Debes poner la cancion*\n\n*Ejemplo:*\n{0}play Christian Nodal No te contaron mal",
+    "error2": "Hubo un error al buscar la cancion"
   }
 }
