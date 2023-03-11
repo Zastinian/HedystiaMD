@@ -1,10 +1,17 @@
 const {MessageMedia} = require("whatsapp-web.js");
 const download = require("./assets/Download");
 const wait = require("./assets/Wait");
+const {globalMusicCooldown} = require("./config");
 const fs = require("fs").promises;
 
-module.exports = function (ms, message) {
-  function waitUntilFileExists(fileUrl, interval = 2000, retries = 50) {
+let global = false;
+
+module.exports = function (ms, message, lang) {
+  if (global == true) {
+    return message.reply(lang.play.cooldown);
+  }
+  message.reply(lang.play.info);
+  function waitUntilFileExists(fileUrl, interval = 2000, retries = 10) {
     return new Promise((resolve, reject) => {
       let retryCount = 0;
       const checkFile = () => {
@@ -15,7 +22,10 @@ module.exports = function (ms, message) {
             } else {
               retryCount++;
               if (retryCount >= retries) {
-                return;
+                if (globalMusicCooldown) {
+                  global = false;
+                }
+                return message.reply(lang.play.error);
               } else {
                 setTimeout(checkFile, interval);
               }
@@ -24,7 +34,10 @@ module.exports = function (ms, message) {
           .catch((error) => {
             retryCount++;
             if (retryCount >= retries) {
-              return;
+              if (globalMusicCooldown) {
+                global = false;
+              }
+              return message.reply(lang.play.error);
             } else {
               setTimeout(checkFile, interval);
             }
@@ -43,12 +56,14 @@ module.exports = function (ms, message) {
   })
     .then((response) => {
       if (!response.ok) {
-        console.log(response);
-        return;
+        return message.reply(lang.play.error);
       }
       return response.json();
     })
     .then(async (data) => {
+      if (globalMusicCooldown) {
+        global = true;
+      }
       const fileUrl = `https://cdn.mresmile.com/ms/${data.videoName}`;
       name = data.videoName;
       await wait(30000);
@@ -58,7 +73,10 @@ module.exports = function (ms, message) {
       download("https://cdn.mresmile.com/ms/" + name, "./").on("close", async () => {
         const media = MessageMedia.fromFilePath("./" + name);
         message.reply(media).then(async () => {
-          await wait(2000);
+          await wait(5000);
+          if (globalMusicCooldown) {
+            global = false;
+          }
           await fs.unlink("./" + name);
         });
       });

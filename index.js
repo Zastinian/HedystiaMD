@@ -1,5 +1,6 @@
 const qrcode = require("qrcode-terminal");
 const AssClient = require("./assets/Client");
+const {globalCommandsCooldown} = require("./config");
 const config = require("./config");
 const loadCommands = require("./handler/loadCommands.js");
 const commands = new Map();
@@ -29,6 +30,7 @@ client.on("ready", () => {
 });
 
 client.on("message_create", async (message) => {
+  let global = false;
   const PREFIX = config.prefix;
   const LANG = config.lang;
   const LANGUAGE = JSON.parse(JSON.stringify(require(`./lang/${LANG}/bot.json`)).replaceAll("{0}", PREFIX));
@@ -40,7 +42,16 @@ client.on("message_create", async (message) => {
   const commandName = args.shift().toLowerCase();
   const command = await client.commands.get(commandName);
   if (!command) return;
+  if (global == true) {
+    return;
+  }
+  if (globalCommandsCooldown == true) {
+    global = true;
+  }
   command.run(client, message, LANGUAGE, args, p);
+  setTimeout(() => {
+    global = false;
+  }, 2000);
 });
 
 client.initialize();

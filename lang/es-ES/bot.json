@@ -14,6 +14,7 @@
     "info": "Estoy buscando y descargando la cancion!",
     "error": "Hubo un error al reproducir la música",
     "info2": "*Debes poner la cancion*\n\n*Ejemplo:*\n{0}play Miley Cyrus - Flowers",
-    "error2": "Hubo un error al buscar la cancion"
+    "error2": "Hubo un error al buscar la cancion",
+    "cooldown": "Debes esperar el cooldown global ya que otro usuario ya ha utilizado el comando de música el cual es de aproximadamente 35 segundos a 45 segundos después de su uso."
   }
 }
