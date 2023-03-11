@@ -1,25 +1,12 @@
-const {Client, LocalAuth} = require("whatsapp-web.js");
 const qrcode = require("qrcode-terminal");
+const AssClient = require("./assets/Client");
 const config = require("./config");
 const loadCommands = require("./handler/loadCommands.js");
 const commands = new Map();
 
 const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
-const client = new Client({
-  authStrategy: new LocalAuth(),
-  puppeteer: {
-    args: ["--disable-gpu", "--disable-dev-shm-usage", "--disable-setuid-sandbox", "--no-sandbox", "--disable-dev-shm-usage"],
-    defaultViewport: {
-      width: 800,
-      height: 600,
-    },
-  },
-  maxConcurrency: 0.25,
-  maxBrowserMemory: 150 * 1024 * 1024,
-  disableMediaDownload: true,
-  maxCachedMessages: 250,
-});
+const client = new AssClient();
 
 client.commands = commands;
 

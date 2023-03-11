@@ -1,6 +1,4 @@
-.pnp.cjs
-.pnp.loader.mjs
-yarn.lock
-ffmpeg/
-.yarn
 .wwebjs_auth/
+node_modules
+package-lock.json
+pnpm-lock.yaml

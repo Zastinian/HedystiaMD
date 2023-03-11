@@ -1,11 +1,19 @@
 {
   "help": {
-    "info": "*Help Menu*\n\n*Commands:*\n✹ {0}help\n✹ {0}play"
+    "menu": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Categories ⤞*_\n  ⟿ Information\n  ⟿ Music\n*┗━━━━━━━━━ツ━━━━━━━━━┛*",
+    "buttons": {
+      "t1": "Information",
+      "t2": "Music"
+    },
+    "menus": {
+      "info": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Information Commands ⤞*_\n  ⟿ help\n*┗━━━━━━━━━ツ━━━━━━━━━┛*",
+      "music": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Music Commands ⤞*_\n  ⟿ play\n*┗━━━━━━━━━ツ━━━━━━━━━┛*"
+    }
   },
   "play": {
     "info": "I'm looking for and downloading the song!",
-    "error": "I can't play anything larger than 16mb!",
-    "info2": "*You must put the song*\n\n*Example:*\n{0}play Christian Nodal No te contaron mal",
+    "error": "There was an error playing the music",
+    "info2": "*You must put the song*\n\n*Example:*\n{0}play Miley Cyrus - Flowers",
     "error2": "There was an error searching for the song"
   }
 }
