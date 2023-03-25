@@ -1,4 +1,4 @@
-.wwebjs_auth/
-node_modules
-package-lock.json
+node_modules/
+esmile/
+esmile.json
 pnpm-lock.yaml

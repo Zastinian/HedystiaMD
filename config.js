@@ -1,6 +1,6 @@
-module.exports = {
-  prefix: "!",
-  lang: "en-US",
-  globalMusicCooldown: true, // Do not disable if you have few resources
-  globalCommandsCooldown: true, // Do not disable if you have few resources
-};
+const fs = require("fs");
+
+global.prefix = ["!"];
+global.packname = "Esmile Bot";
+global.author = "Esmile";
+global.thumb = fs.readFileSync("./src/assets/smoke.gif");

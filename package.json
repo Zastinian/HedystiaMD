@@ -1,20 +1,46 @@
 {
-  "name": "whatsapp-esmile",
-  "version": "1.1.0",
-  "description": "",
+  "name": "esmile-bot",
+  "version": "1.0.1",
+  "description": "Whatsapp Bot Using Baileys#MD",
   "main": "index.js",
+  "type": "commonjs",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "baileys",
+    "esmile",
+    "whatsapp"
+  ],
+  "author": "fnixdev",
+  "license": "MIT",
   "dependencies": {
-    "each-async": "^2.0.0",
-    "qrcode-terminal": "^0.12.0",
-    "url-valid": "^0.3.0",
-    "whatsapp-web.js": "github:bmilioli/whatsapp-web.js"
-  }
+    "@adiwajshing/baileys": "^5.0.0",
+    "@adiwajshing/keyed-db": "^0.2.4",
+    "@hapi/boom": "^10.0.1",
+    "awesome-phonenumber": "^2.64.0",
+    "file-type": "^16.5.3",
+    "fluent-ffmpeg": "^2.1.2",
+    "jimp": "^0.16.1",
+    "moment-timezone": "^0.5.34",
+    "node-webpmux": "^3.1.0",
+    "pino": "^7.0.5",
+    "qrcode-terminal": "^0.12.0"
+  },
+  "directories": {
+    "lib": "lib",
+    "src": "src"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fnixdev/ShiroBot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/fnixdev/ShiroBot/issues"
+  },
+  "homepage": "https://github.com/fnixdev/ShiroBot#readme"
 }
