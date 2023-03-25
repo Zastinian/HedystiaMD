@@ -1,35 +1,6 @@
 {
-  "name": "whatsapp-esmile",
-  "version": "1.2.0",
-  "description": "A whatsapp bot that can be used to play music",
-  "main": "index.js",
-  "type": "commonjs",
-  "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon index.js"
-  },
-  "keywords": [
-    "baileys",
-    "esmile",
-    "whatsapp"
-  ],
-  "author": "contact@mresmile.com",
-  "license": "ISC",
   "dependencies": {
-    "@adiwajshing/baileys": "^5.0.0",
-    "@adiwajshing/keyed-db": "^0.2.4",
-    "@hapi/boom": "^10.0.1",
-    "awesome-phonenumber": "^2.64.0",
-    "file-type": "^16.5.3",
-    "fluent-ffmpeg": "^2.1.2",
-    "jimp": "^0.16.1",
-    "moment-timezone": "^0.5.34",
-    "node-webpmux": "^3.1.0",
-    "pino": "^7.0.5",
-    "qrcode-terminal": "^0.12.0"
-  },
-  "directories": {
-    "handlers": "handlers",
-    "src": "src"
+    "@open-wa/wa-automate": "^4.59.1",
+    "ytdl-core": "^4.11.2"
   }
 }

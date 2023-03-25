@@ -1,4 +1,11 @@
+_IGNORE_ZHYCORP/
+ZHYCORP.data.json
+yarn.lock
 node_modules/
-esmile/
-esmile.json
-pnpm-lock.yaml
+.env
+
+# managed
+**.data.json
+**.node-persist**
+**_IGNORE_**
+# end managed
