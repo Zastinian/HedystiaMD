@@ -20,7 +20,7 @@ const {imageToWebp, videoToWebp, writeExifImg, writeExifVid} = require("./src/li
 const path = require("path");
 const {smsg, getBuffer, getSizeMedia, sleep} = require("./src/lib/myfunc");
 
-const store = makeInMemoryStore({logger: pino().child({level: "silent", stream: "store"})});
+const store = makeInMemoryStore({logger: pino().child({level: "error", stream: "store"})});
 store?.readFromFile("./esmile.json");
 
 setInterval(() => {
@@ -30,7 +30,7 @@ setInterval(() => {
 async function startEsmile() {
   const {state, saveCreds} = await useMultiFileAuthState("esmile");
   const esmile = esmileConnect({
-    logger: pino({level: "silent"}),
+    logger: pino({level: "error"}),
     printQRInTerminal: true,
     browser: ["Esmile MD", "Safari", "1.0.1"],
     auth: state,
@@ -210,6 +210,7 @@ async function startEsmile() {
     ███████╗███████║██║ ╚═╝ ██║██║███████╗███████╗
     ╚══════╝╚══════╝╚═╝     ╚═╝╚═╝╚══════╝╚══════╝
     `);
+    console.log("On!");
   });
 
   esmile.ev.on("creds.update", saveCreds);
