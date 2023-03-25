@@ -201,7 +201,15 @@ async function startEsmile() {
         startEsmile();
       } else esmile.end(`Unknown DisconnectReason: ${reason}|${connection}`);
     }
-    console.log("Connected...", update);
+    console.clear();
+    console.log(`
+    ███████╗███████╗███╗   ███╗██╗██╗     ███████╗
+    ██╔════╝██╔════╝████╗ ████║██║██║     ██╔════╝
+    █████╗  ███████╗██╔████╔██║██║██║     █████╗  
+    ██╔══╝  ╚════██║██║╚██╔╝██║██║██║     ██╔══╝  
+    ███████╗███████║██║ ╚═╝ ██║██║███████╗███████╗
+    ╚══════╝╚══════╝╚═╝     ╚═╝╚═╝╚══════╝╚══════╝
+    `);
   });
 
   esmile.ev.on("creds.update", saveCreds);
