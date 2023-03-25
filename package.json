@@ -1,7 +1,7 @@
 {
-  "name": "esmile-bot",
-  "version": "1.0.1",
-  "description": "Whatsapp Bot Using Baileys#MD",
+  "name": "whatsapp-esmile",
+  "version": "1.2.0",
+  "description": "A whatsapp bot that can be used to play music",
   "main": "index.js",
   "type": "commonjs",
   "scripts": {
@@ -13,8 +13,8 @@
     "esmile",
     "whatsapp"
   ],
-  "author": "fnixdev",
-  "license": "MIT",
+  "author": "contact@mresmile.com",
+  "license": "ISC",
   "dependencies": {
     "@adiwajshing/baileys": "^5.0.0",
     "@adiwajshing/keyed-db": "^0.2.4",
@@ -29,18 +29,7 @@
     "qrcode-terminal": "^0.12.0"
   },
   "directories": {
-    "lib": "lib",
+    "handlers": "handlers",
     "src": "src"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.4"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/fnixdev/ShiroBot.git"
-  },
-  "bugs": {
-    "url": "https://github.com/fnixdev/ShiroBot/issues"
-  },
-  "homepage": "https://github.com/fnixdev/ShiroBot#readme"
+  }
 }
