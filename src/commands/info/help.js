@@ -6,7 +6,7 @@ module.exports = {
       {
         urlButton: {
           displayText: "Website",
-          url: "https://mresmile.com",
+          url: "https://hedystia.com",
         },
       },
       //Temporary disable due to whatsapp update
@@ -18,7 +18,7 @@ module.exports = {
       },*/
     ];
     bot.sendMessage(message.chat, {text: txt}, {quoted: message});
-    //bot.sendButtonText(message.chat, btn, txt, "Esmile", message);
+    //bot.sendButtonText(message.chat, btn, txt, "Hedystia", message);
     //bot.send5ButImg(message.chat, txt, bot.user.name, global.thumb, btn);
   },
 };

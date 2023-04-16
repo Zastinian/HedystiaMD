@@ -18,7 +18,7 @@ module.exports = function (bot, ms, message) {
   }
   let name;
   const nameSong = encodeURIComponent(ms);
-  fetch("https://cdn.mresmile.com/create-au?songName=" + nameSong, {
+  fetch("https://cdn.hedystia.com/create-au?songName=" + nameSong, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -31,7 +31,7 @@ module.exports = function (bot, ms, message) {
       return response.json();
     })
     .then(async (data) => {
-      const fileUrl = `https://cdn.mresmile.com/ms/${data.videoName}`;
+      const fileUrl = `https://cdn.hedystia.com/ms/${data.videoName}`;
       name = data.videoName;
       await wait(30000);
       return waitUntilFileExists(fileUrl);
@@ -39,7 +39,7 @@ module.exports = function (bot, ms, message) {
     .then(async () => {
       bot.sendMessage(
         message.chat,
-        {audio: {url: "https://cdn.mresmile.com/ms/" + name}, mimetype: "audio/mpeg", fileName: `${name}`},
+        {audio: {url: "https://cdn.hedystia.com/ms/" + name}, mimetype: "audio/mpeg", fileName: `${name}`},
         {quoted: message}
       );
     })

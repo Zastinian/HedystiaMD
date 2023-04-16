@@ -1,5 +1,5 @@
 {
-  "name": "whatsapp-esmile",
+  "name": "whatsapp-hedystia",
   "version": "1.2.0",
   "description": "A whatsapp bot that can be used to play music",
   "main": "index.js",
@@ -10,10 +10,10 @@
   },
   "keywords": [
     "baileys",
-    "esmile",
+    "hedystia",
     "whatsapp"
   ],
-  "author": "contact@mresmile.com",
+  "author": "contact@hedystia.com",
   "license": "ISC",
   "dependencies": {
     "@adiwajshing/baileys": "^5.0.0",

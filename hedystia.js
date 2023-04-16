@@ -12,7 +12,7 @@ const {getGroupAdmins} = require("./src/lib/myfunc");
 
 const loadCommands = require("./handlers/loadCommands");
 
-module.exports = esmile = async (esmile, m, chatUpdate, store) => {
+module.exports = hedystia = async (hedystia, m, chatUpdate, store) => {
   try {
     var body =
       m.mtype === "conversation"
@@ -36,20 +36,20 @@ module.exports = esmile = async (esmile, m, chatUpdate, store) => {
 
     const isCmd = prefix.includes(body != "" && body.slice(0, 1)) && body.slice(1) != "";
     if (!isCmd) return;
-    esmile.commands = commands;
-    loadCommands(esmile);
+    hedystia.commands = commands;
+    loadCommands(hedystia);
     const command = isCmd ? body.slice(1).trim().split(" ")[0].toLowerCase() : "";
 
     const args = body.trim().split(/ +/).slice(1);
-    const botNumber = await esmile.decodeJid(esmile.user.id);
+    const botNumber = await hedystia.decodeJid(hedystia.user.id);
 
-    const itsMe = m.sender == esmile.user.id ? true : false;
+    const itsMe = m.sender == hedystia.user.id ? true : false;
     const text = (q = args.join(" "));
     const quoted = m.quoted ? m.quoted : m;
     const mime = (quoted.msg || quoted).mimetype || "";
     const isMedia = /image|video|sticker|audio/.test(mime);
 
-    const groupMetadata = m.isGroup ? await esmile.groupMetadata(m.chat).catch((e) => {}) : "";
+    const groupMetadata = m.isGroup ? await hedystia.groupMetadata(m.chat).catch((e) => {}) : "";
     const participants = m.isGroup ? await groupMetadata.participants : "";
     const groupAdmins = m.isGroup ? await getGroupAdmins(participants) : "";
     const isBotAdmins = m.isGroup ? groupAdmins.includes(botNumber) : false;
@@ -61,11 +61,11 @@ module.exports = esmile = async (esmile, m, chatUpdate, store) => {
 
     const used = process.memoryUsage();
 
-    if (!esmile.public) {
+    if (!hedystia.public) {
       if (!m.key.fromMe) return;
     }
 
-    const commandBot = await esmile.commands.get(command);
+    const commandBot = await hedystia.commands.get(command);
     if (!commandBot) return;
 
     const types = {
@@ -79,7 +79,7 @@ module.exports = esmile = async (esmile, m, chatUpdate, store) => {
       budy,
     };
 
-    commandBot.run(esmile, m, global, args, text, types);
+    commandBot.run(hedystia, m, global, args, text, types);
   } catch (err) {
     m.reply(util.format(err));
   }

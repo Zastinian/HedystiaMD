@@ -1,6 +1,6 @@
 require("./config");
 const {
-  default: esmileConnect,
+  default: hedystiaConnect,
   useMultiFileAuthState,
   DisconnectReason,
   generateForwardMessageContent,
@@ -21,52 +21,52 @@ const path = require("path");
 const {smsg, getBuffer, getSizeMedia, sleep} = require("./src/lib/myfunc");
 
 const store = makeInMemoryStore({logger: pino().child({level: "error", stream: "store"})});
-store?.readFromFile("./esmile.json");
+store?.readFromFile("./hedystia.json");
 
 setInterval(() => {
-  store?.writeToFile("./esmile.json");
+  store?.writeToFile("./hedystia.json");
 }, 10_000);
 
-async function startEsmile() {
-  const {state, saveCreds} = await useMultiFileAuthState("esmile");
-  const esmile = esmileConnect({
+async function startHedystia() {
+  const {state, saveCreds} = await useMultiFileAuthState("hedystia");
+  const hedystia = hedystiaConnect({
     logger: pino({level: "error"}),
     printQRInTerminal: true,
-    browser: ["Esmile MD", "Safari", "1.0.1"],
+    browser: ["Hedystia MD", "Safari", "1.0.1"],
     auth: state,
     version: [2, 2204, 13],
   });
 
-  store.bind(esmile.ev);
+  store.bind(hedystia.ev);
 
-  esmile.ws.on("CB:call", async (json) => {
+  hedystia.ws.on("CB:call", async (json) => {
     const callerId = json.content[0].attrs["call-creator"];
     if (json.content[0].tag == "offer") {
-      esmile.sendMessage(callerId, {
+      hedystia.sendMessage(callerId, {
         text: `_*A.I Auto Block System*_\nIt seems that you tried to call me, unfortunately you will be blocked automatically.`,
       });
       await sleep(8000);
-      await esmile.updateBlockStatus(callerId, "block");
+      await hedystia.updateBlockStatus(callerId, "block");
     }
   });
 
-  esmile.ev.on("messages.upsert", async (chatUpdate) => {
+  hedystia.ev.on("messages.upsert", async (chatUpdate) => {
     try {
       mek = chatUpdate.messages[0];
       if (!mek.message) return;
       mek.message = Object.keys(mek.message)[0] === "ephemeralMessage" ? mek.message.ephemeralMessage.message : mek.message;
       if (mek.key && mek.key.remoteJid === "status@broadcast") return;
-      if (!esmile.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
+      if (!hedystia.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
       if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return;
-      m = smsg(esmile, mek, store);
-      require("./esmile")(esmile, m, chatUpdate, store);
+      m = smsg(hedystia, mek, store);
+      require("./hedystia")(hedystia, m, chatUpdate, store);
     } catch (err) {
       console.log(err);
     }
   });
 
-  esmile.ev.on("group-participants.update", async (anu) => {
-    let metadata = await esmile.groupMetadata(anu.id);
+  hedystia.ev.on("group-participants.update", async (anu) => {
+    let metadata = await hedystia.groupMetadata(anu.id);
     console.log(anu);
     try {
       let welkompic = {url: "https://telegra.ph/file/69adf1d87f488d4c6a2fe.png"};
@@ -88,7 +88,7 @@ async function startEsmile() {
       for (let num of participants) {
         if (anu.action == "add") {
           let txt = `Opa, bem vindo ao grupo ${metadata.subject}. Leia as regras e fique a vontade para interagir no grupo.`;
-          esmile.sendWelkom(anu.id, txt, esmile.user.name, welkompic, btn);
+          hedystia.sendWelkom(anu.id, txt, hedystia.user.name, welkompic, btn);
         }
       }
     } catch (err) {
@@ -96,28 +96,28 @@ async function startEsmile() {
     }
   });
 
-  esmile.decodeJid = (jid) => {
+  hedystia.decodeJid = (jid) => {
     if (!jid) return jid;
     if (/:\d+@/gi.test(jid)) {
       let decode = jidDecode(jid) || {};
       return (decode.user && decode.server && decode.user + "@" + decode.server) || jid;
     } else return jid;
   };
-  esmile.ev.on("contacts.update", (update) => {
+  hedystia.ev.on("contacts.update", (update) => {
     for (let contact of update) {
-      let id = esmile.decodeJid(contact.id);
+      let id = hedystia.decodeJid(contact.id);
       if (store && store.contacts) store.contacts[id] = {id, name: contact.notify};
     }
   });
 
-  esmile.getName = (jid, withoutContact = false) => {
-    id = esmile.decodeJid(jid);
-    withoutContact = esmile.withoutContact || withoutContact;
+  hedystia.getName = (jid, withoutContact = false) => {
+    id = hedystia.decodeJid(jid);
+    withoutContact = hedystia.withoutContact || withoutContact;
     let v;
     if (id.endsWith("@g.us"))
       return new Promise(async (resolve) => {
         v = store.contacts[id] || {};
-        if (!(v.name || v.subject)) v = esmile.groupMetadata(id) || {};
+        if (!(v.name || v.subject)) v = hedystia.groupMetadata(id) || {};
         resolve(v.name || v.subject || PhoneNumber("+" + id.replace("@s.whatsapp.net", "")).getNumber("international"));
       });
     else
@@ -127,8 +127,8 @@ async function startEsmile() {
               id,
               name: "WhatsApp",
             }
-          : id === esmile.decodeJid(esmile.user.id)
-          ? esmile.user
+          : id === hedystia.decodeJid(hedystia.user.id)
+          ? hedystia.user
           : store.contacts[id] || {};
     return (
       (withoutContact ? "" : v.name) ||
@@ -138,21 +138,21 @@ async function startEsmile() {
     );
   };
 
-  esmile.sendContact = async (jid, kon, quoted = "", opts = {}) => {
+  hedystia.sendContact = async (jid, kon, quoted = "", opts = {}) => {
     let list = [];
     for (let i of kon) {
       list.push({
-        displayName: await esmile.getName(i + "@s.whatsapp.net"),
-        vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await esmile.getName(i + "@s.whatsapp.net")}\nFN:${await esmile.getName(
+        displayName: await hedystia.getName(i + "@s.whatsapp.net"),
+        vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await hedystia.getName(i + "@s.whatsapp.net")}\nFN:${await hedystia.getName(
           i + "@s.whatsapp.net"
-        )}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Ponsel\nitem2.EMAIL;type=INTERNET:contact@mresmile.com\nitem2.X-ABLabel:Email\nitem3.URL:https://www.instagram.com/zastinianyt\nitem3.X-ABLabel:Instagram\nitem4.ADR:;;Indonesia;;;;\nitem4.X-ABLabel:Region\nEND:VCARD`,
+        )}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Ponsel\nitem2.EMAIL;type=INTERNET:contact@hedystia.com\nitem2.X-ABLabel:Email\nitem3.URL:https://www.instagram.com/zastinianyt\nitem3.X-ABLabel:Instagram\nitem4.ADR:;;Indonesia;;;;\nitem4.X-ABLabel:Region\nEND:VCARD`,
       });
     }
-    esmile.sendMessage(jid, {contacts: {displayName: `${list.length} Kontak`, contacts: list}, ...opts}, {quoted});
+    hedystia.sendMessage(jid, {contacts: {displayName: `${list.length} Kontak`, contacts: list}, ...opts}, {quoted});
   };
 
-  esmile.setStatus = (status) => {
-    esmile.query({
+  hedystia.setStatus = (status) => {
+    hedystia.query({
       tag: "iq",
       attrs: {
         to: "@s.whatsapp.net",
@@ -170,36 +170,36 @@ async function startEsmile() {
     return status;
   };
 
-  esmile.public = true;
+  hedystia.public = true;
 
-  esmile.serializeM = (m) => smsg(esmile, m, store);
+  hedystia.serializeM = (m) => smsg(hedystia, m, store);
 
-  esmile.ev.on("connection.update", async (update) => {
+  hedystia.ev.on("connection.update", async (update) => {
     const {connection, lastDisconnect} = update;
     if (connection === "close") {
       let reason = new Boom(lastDisconnect?.error)?.output.statusCode;
       if (reason === DisconnectReason.badSession) {
         console.log(`Bad Session File, Please Delete Session and Scan Again`);
-        esmile.logout();
+        hedystia.logout();
       } else if (reason === DisconnectReason.connectionClosed) {
         console.log("Connection closed, reconnecting....");
-        startEsmile();
+        startHedystia();
       } else if (reason === DisconnectReason.connectionLost) {
         console.log("Connection Lost from Server, reconnecting...");
-        startEsmile();
+        startHedystia();
       } else if (reason === DisconnectReason.connectionReplaced) {
         console.log("Connection Replaced, Another New Session Opened, Please Close Current Session First");
-        esmile.logout();
+        hedystia.logout();
       } else if (reason === DisconnectReason.loggedOut) {
         console.log(`Device Logged Out, Please Scan Again And Run.`);
-        esmile.logout();
+        hedystia.logout();
       } else if (reason === DisconnectReason.restartRequired) {
         console.log("Restart Required, Restarting...");
-        startEsmile();
+        startHedystia();
       } else if (reason === DisconnectReason.timedOut) {
         console.log("Connection TimedOut, Reconnecting...");
-        startEsmile();
-      } else esmile.end(`Unknown DisconnectReason: ${reason}|${connection}`);
+        startHedystia();
+      } else hedystia.end(`Unknown DisconnectReason: ${reason}|${connection}`);
     }
     console.clear();
     console.log(`
@@ -213,9 +213,9 @@ async function startEsmile() {
     console.log("On!");
   });
 
-  esmile.ev.on("creds.update", saveCreds);
-  esmile.send5ButImg = async (jid, text = "", footer = "", img, but = [], options = {}) => {
-    let message = await prepareWAMessageMedia({image: img}, {upload: esmile.waUploadToServer});
+  hedystia.ev.on("creds.update", saveCreds);
+  hedystia.send5ButImg = async (jid, text = "", footer = "", img, but = [], options = {}) => {
+    let message = await prepareWAMessageMedia({image: img}, {upload: hedystia.waUploadToServer});
     var template = generateWAMessageFromContent(
       m.chat,
       proto.Message.fromObject({
@@ -230,11 +230,11 @@ async function startEsmile() {
       }),
       options
     );
-    esmile.relayMessage(jid, template.message, {messageId: template.key.id});
+    hedystia.relayMessage(jid, template.message, {messageId: template.key.id});
   };
 
-  esmile.sendWelkom = async (jid, text = "", footer = "", img, but = [], options = {}) => {
-    let message = await prepareWAMessageMedia({image: img}, {upload: esmile.waUploadToServer});
+  hedystia.sendWelkom = async (jid, text = "", footer = "", img, but = [], options = {}) => {
+    let message = await prepareWAMessageMedia({image: img}, {upload: hedystia.waUploadToServer});
     var template = generateWAMessageFromContent(
       jid,
       proto.Message.fromObject({
@@ -249,9 +249,9 @@ async function startEsmile() {
       }),
       options
     );
-    esmile.relayMessage(jid, template.message, {messageId: template.key.id});
+    hedystia.relayMessage(jid, template.message, {messageId: template.key.id});
   };
-  esmile.sendButtonText = (jid, buttons = [], text, footer, quoted = "", options = {}) => {
+  hedystia.sendButtonText = (jid, buttons = [], text, footer, quoted = "", options = {}) => {
     let buttonMessage = {
       text,
       footer,
@@ -259,7 +259,7 @@ async function startEsmile() {
       headerType: 2,
       ...options,
     };
-    //esmile.sendMessage(jid, buttonMessage, {quoted, ...options});
+    //hedystia.sendMessage(jid, buttonMessage, {quoted, ...options});
     var template = generateWAMessageFromContent(
       jid,
       proto.Message.fromObject({
@@ -273,10 +273,10 @@ async function startEsmile() {
       }),
       options
     );
-    esmile.relayMessage(jid, template.message, {messageId: template.key.id});
+    hedystia.relayMessage(jid, template.message, {messageId: template.key.id});
   };
-  esmile.sendText = (jid, text, quoted = "", options) => esmile.sendMessage(jid, {text: text, ...options}, {quoted});
-  esmile.sendImage = async (jid, path, caption = "", quoted = "", options) => {
+  hedystia.sendText = (jid, text, quoted = "", options) => hedystia.sendMessage(jid, {text: text, ...options}, {quoted});
+  hedystia.sendImage = async (jid, path, caption = "", quoted = "", options) => {
     let buffer = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
@@ -286,9 +286,9 @@ async function startEsmile() {
       : fs.existsSync(path)
       ? fs.readFileSync(path)
       : Buffer.alloc(0);
-    return await esmile.sendMessage(jid, {image: buffer, caption: caption, ...options}, {quoted});
+    return await hedystia.sendMessage(jid, {image: buffer, caption: caption, ...options}, {quoted});
   };
-  esmile.sendVideo = async (jid, path, caption = "", quoted = "", gif = false, options) => {
+  hedystia.sendVideo = async (jid, path, caption = "", quoted = "", gif = false, options) => {
     let buffer = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
@@ -298,9 +298,9 @@ async function startEsmile() {
       : fs.existsSync(path)
       ? fs.readFileSync(path)
       : Buffer.alloc(0);
-    return await esmile.sendMessage(jid, {video: buffer, caption: caption, gifPlayback: gif, ...options}, {quoted});
+    return await hedystia.sendMessage(jid, {video: buffer, caption: caption, gifPlayback: gif, ...options}, {quoted});
   };
-  esmile.sendAudio = async (jid, path, quoted = "", ptt = false, options) => {
+  hedystia.sendAudio = async (jid, path, quoted = "", ptt = false, options) => {
     let buffer = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
@@ -310,15 +310,15 @@ async function startEsmile() {
       : fs.existsSync(path)
       ? fs.readFileSync(path)
       : Buffer.alloc(0);
-    return await esmile.sendMessage(jid, {audio: buffer, ptt: ptt, ...options}, {quoted});
+    return await hedystia.sendMessage(jid, {audio: buffer, ptt: ptt, ...options}, {quoted});
   };
-  esmile.sendTextWithMentions = async (jid, text, quoted, options = {}) =>
-    esmile.sendMessage(
+  hedystia.sendTextWithMentions = async (jid, text, quoted, options = {}) =>
+    hedystia.sendMessage(
       jid,
       {text: text, contextInfo: {mentionedJid: [...text.matchAll(/@(\d{0,16})/g)].map((v) => v[1] + "@s.whatsapp.net")}, ...options},
       {quoted}
     );
-  esmile.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
+  hedystia.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
     let buff = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
@@ -335,10 +335,10 @@ async function startEsmile() {
       buffer = await imageToWebp(buff);
     }
 
-    await esmile.sendMessage(jid, {sticker: {url: buffer}, ...options}, {quoted});
+    await hedystia.sendMessage(jid, {sticker: {url: buffer}, ...options}, {quoted});
     return buffer;
   };
-  esmile.sendVideoAsSticker = async (jid, path, quoted, options = {}) => {
+  hedystia.sendVideoAsSticker = async (jid, path, quoted, options = {}) => {
     let buff = Buffer.isBuffer(path)
       ? path
       : /^data:.*?\/.*?;base64,/i.test(path)
@@ -355,10 +355,10 @@ async function startEsmile() {
       buffer = await videoToWebp(buff);
     }
 
-    await esmile.sendMessage(jid, {sticker: {url: buffer}, ...options}, {quoted});
+    await hedystia.sendMessage(jid, {sticker: {url: buffer}, ...options}, {quoted});
     return buffer;
   };
-  esmile.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
+  hedystia.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
     let quoted = message.msg ? message.msg : message;
     let mime = (message.msg || message).mimetype || "";
     let messageType = message.mtype ? message.mtype.replace(/Message/gi, "") : mime.split("/")[0];
@@ -373,7 +373,7 @@ async function startEsmile() {
     return trueFileName;
   };
 
-  esmile.downloadMediaMessage = async (message) => {
+  hedystia.downloadMediaMessage = async (message) => {
     let mime = (message.msg || message).mimetype || "";
     let messageType = message.mtype ? message.mtype.replace(/Message/gi, "") : mime.split("/")[0];
     const stream = await downloadContentFromMessage(message, messageType);
@@ -384,8 +384,8 @@ async function startEsmile() {
 
     return buffer;
   };
-  esmile.sendMedia = async (jid, path, fileName = "", caption = "", quoted = "", options = {}) => {
-    let types = await esmile.getFile(path, true);
+  hedystia.sendMedia = async (jid, path, fileName = "", caption = "", quoted = "", options = {}) => {
+    let types = await hedystia.getFile(path, true);
     let {mime, ext, res, data, filename} = types;
     if ((res && res.status !== 200) || file.length <= 65536) {
       try {
@@ -413,10 +413,10 @@ async function startEsmile() {
     else if (/video/.test(mime)) type = "video";
     else if (/audio/.test(mime)) type = "audio";
     else type = "document";
-    await esmile.sendMessage(jid, {[type]: {url: pathFile}, caption, mimetype, fileName, ...options}, {quoted, ...options});
+    await hedystia.sendMessage(jid, {[type]: {url: pathFile}, caption, mimetype, fileName, ...options}, {quoted, ...options});
     return fs.promises.unlink(pathFile);
   };
-  esmile.copyNForward = async (jid, message, forceForward = false, options = {}) => {
+  hedystia.copyNForward = async (jid, message, forceForward = false, options = {}) => {
     let vtype;
     if (options.readViewOnce) {
       message.message =
@@ -458,11 +458,11 @@ async function startEsmile() {
           }
         : {}
     );
-    await esmile.relayMessage(jid, waMessage.message, {messageId: waMessage.key.id});
+    await hedystia.relayMessage(jid, waMessage.message, {messageId: waMessage.key.id});
     return waMessage;
   };
 
-  esmile.cMod = (jid, copy, text = "", sender = esmile.user.id, options = {}) => {
+  hedystia.cMod = (jid, copy, text = "", sender = hedystia.user.id, options = {}) => {
     let mtype = Object.keys(copy.message)[0];
     let isEphemeral = mtype === "ephemeralMessage";
     if (isEphemeral) {
@@ -483,12 +483,12 @@ async function startEsmile() {
     if (copy.key.remoteJid.includes("@s.whatsapp.net")) sender = sender || copy.key.remoteJid;
     else if (copy.key.remoteJid.includes("@broadcast")) sender = sender || copy.key.remoteJid;
     copy.key.remoteJid = jid;
-    copy.key.fromMe = sender === esmile.user.id;
+    copy.key.fromMe = sender === hedystia.user.id;
 
     return proto.WebMessageInfo.fromObject(copy);
   };
 
-  esmile.getFile = async (PATH, save) => {
+  hedystia.getFile = async (PATH, save) => {
     let res;
     let data = Buffer.isBuffer(PATH)
       ? PATH
@@ -516,10 +516,10 @@ async function startEsmile() {
     };
   };
 
-  return esmile;
+  return hedystia;
 }
 
-startEsmile();
+startHedystia();
 
 let file = require.resolve(__filename);
 fs.watchFile(file, () => {
