@@ -22,11 +22,13 @@
     "awesome-phonenumber": "^2.64.0",
     "file-type": "^16.5.3",
     "fluent-ffmpeg": "^2.1.2",
+    "formdata-node": "^4.4.1",
     "jimp": "^0.16.1",
     "moment-timezone": "^0.5.34",
     "node-webpmux": "^3.1.0",
     "pino": "^7.0.5",
-    "qrcode-terminal": "^0.12.0"
+    "qrcode-terminal": "^0.12.0",
+    "wa-sticker-formatter": "^4.4.4"
   },
   "directories": {
     "handlers": "handlers",

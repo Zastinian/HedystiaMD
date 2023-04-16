@@ -18,7 +18,7 @@ const FileType = require("file-type");
 const PhoneNumber = require("awesome-phonenumber");
 const {imageToWebp, videoToWebp, writeExifImg, writeExifVid} = require("./src/lib/exif");
 const path = require("path");
-const {smsg, getBuffer, getSizeMedia, sleep} = require("./src/lib/myfunc");
+const {smsg, getBuffer, sleep} = require("./src/lib/myfunc");
 
 const store = makeInMemoryStore({logger: pino().child({level: "error", stream: "store"})});
 store?.readFromFile("./hedystia.json");
@@ -60,14 +60,11 @@ async function startHedystia() {
       if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return;
       m = smsg(hedystia, mek, store);
       require("./hedystia")(hedystia, m, chatUpdate, store);
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   });
 
   hedystia.ev.on("group-participants.update", async (anu) => {
     let metadata = await hedystia.groupMetadata(anu.id);
-    console.log(anu);
     try {
       let welkompic = {url: "https://telegra.ph/file/69adf1d87f488d4c6a2fe.png"};
       let participants = anu.participants;
@@ -91,9 +88,7 @@ async function startHedystia() {
           hedystia.sendWelkom(anu.id, txt, hedystia.user.name, welkompic, btn);
         }
       }
-    } catch (err) {
-      console.log(err);
-    }
+    } catch (err) {}
   });
 
   hedystia.decodeJid = (jid) => {
@@ -203,14 +198,14 @@ async function startHedystia() {
     }
     console.clear();
     console.log(`
-    ███████╗███████╗███╗   ███╗██╗██╗     ███████╗
-    ██╔════╝██╔════╝████╗ ████║██║██║     ██╔════╝
-    █████╗  ███████╗██╔████╔██║██║██║     █████╗  
-    ██╔══╝  ╚════██║██║╚██╔╝██║██║██║     ██╔══╝  
-    ███████╗███████║██║ ╚═╝ ██║██║███████╗███████╗
-    ╚══════╝╚══════╝╚═╝     ╚═╝╚═╝╚══════╝╚══════╝
+    ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄  ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄ ▄▄▄▄▄▄ 
+    █  █ █  █       █      ██  █ █  █       █       █   █      █
+    █  █▄█  █    ▄▄▄█  ▄    █  █▄█  █  ▄▄▄▄▄█▄     ▄█   █  ▄   █
+    █       █   █▄▄▄█ █ █   █       █ █▄▄▄▄▄  █   █ █   █ █▄█  █
+    █   ▄   █    ▄▄▄█ █▄█   █▄     ▄█▄▄▄▄▄  █ █   █ █   █      █
+    █  █ █  █   █▄▄▄█       █ █   █  ▄▄▄▄▄█ █ █   █ █   █  ▄   █
+    █▄▄█ █▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄█  █▄▄▄█ █▄▄▄▄▄▄▄█ █▄▄▄█ █▄▄▄█▄█ █▄▄█
     `);
-    console.log("On!");
   });
 
   hedystia.ev.on("creds.update", saveCreds);
@@ -372,6 +367,52 @@ async function startHedystia() {
     await fs.writeFileSync(trueFileName, buffer);
     return trueFileName;
   };
+  hedystia.sendFile = async (jid, path, filename = "", caption = "", quoted, ptt = false, options = {}) => {
+    let type = await hedystia.getFile(path, true);
+    let {res, data: file, filename: pathFile} = type;
+    if ((res && res.status !== 200) || file.length <= 65536) {
+      try {
+        throw {json: JSON.parse(file.toString())};
+      } catch (e) {
+        if (e.json) throw e.json;
+      }
+    }
+    let opt = {};
+    if (quoted) opt.quoted = quoted;
+    if (!type) options.asDocument = true;
+    let mtype = "",
+      mimetype = options.mimetype || type.mime,
+      convert;
+    if (/webp/.test(type.mime) || (/image/.test(type.mime) && options.asSticker)) mtype = "sticker";
+    else if (/image/.test(type.mime) || (/webp/.test(type.mime) && options.asImage)) mtype = "image";
+    else if (/video/.test(type.mime)) mtype = "video";
+    else if (/audio/.test(type.mime))
+      (convert = await toAudio(file, type.ext)),
+        (file = convert.data),
+        (pathFile = convert.filename),
+        (mtype = "audio"),
+        (mimetype = options.mimetype || "audio/ogg; codecs=opus");
+    else mtype = "document";
+    if (options.asDocument) mtype = "document";
+    let message = {
+      ...options,
+      caption,
+      ptt,
+      [mtype]: {url: pathFile},
+      mimetype,
+      fileName: filename || pathFile.split("/").pop(),
+    };
+    let m;
+    try {
+      m = await hedystia.sendMessage(jid, message, {...opt, ...options});
+    } catch (e) {
+      m = null;
+    } finally {
+      if (!m) m = await hedystia.sendMessage(jid, {...message, [mtype]: file}, {...opt, ...options});
+      file = null;
+      return m;
+    }
+  };
 
   hedystia.downloadMediaMessage = async (message) => {
     let mime = (message.msg || message).mimetype || "";
@@ -506,13 +547,18 @@ async function startHedystia() {
       ext: ".bin",
     };
     filename = path.join(__filename, "../src/" + new Date() * 1 + "." + type.ext);
-    if (data && save) fs.promises.writeFile(filename, data);
+    if (data && save) (filename = path.join(__dirname, "./tmp/" + new Date() * 1 + "." + type.ext)), await fs.promises.writeFile(filename, data);
+    setTimeout(() => {
+      fs.promises.unlink(filename);
+    }, 20000);
     return {
       res,
       filename,
-      size: await getSizeMedia(data),
       ...type,
       data,
+      deleteFile() {
+        return filename && fs.promises.unlink(filename);
+      },
     };
   };
 
@@ -526,4 +572,11 @@ fs.watchFile(file, () => {
   fs.unwatchFile(file);
   delete require.cache[file];
   require(file);
+});
+
+process.on("uncaughtException", (err) => {
+  return;
+});
+process.on("unhandledRejection", (reason, promise) => {
+  return;
 });

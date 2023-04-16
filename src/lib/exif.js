@@ -77,7 +77,7 @@ async function writeExifImg(media, metadata) {
   if (metadata.packname || metadata.author) {
     const img = new webp.Image();
     const json = {
-      "sticker-pack-id": `https://github.com/fnixdev/ShiroBot`,
+      "sticker-pack-id": `https://github.com/Zastinian/HedystiaDM`,
       "sticker-pack-name": metadata.packname,
       "sticker-pack-publisher": metadata.author,
       emojis: metadata.categories ? metadata.categories : [""],
@@ -105,7 +105,7 @@ async function writeExifVid(media, metadata) {
   if (metadata.packname || metadata.author) {
     const img = new webp.Image();
     const json = {
-      "sticker-pack-id": `https://github.com/fnixdev/ShiroBot`,
+      "sticker-pack-id": `https://github.com/Zastinian/HedystiaDM`,
       "sticker-pack-name": metadata.packname,
       "sticker-pack-publisher": metadata.author,
       emojis: metadata.categories ? metadata.categories : [""],
@@ -139,7 +139,7 @@ async function writeExif(media, metadata) {
   if (metadata.packname || metadata.author) {
     const img = new webp.Image();
     const json = {
-      "sticker-pack-id": `https://github.com/fnixdev/ShiroBot`,
+      "sticker-pack-id": `https://github.com/Zastinian/HedystiaDM`,
       "sticker-pack-name": metadata.packname,
       "sticker-pack-publisher": metadata.author,
       emojis: metadata.categories ? metadata.categories : [""],

@@ -43,7 +43,5 @@ module.exports = function (bot, ms, message) {
         {quoted: message}
       );
     })
-    .catch((error) => {
-      console.log(error);
-    });
+    .catch((error) => {});
 };
