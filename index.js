@@ -64,6 +64,7 @@ async function startHedystia() {
   });
 
   hedystia.ev.on("group-participants.update", async (anu) => {
+    return;
     let metadata = await hedystia.groupMetadata(anu.id);
     try {
       let welkompic = {url: "https://telegra.ph/file/69adf1d87f488d4c6a2fe.png"};
@@ -254,7 +255,6 @@ async function startHedystia() {
       headerType: 2,
       ...options,
     };
-    //hedystia.sendMessage(jid, buttonMessage, {quoted, ...options});
     var template = generateWAMessageFromContent(
       jid,
       proto.Message.fromObject({
