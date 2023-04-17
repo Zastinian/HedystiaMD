@@ -2,14 +2,10 @@ require("./config");
 
 const fs = require("fs");
 const util = require("util");
-
 const commands = new Map();
-
 const nsfw = JSON.parse(fs.readFileSync("./src/assets/nsfw.json"));
 const rules = JSON.parse(fs.readFileSync("./src/assets/nsfw.json"));
-
 const {getGroupAdmins} = require("./src/lib/myfunc");
-
 const loadCommands = require("./handlers/loadCommands");
 
 module.exports = hedystia = async (hedystia, m, chatUpdate, store) => {

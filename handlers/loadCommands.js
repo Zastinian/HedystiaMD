@@ -1,5 +1,5 @@
-function loadCommands(bot) {
-  const fs = require("fs");
+const fs = require("fs");
+module.exports = function loadCommands(bot) {
   const commandFolders = fs.readdirSync("./src/commands");
   for (const folder of commandFolders) {
     const commandFiles = fs.readdirSync(`./src/commands/${folder}`).filter((file) => file.endsWith(".js"));
@@ -13,4 +13,3 @@ function loadCommands(bot) {
     }
   }
 }
-module.exports = loadCommands;
