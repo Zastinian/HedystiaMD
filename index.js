@@ -20,6 +20,7 @@ const {imageToWebp, videoToWebp, writeExifImg, writeExifVid} = require("./src/li
 const path = require("path");
 const {smsg, getBuffer, sleep} = require("./src/lib/myfunc");
 
+try{
 const store = makeInMemoryStore({logger: pino().child({level: "error", stream: "store"})});
 store?.readFromFile("./hedystia.json");
 
@@ -580,3 +581,5 @@ process.on("uncaughtException", (err) => {
 process.on("unhandledRejection", (reason, promise) => {
   return;
 });
+
+} catch (err) {}
