@@ -26,8 +26,7 @@ async function imageToWebp(media) {
   });
 
   const buff = fs.readFileSync(tmpFileOut);
-  fs.unlinkSync(tmpFileOut);
-  fs.unlinkSync(tmpFileIn);
+
   return buff;
 }
 
@@ -63,8 +62,7 @@ async function videoToWebp(media) {
   });
 
   const buff = fs.readFileSync(tmpFileOut);
-  fs.unlinkSync(tmpFileOut);
-  fs.unlinkSync(tmpFileIn);
+
   return buff;
 }
 
@@ -89,7 +87,7 @@ async function writeExifImg(media, metadata) {
     const exif = Buffer.concat([exifAttr, jsonBuff]);
     exif.writeUIntLE(jsonBuff.length, 14, 4);
     await img.load(tmpFileIn);
-    fs.unlinkSync(tmpFileIn);
+
     img.exif = exif;
     await img.save(tmpFileOut);
     return tmpFileOut;
@@ -117,7 +115,7 @@ async function writeExifVid(media, metadata) {
     const exif = Buffer.concat([exifAttr, jsonBuff]);
     exif.writeUIntLE(jsonBuff.length, 14, 4);
     await img.load(tmpFileIn);
-    fs.unlinkSync(tmpFileIn);
+
     img.exif = exif;
     await img.save(tmpFileOut);
     return tmpFileOut;
@@ -151,7 +149,7 @@ async function writeExif(media, metadata) {
     const exif = Buffer.concat([exifAttr, jsonBuff]);
     exif.writeUIntLE(jsonBuff.length, 14, 4);
     await img.load(tmpFileIn);
-    fs.unlinkSync(tmpFileIn);
+
     img.exif = exif;
     await img.save(tmpFileOut);
     return tmpFileOut;
