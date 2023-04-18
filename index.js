@@ -86,25 +86,19 @@ try {
       return;
       let metadata = await hedystia.groupMetadata(anu.id);
       try {
-        let welkompic = {url: "https://telegra.ph/file/69adf1d87f488d4c6a2fe.png"};
+        let welkompic = {url: ""}; // Image Url
         let participants = anu.participants;
         let btn = [
           {
             urlButton: {
-              displayText: "Baixar APK do Minecraft",
-              url: `http://kuuhaku.ddns.net/Minecraft_1.19.2.apk`,
-            },
-          },
-          {
-            quickReplyButton: {
-              displayText: "Servidor",
-              id: `${prefix}server`,
+              displayText: "",
+              url: ``,
             },
           },
         ];
         for (let num of participants) {
           if (anu.action == "add") {
-            let txt = `Opa, bem vindo ao grupo ${metadata.subject}. Leia as regras e fique a vontade para interagir no grupo.`;
+            let txt = `Opa, bienvenido al grupo ${metadata.subject}. Lee las reglas y siéntete libre de interactuar en el grupo.`;
             hedystia.sendWelkom(anu.id, txt, hedystia.user.name, welkompic, btn);
           }
         }
