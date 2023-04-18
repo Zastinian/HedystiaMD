@@ -21,7 +21,7 @@ const path = require("path");
 const {smsg, getBuffer, sleep} = require("./src/lib/myfunc");
 
 try {
-  const store = makeInMemoryStore({logger: pino().child({level: "error", stream: "store"})});
+  const store = makeInMemoryStore({logger: pino().child({level: "silent"})});
   store?.readFromFile("./hedystia.json");
 
   setInterval(() => {
