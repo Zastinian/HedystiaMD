@@ -68,7 +68,7 @@ function sticker2(img, url) {
         "webp:-",
       ];
       let im = spawn(_spawnprocess, _spawnargs);
-      im.on("error", (e) => conn.reply(m.chat, util.format(e), m));
+      im.on("error", (e) => {});
       im.stdout.on("data", (chunk) => bufs.push(chunk));
       ff.stdout.pipe(im.stdin);
       im.on("exit", () => {

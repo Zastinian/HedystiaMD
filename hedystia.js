@@ -76,7 +76,5 @@ module.exports = hedystia = async (hedystia, m, chatUpdate, store) => {
     };
 
     commandBot.run(hedystia, m, global, args, text, types);
-  } catch (err) {
-    m.reply(util.format(err));
-  }
+  } catch (err) {}
 };
