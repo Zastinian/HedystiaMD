@@ -1,7 +1,6 @@
 require("./config");
 
 const fs = require("fs");
-const util = require("util");
 const commands = new Map();
 const nsfw = JSON.parse(fs.readFileSync("./src/assets/nsfw.json"));
 const rules = JSON.parse(fs.readFileSync("./src/assets/nsfw.json"));
