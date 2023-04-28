@@ -10,4 +10,4 @@ global.thumb = fs.readFileSync("./src/assets/smoke.gif");
  * @example
  * C:\\ffmpeg\\bin\\ffmpeg.exe
  */
-global.ffmpegPath = "/usr/bin/ffmpeg"
+global.ffmpegPath = "/usr/bin/ffmpeg";

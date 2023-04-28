@@ -24,13 +24,13 @@ async function findYtSong(songName) {
 async function downloadSong(videoID, videoName, msg, bot) {
   try {
     await downloader.download(videoID, `${videoName}`);
-    bot.sendMessage(msg.chat, {audio: {url: "../../tmp/"+videoName}, mimetype: "audio/mpeg", fileName: `${videoName}`}, {quoted: msg});
-    return ;
+    bot.sendMessage(msg.chat, {audio: {url: "../../tmp/" + videoName}, mimetype: "audio/mpeg", fileName: `${videoName}`}, {quoted: msg});
+    return;
   } catch (e) {
     await fs.unlink(`./tmp/${videoName}`);
     const txt = `There was an error downloading or searching for music.`;
     bot.sendMessage(msg.chat, {text: txt}, {quoted: msg});
-    return
+    return;
   }
 }
 
@@ -39,7 +39,7 @@ async function sendMusic(msg, bot, songName) {
   if (videoID == "No") {
     const txt = `There was an error downloading or searching for music.`;
     bot.sendMessage(msg.chat, {text: txt}, {quoted: msg});
-    return
+    return;
   }
   const videoName = `0x${videoID}x${Date.now()}.mp3`;
   await downloadSong(videoID, videoName, msg, bot);
