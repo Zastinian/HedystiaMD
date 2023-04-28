@@ -1,21 +1,16 @@
-const {MessageMedia} = require("whatsapp-web.js");
+const {MessageMedia} = require("hedystia.web");
 const fs = require("fs");
 const yts = require("yt-search");
-const DownloadYTFile = require("yt-dl-playlist");
-const downloader = new DownloadYTFile({
-  outputPath: "./tmp",
-  ffmpegPath: "/usr/bin/ffmpeg",
-  maxParallelDownload: 1,
-  fileNameGenerator: (videoTitle) => {
-    return videoTitle;
-  },
-});
+const ytdl = require("ytdl-core");
+const getRandom = (ext) => {
+  return `${Math.floor(Math.random() * 10000)}${ext}`;
+};
 
 module.exports = {
   name: "play",
   run: async (bot, message, lang, args) => {
     if (!args[0]) return await message.reply(lang.play.info2);
-    findYtSong(args.slice(0).join(" "), message);
+    //findYtSong(args.slice(0).join(" "), message);
     async function findYtSong(songName, message) {
       try {
         const r = await yts(songName);
@@ -26,6 +21,26 @@ module.exports = {
       } catch (e) {
         message.reply(lang.play.error2);
       }
+    }
+    const vid = getRandom(".mp3");
+    if (ytdl.validateURL("https://www.youtube.com/watch?v=QFs3PIZb3js")) {
+      ytdl("https://www.youtube.com/watch?v=QFs3PIZb3js", {
+        format: "mp3",
+        filter: "audioonly",
+        quality: "lowest",
+      })
+        .pipe(fs.createWriteStream(vid))
+        .on("finish", async () => {
+          try {
+            const media = MessageMedia.fromFilePath("./" + vid);
+            await message.reply(media);
+          } catch (error) {
+            //await bot.reply(message.chatId, lang.play.error, message.id);
+            //fs.unlinkSync(vid);
+          }
+        });
+    } else {
+      return await bot.reply(message.chatId, lang.play.info2, message.id);
     }
     async function downloadSong(videoID, songName, message) {
       try {
