@@ -1,4 +1,4 @@
-const {Client, LocalAuth} = require("whatsapp-web.js");
+const {Client, LocalAuth} = require("hedystia.web");
 
 class AssClient extends Client {
   constructor() {
@@ -18,13 +18,15 @@ class AssClient extends Client {
           "--disable-hang-monitor",
           "--disable-default-apps",
           "--disable-breakpad",
+          "--headless=new",
           "--no-sandbox",
         ],
         defaultViewport: {
           width: 100,
           height: 100,
         },
-        headless: true,
+        headless: "true",
+        ignoreHTTPSErrors: true,
       },
       maxConcurrency: 1,
       maxBrowserMemory: 150 * 1024 * 1024,

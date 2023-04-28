@@ -3,6 +3,7 @@ const AssClient = require("./assets/Client");
 const {globalCommandsCooldown} = require("./config");
 const config = require("./config");
 const loadCommands = require("./handler/loadCommands.js");
+const fs = require("fs");
 const commands = new Map();
 
 const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -13,6 +14,28 @@ client.commands = commands;
 
 loadCommands(client);
 
+/*try {
+  fs.readdir("./tmp", (err, files) => {
+    if (err) return;
+    files.map((file) => {
+      if (file == "file") return;
+      fs.unlink(`./tmp/${file}`, (err) => {}).catch(() => {});
+    });
+  });
+
+  fs.watch("./tmp", (eventType, filename) => {
+    if (eventType === "rename") {
+      setTimeout(() => {
+        fs.unlink(`./tmp/${filename}`, (err) => {
+          if (err) return;
+        }).catch(() => {});
+      }, 20000);
+    }
+  });
+} catch (err) {
+  return;
+}*/
+
 client.on("qr", (qr) => {
   qrcode.generate(qr, {small: true});
 });
@@ -20,12 +43,13 @@ client.on("qr", (qr) => {
 client.on("ready", () => {
   console.clear();
   console.log(`
-  ███████╗███████╗███╗   ███╗██╗██╗     ███████╗
-  ██╔════╝██╔════╝████╗ ████║██║██║     ██╔════╝
-  █████╗  ███████╗██╔████╔██║██║██║     █████╗  
-  ██╔══╝  ╚════██║██║╚██╔╝██║██║██║     ██╔══╝  
-  ███████╗███████║██║ ╚═╝ ██║██║███████╗███████╗
-  ╚══════╝╚══════╝╚═╝     ╚═╝╚═╝╚══════╝╚══════╝
+  ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄  ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄ ▄▄▄▄▄▄ 
+  █  █ █  █       █      ██  █ █  █       █       █   █      █
+  █  █▄█  █    ▄▄▄█  ▄    █  █▄█  █  ▄▄▄▄▄█▄     ▄█   █  ▄   █
+  █       █   █▄▄▄█ █ █   █       █ █▄▄▄▄▄  █   █ █   █ █▄█  █
+  █   ▄   █    ▄▄▄█ █▄█   █▄     ▄█▄▄▄▄▄  █ █   █ █   █      █
+  █  █ █  █   █▄▄▄█       █ █   █  ▄▄▄▄▄█ █ █   █ █   █  ▄   █
+  █▄▄█ █▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄█  █▄▄▄█ █▄▄▄▄▄▄▄█ █▄▄▄█ █▄▄▄█▄█ █▄▄█
   `);
 });
 
