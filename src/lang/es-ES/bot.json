@@ -1,12 +1,14 @@
 {
   "help": {
-    "menu": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Categorías ⤞*_\n  ⟿ Information\n  ⟿ Interaction\n  ⟿ Music\n*┗━━━━━━━━━ツ━━━━━━━━━┛*",
+    "menu": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Categorías ⤞*_\n  ⟿ Información\n  ⟿ Interacción\n  ⟿ Música\n*┗━━━━━━━━━ツ━━━━━━━━━┛*",
     "buttons": {
       "t1": "Información",
-      "t2": "Música"
+      "t2": "Música",
+      "t3": "Interacción"
     },
     "menus": {
       "info": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Comandos de Información ⤞*_\n  ⟿ {0}help\n*┗━━━━━━━━━ツ━━━━━━━━━┛*",
+      "interaction": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Comandos de Interacción ⤞*_\n  ⟿ {0}feed\n  ⟿ {0}hug\n  ⟿ {0}kiss\n  ⟿ {0}pat\n  ⟿ {0}slap\n  ⟿ {0}smug\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
       "music": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Comandos de Música ⤞*_\n  ⟿ {0}play\n*┗━━━━━━━━━ツ━━━━━━━━━┛*"
     }
   },
