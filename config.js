@@ -4,8 +4,6 @@ const lang = "en-US";
 module.exports = {
   prefix,
   lang,
-  globalMusicCooldown: true, // Do not disable if you have few resources
-  globalCommandsCooldown: true, // Do not disable if you have few resources
 };
 
 global.prefix = prefix;

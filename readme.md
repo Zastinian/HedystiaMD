@@ -2,8 +2,8 @@
 
 ## Links
 
-> - [Invite_Discord_Bot](https://mresmile.com/invite) (Discord bot invitation)
-> - [Website](https://mresmile.com/)
+> - [Invite_Discord_Bot](https://hedystia.com/invite) (Discord bot invitation)
+> - [Website](https://hedystia.com/)
 > - [Boxmine](https://boxmineworld.com/) (You can host it from this hosting)
 
 ## Contributors
