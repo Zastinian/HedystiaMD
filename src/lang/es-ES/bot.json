@@ -1,6 +1,7 @@
 {
   "help": {
     "menu": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Categorías ⤞*_\n  ⟿ Información\n  ⟿ Interacción\n  ⟿ Música\n*┗━━━━━━━━━ツ━━━━━━━━━┛*",
+    "menu_no_buttons": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Categorías ⤞*_\n  ⟿ {0}Information\n  ⟿ {0}Interaction\n  ⟿ {0}Music\n*┗━━━━━━━━━ツ━━━━━━━━━┛*",
     "buttons": {
       "t1": "Información",
       "t2": "Música",

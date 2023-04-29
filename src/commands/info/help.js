@@ -3,7 +3,7 @@ const {Buttons} = require("hedystia.web");
 module.exports = {
   name: "help",
   run: async (bot, message, lang, args) => {
-    const buttons = new Buttons(
+    /*const buttons = new Buttons(
       lang.help.menu,
       [
         {body: lang.help.buttons.t1, id: "info_button"},
@@ -13,6 +13,7 @@ module.exports = {
       null,
       "Hedystia | © 2021 - " + new Date().getFullYear()
     );
-    await message.reply(buttons);
+    await message.reply(buttons);*/
+    await message.reply(lang.help.menu_no_buttons);
   },
 };
