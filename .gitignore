@@ -1,5 +1,3 @@
 node_modules/
-hedystia/
-hedystia.json
+.hedystia/
 pnpm-lock.yaml
-package-lock.json

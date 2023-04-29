@@ -1,13 +1,18 @@
-const fs = require("fs");
+const prefix = "!";
+const lang = "en-US";
 
-global.prefix = ["!"];
-global.packname = "Hedystia Bot";
-global.author = "Hedystia";
-global.thumb = fs.readFileSync("./src/assets/smoke.gif");
+module.exports = {
+  prefix,
+  lang,
+  globalMusicCooldown: true, // Do not disable if you have few resources
+  globalCommandsCooldown: true, // Do not disable if you have few resources
+};
+
+global.prefix = prefix;
 
 /**
  * @description To use it on windows you must download ffmpeg and put the following where the bin file is located
  * @example
  * C:\\ffmpeg\\bin\\ffmpeg.exe
  */
-global.ffmpegPath = "/usr/bin/ffmpeg";
+global.ffmpegPath = "C:\\ffmpeg\\bin\\ffmpeg.exe";

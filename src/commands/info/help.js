@@ -1,24 +1,9 @@
+const {Buttons} = require("hedystia.web");
+
 module.exports = {
   name: "help",
-  run: async (bot, message, global, args, text) => {
-    const txt = `*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Categories ⤞*_\n  ⟿ ${global.prefix}Information\n  ⟿ ${global.prefix}Interaction\n  ⟿ ${global.prefix}Music\n*┗━━━━━━━━━ツ━━━━━━━━━┛*`;
-    let btn = [
-      {
-        urlButton: {
-          displayText: "Website",
-          url: "https://hedystia.com",
-        },
-      },
-      //Temporary disable due to whatsapp update
-      /*{
-        quickReplyButton: {
-          displayText: "",
-          id: `${global.prefix}`,
-        },
-      },*/
-    ];
-    bot.sendMessage(message.chat, {text: txt}, {quoted: message});
-    //bot.sendButtonText(message.chat, btn, txt, "Hedystia", message);
-    //bot.send5ButImg(message.chat, txt, bot.user.name, global.thumb, btn);
+  run: async (bot, message, lang, args) => {
+    const buttons = new Buttons(lang.help.menu, [{body: lang.help.buttons.t1, id: "info_button"}], null, null);
+    await message.reply(buttons);
   },
 };
