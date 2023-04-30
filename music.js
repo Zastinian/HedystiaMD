@@ -1,7 +1,7 @@
 const fs = require("fs").promises;
 const yts = require("yt-search");
 const DownloadYTFile = require("yt-dl-playlist");
-const {MessageMedia} = require("hedystia.web");
+const {MessageMedia} = require("whatsapp-web.js");
 
 const downloader = new DownloadYTFile({
   outputPath: "./tmp",

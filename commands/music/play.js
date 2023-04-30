@@ -1,4 +1,4 @@
-const {MessageMedia} = require("hedystia.web");
+const {MessageMedia} = require("whatsapp-web.js");
 const fs = require("fs");
 const yts = require("yt-search");
 const ytdl = require("ytdl-core");

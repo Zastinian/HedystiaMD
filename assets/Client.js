@@ -1,4 +1,4 @@
-const {Client, LocalAuth} = require("hedystia.web");
+const {Client, LocalAuth} = require("whatsapp-web.js");
 
 class AssClient extends Client {
   constructor() {
