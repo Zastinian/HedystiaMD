@@ -10,7 +10,7 @@
   <p>Welcome to our WhatsApp bot! Here you will find a complete and versatile solution to enhance your WhatsApp experience. This bot is designed with a minimalist approach, offering intuitive and efficient functionalities to make your daily tasks easier.</p>
 </div>
 
-## Contributor
+## Contributors
 
 - [Zastinian](https://github.com/Zastinian)
 
