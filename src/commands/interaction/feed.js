@@ -1,19 +1,20 @@
-const {sticker} = require("../../lib/sticker");
-
+const {MessageMedia} = require("hedystia.web");
 module.exports = {
   name: "feed",
-  run: async (bot, message, global, args, text, types) => {
-    if (!args[0]) return bot.sendMessage(message.chat, {text: "You have not mentioned the user"}, {quoted: message});
-    if (!bot.getName(args[0].replace("@", ""))) return bot.sendMessage(message.chat, {text: "You have not mentioned the user"}, {quoted: message});
-    const sender = message.sender;
+  run: async (bot, message, lang, args) => {
+    if (!args[0]) return await message.reply(lang.errors.noUserMention);
+    const user = await message.getMentions();
+    if (!user) return await message.reply(lang.errors.noUserMention);
     const response = await fetch("https://nekos.life/api/v2/img/feed");
     const body = await response.json();
     let image = `${body.url}`;
-    let stiker = await sticker(
-      null,
-      image,
-      bot.getName(sender.replace("@s.whatsapp.net", "")) + " has just fed " + bot.getName(args[0].replace("@", ""))
-    );
-    bot.sendFile(m.chat, stiker, null, {asSticker: true});
+    let img = await MessageMedia.fromUrl(image, {unsafeMime: true});
+    const fromUser = await bot.getContactById(message.from);
+    message.reply(img, undefined, {
+      sendMediaAsSticker: true,
+      stickerName: fromUser.pushname + ` ${lang.interaction.feed} ` + user[0].pushname,
+      stickerAuthor: "Hedystia",
+      stickerCategories: ["Interaction", "Fun"],
+    });
   },
 };

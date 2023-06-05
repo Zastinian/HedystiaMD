@@ -1,6 +1,6 @@
 module.exports = {
-  name: "music",
+  name: "information",
   run: async (bot, message, lang, args) => {
-    await message.reply(lang.help.menus.music);
+    await message.reply(lang.help.menus.info);
   },
 };
