@@ -4,7 +4,6 @@ const config = require("./config");
 const loadCommands = require("./src/handler/loadCommands.js");
 const fs = require("fs");
 const commands = new Map();
-const menus = new Map();
 
 const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
