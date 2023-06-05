@@ -1,4 +1,4 @@
-const {Buttons} = require("hedystia.web");
+const {Buttons} = require("whatsapp-web.js");
 
 module.exports = {
   name: "help",
