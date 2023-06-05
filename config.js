@@ -13,4 +13,4 @@ global.prefix = prefix;
  * @example
  * C:\\ffmpeg\\bin\\ffmpeg.exe
  */
-global.ffmpegPath = "C:\\ffmpeg\\bin\\ffmpeg.exe";
+global.ffmpegPath = "/usr/bin/ffmpeg";
