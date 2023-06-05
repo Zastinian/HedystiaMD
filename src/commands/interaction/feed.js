@@ -1,4 +1,4 @@
-const {MessageMedia} = require("hedystia.web");
+const {MessageMedia} = require("whatsapp-web.js");
 module.exports = {
   name: "feed",
   run: async (bot, message, lang, args) => {
