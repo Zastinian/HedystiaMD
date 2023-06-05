@@ -1,15 +1,39 @@
-<img width="170" height="170" align="left" style="float: left; margin: 0 10px 0 0; border-radius: 50%;" alt="Esmile" src="https://cdn.discordapp.com/attachments/851919671878746112/906308286536642592/logoooo_1.png">
+# WhatsApp Bot
+
+<p align="center">
+  <img src="https://cdn.discordapp.com/attachments/851917836041453598/1104801349742362714/Hedystia.png" alt="Logo" width="200" height="200">
+</p>
+<div align="center">
+  <h2 style="color: #336699;">An efficient bot for WhatsApp</h2>
+</div>
+<div align="center">
+  <p>Welcome to our WhatsApp bot! Here you will find a complete and versatile solution to enhance your WhatsApp experience. This bot is designed with a minimalist approach, offering intuitive and efficient functionalities to make your daily tasks easier.</p>
+</div>
+
+## Contributor
+
+- [Zastinian](https://github.com/Zastinian)
+
+## Requirements
+
+Before using the bot, make sure you have the following requirements installed:
+
+```yml
+1. FFmpeg
+2. Web browser
+```
 
 ## Links
 
 > - [Invite_Discord_Bot](https://hedystia.com/invite) (Discord bot invitation)
+> - [Discord](https://hedystia.com/support)
 > - [Website](https://hedystia.com/)
 > - [Boxmine](https://boxmineworld.com/) (You can host it from this hosting)
 
-## Contributors
-
-- [@Zastinian](https://github.com/Zastinian) (All Bot)
-
 ## License
 
-This project is licensed under the ISC. See the [LICENSE](https://github.com/ThinkR-open/isc-proposal-licence/blob/master/proposal_licence.md) file for details
+This project is licensed under the ISC License. For more details, see the [LICENSE](https://github.com/ThinkR-open/isc-proposal-licence/blob/master/proposal_licence.md) file.
+
+<div align="center">
+  <p>Thank you for using our WhatsApp bot! We are committed to providing you with an exceptional experience. If you have any questions, suggestions or concerns, feel free to contact us - enjoy your experience with our bot!</p>
+</div>
