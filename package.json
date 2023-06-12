@@ -9,7 +9,7 @@
   },
   "keywords": [],
   "author": "contact@hedystia.com",
-  "license": "ISC",
+  "license": "HedystiaMD - license.md",
   "dependencies": {
     "fluent-ffmpeg": "^2.1.2",
     "whatsapp-web.js": "1.21.0",

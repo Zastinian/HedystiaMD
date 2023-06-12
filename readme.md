@@ -32,7 +32,7 @@ Before using the bot, make sure you have the following requirements installed:
 
 ## License
 
-This project is licensed under the ISC License. For more details, see the [LICENSE](https://github.com/ThinkR-open/isc-proposal-licence/blob/master/proposal_licence.md) file.
+This project is licensed under a proprietary license. For more details, see the [LICENSE](/license.md) file.
 
 <div align="center">
   <p>Thank you for using our WhatsApp bot! We are committed to providing you with an exceptional experience. If you have any questions, suggestions or concerns, feel free to contact us - enjoy your experience with our bot!</p>
