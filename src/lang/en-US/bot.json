@@ -22,6 +22,7 @@
     "noUserMention": "You have not mentioned any user!"
   },
   "interaction": {
-    "feed": "has just fed"
+    "feed": "has just fed",
+    "hug": "has just embraced"
   }
 }

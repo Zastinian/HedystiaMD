@@ -20,5 +20,9 @@
   },
   "errors": {
     "noUserMention": "No has mencionado a ningún usuario!"
+  },
+  "interaction": {
+    "feed": "acaba de alimentar a",
+    "hug": "acaba de abrazar a"
   }
 }
