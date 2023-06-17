@@ -8,7 +8,7 @@
     },
     "menus": {
       "info": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Information Commands ⤞*_\n  ⟿ {0}help\n*┗━━━━━━━━━ツ━━━━━━━━━┛*",
-      "interaction": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Interaction Commands ⤞*_\n  ⟿ {0}feed\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
+      "interaction": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Interaction Commands ⤞*_\n  ⟿ {0}feed\n  ⟿ {0}hug\n  ⟿ {0}kiss\n  ⟿ {0}pat\n  ⟿ {0}slap\n  ⟿ {0}smug\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
       "music": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Music Commands ⤞*_\n  ⟿ {0}play\n*┗━━━━━━━━━ツ━━━━━━━━━┛*"
     }
   },
@@ -22,6 +22,11 @@
     "noUserMention": "You have not mentioned any user!"
   },
   "interaction": {
-    "feed": "has just fed"
+    "feed": "has just fed",
+    "hug": "has just embraced",
+    "kiss": "just kissed",
+    "pat": "has just caressed",
+    "slap": "just slapped",
+    "smug": "is presuming"
   }
 }
