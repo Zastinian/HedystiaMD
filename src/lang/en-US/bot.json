@@ -23,6 +23,7 @@
   },
   "interaction": {
     "feed": "has just fed",
-    "hug": "has just embraced"
+    "hug": "has just embraced",
+    "kiss": "just kissed"
   }
 }
