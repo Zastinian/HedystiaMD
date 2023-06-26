@@ -10,6 +10,22 @@
   <p>Welcome to our WhatsApp bot! Here you will find a complete and versatile solution to enhance your WhatsApp experience. This bot is designed with a minimalist approach, offering intuitive and efficient functionalities to make your daily tasks easier.</p>
 </div>
 
+## To contribute to the project, please follow the steps below:
+
+- Fork the repository.
+
+- Create a new branch.
+
+- Install pnpm: Make sure you have pnpm installed on your machine. You can follow the installation instructions provided on the [pnpm website](https://pnpm.io/installation#using-corepack).
+
+- Install dependencies.
+
+- Make your changes: Make the necessary changes to the codebase in your branch using your preferred editor or IDE.
+
+- Commit and push: Once you have made your changes, commit them and push the branch to your forked repository.
+
+- Create a pull request.
+
 ## Contributors
 
 - [Zastinian](https://github.com/Zastinian)
