@@ -1,17 +1,20 @@
 "use strict";
 
-const {once, EventEmitter} = require("events");
-const path = require("path");
-const ytdl = require("ytdl-core");
-const ffmpeg = require("fluent-ffmpeg");
+import {once, EventEmitter} from "events";
+import path from "path";
+import ytdl, {Author} from "ytdl-core";
+import ffmpeg from "fluent-ffmpeg";
 
 const YOUTUBE_URL = "http://youtube.com/watch?v=";
 
 class DownloadYTAudio extends EventEmitter {
-  constructor(opts = {}) {
+  downloadPath: string;
+  nameGenerator: string | ((title: string) => string);
+  maxParallelDownload: number;
+  constructor(opts: {outputPath: string; fileNameGenerator: string | ((title: string) => string); maxParallelDownload: number; ffmpegPath: string}) {
     super();
     this.downloadPath = opts.outputPath || process.cwd();
-    this.nameGenerator = opts.fileNameGenerator || ((title) => `${title.replace(/[\\/:*?"<>|]/g, "")}.mp3`);
+    this.nameGenerator = opts.fileNameGenerator || ((title: string) => `${title.replace(/[\\/:*?"<>|]/g, "")}.mp3`);
     this.maxParallelDownload = opts.maxParallelDownload || 10;
 
     if (opts.ffmpegPath) {
@@ -21,20 +24,15 @@ class DownloadYTAudio extends EventEmitter {
     }
   }
 
-  async download(videoId, fileName) {
+  async download(videoId: string, fileName: string) {
     const url = `${YOUTUBE_URL}${videoId}`;
     const videoStream = ytdl(url, {
-      format: "mp3",
       filter: "audioonly",
       quality: "lowestaudio",
     });
 
     const [extendedVideoInfo, videoSetting] = await once(videoStream, "info");
     const videoInfo = extendedVideoInfo.videoDetails;
-
-    if (!fileName) {
-      fileName = this.nameGenerator(videoInfo.title);
-    }
 
     const info = {
       id: videoId,
@@ -47,8 +45,8 @@ class DownloadYTAudio extends EventEmitter {
     this.emit("video-info", info, videoInfo);
     this.emit("video-setting", info, videoSetting);
 
-    let theResolve;
-    let theReject;
+    let theResolve: Function | null;
+    let theReject: Function | null;
     const thePromise = new Promise((resolve, reject) => {
       theResolve = resolve;
       theReject = reject;
@@ -89,7 +87,7 @@ class DownloadYTAudio extends EventEmitter {
     return thePromise;
   }
 
-  async getVideoInfo(videoId) {
+  async getVideoInfo(videoId: string) {
     const url = `${YOUTUBE_URL}${videoId}`;
     const advData = await ytdl.getBasicInfo(url);
     if (advData.formats.length === 0) {
@@ -100,19 +98,19 @@ class DownloadYTAudio extends EventEmitter {
   }
 }
 
-module.exports = DownloadYTAudio;
+export default DownloadYTAudio;
 
-function buildVideoRef(advData) {
+function buildVideoRef(advData: {videoId: string; video_url: string; title: string; thumbnails: object[]; lengthSeconds: string; author: Author}) {
   return {
     id: advData.videoId,
     url: advData.video_url,
     title: advData.title,
     thumbnail: advData.thumbnails.reduce(getBigger),
-    duration: +advData.lengthSeconds,
+    duration: +Number(advData.lengthSeconds),
     author: advData.author,
   };
 }
 
-function getBigger(a, b) {
+function getBigger(a: {width: number} | any, b: {width: number} | any) {
   return a.width > b.width ? a : b;
 }

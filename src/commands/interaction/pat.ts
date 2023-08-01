@@ -1,7 +1,10 @@
-const {MessageMedia} = require("whatsapp-web.js");
-module.exports = {
+import {MessageMedia, Message} from "whatsapp-web.js";
+import AssClient from "../../assets/Client";
+import {Lang} from "../../types/Lang";
+
+export default {
   name: "pat",
-  run: async (bot, message, lang, args) => {
+  run: async (bot: AssClient, message: Message, lang: Lang, args: object[]) => {
     if (!args[0]) return await message.reply(lang.errors.noUserMention);
     const user = await message.getMentions();
     if (!user) return await message.reply(lang.errors.noUserMention);

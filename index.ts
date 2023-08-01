@@ -1,11 +1,12 @@
-const qrcode = require("qrcode-terminal");
-const AssClient = require("./src/assets/Client");
-const config = require("./config");
-const loadCommands = require("./src/handler/loadCommands.js");
-const fs = require("fs");
+import qrcode from "qrcode-terminal";
+import AssClient from "./src/assets/Client";
+import config from "./config";
+import loadCommands from "./src/handler/loadCommands";
+import fs from "fs";
+import {Message} from "whatsapp-web.js";
 const commands = new Map();
 
-const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+const escapeRegex = (str: string) => str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
 
 const client = new AssClient();
 
@@ -31,11 +32,9 @@ try {
       }, 60000);
     }
   });
-} catch (err) {
-  return;
-}
+} catch (err) {}
 
-client.on("qr", (qr) => {
+client.on("qr", (qr: string) => {
   qrcode.generate(qr, {small: true});
 });
 
@@ -52,19 +51,22 @@ client.on("ready", () => {
   `);
 });
 
-client.on("message_create", async (message) => {
+client.on("message_create", async (message: Message) => {
   const PREFIX = config.prefix;
   const LANG = config.lang;
-  const LANGUAGE = JSON.parse(JSON.stringify(require(`./src/lang/${LANG}/bot.json`)).replaceAll("{0}", PREFIX));
+  const lg = await import(`./src/lang/${LANG}/bot.json`);
+  const LANGUAGE = JSON.parse(JSON.stringify(lg?.default).replaceAll("{0}", PREFIX));
   const prefixRegex = new RegExp(`^(${escapeRegex(PREFIX)})\\s*`);
   if (!prefixRegex.test(message.body)) return;
-  const [, matchedPrefix] = message.body.match(prefixRegex);
+  const [, matchedPrefix] = message.body.match(prefixRegex) as any;
   const p = matchedPrefix.length;
   const args = message.body.slice(p).trim().split(/ +/);
-  const commandName = args.shift().toLowerCase();
-  const command = await client.commands.get(commandName);
-  if (!command) return;
-  command.run(client, message, LANGUAGE, args, p);
+  const commandName = args.shift()?.toLowerCase();
+  if (commandName) {
+    const command = await client.commands.get(commandName);
+    if (!command) return;
+    command.run(client, message, LANGUAGE, args, p);
+  }
 });
 
 client.initialize();
