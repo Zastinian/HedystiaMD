@@ -40,7 +40,9 @@ client.on("qr", (qr: string) => {
 
 client.on("ready", () => {
   console.clear();
-  console.log(`
+  console.log(
+    "\x1b[97m%s\x1b[0m",
+    `
   ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄  ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄ ▄▄▄▄▄▄ 
   █  █ █  █       █      ██  █ █  █       █       █   █      █
   █  █▄█  █    ▄▄▄█  ▄    █  █▄█  █  ▄▄▄▄▄█▄     ▄█   █  ▄   █
@@ -48,7 +50,10 @@ client.on("ready", () => {
   █   ▄   █    ▄▄▄█ █▄█   █▄     ▄█▄▄▄▄▄  █ █   █ █   █      █
   █  █ █  █   █▄▄▄█       █ █   █  ▄▄▄▄▄█ █ █   █ █   █  ▄   █
   █▄▄█ █▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄█  █▄▄▄█ █▄▄▄▄▄▄▄█ █▄▄▄█ █▄▄▄█▄█ █▄▄█
-  `);
+  `
+  );
+  console.log(`\x1b[36mPlease use the command \x1b[33m${config.prefix}help \x1b[36mto see the list of available commands.\x1b[0m`);
+  console.log(`\x1b[36mPor favor, utiliza el comando \x1b[33m${config.prefix}help \x1b[36mpara ver la lista de comandos disponibles.\x1b[0m`);
 });
 
 client.on("message_create", async (message: Message) => {
