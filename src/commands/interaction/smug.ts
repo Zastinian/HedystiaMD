@@ -1,7 +1,10 @@
-const {MessageMedia} = require("whatsapp-web.js");
-module.exports = {
+import {MessageMedia, Message} from "whatsapp-web.js";
+import AssClient from "../../assets/Client";
+import {Lang} from "../../types/Lang";
+
+export default {
   name: "smug",
-  run: async (bot, message, lang, args) => {
+  run: async (bot: AssClient, message: Message, lang: Lang, args: object[]) => {
     const response = await fetch("https://nekos.life/api/v2/img/smug");
     const body = await response.json();
     let image = `${body.url}`;

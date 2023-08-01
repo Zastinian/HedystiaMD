@@ -1,6 +1,8 @@
-const {Client, LocalAuth} = require("whatsapp-web.js");
+import {Client, LocalAuth} from "whatsapp-web.js";
+import {Command} from "../types/Command";
 
 class AssClient extends Client {
+  commands!: Map<string, Command>;
   constructor() {
     super({
       authStrategy: new LocalAuth(),
@@ -25,15 +27,11 @@ class AssClient extends Client {
           width: 100,
           height: 100,
         },
-        headless: "true",
+        headless: true,
         ignoreHTTPSErrors: true,
       },
-      maxConcurrency: 1,
-      maxBrowserMemory: 150 * 1024 * 1024,
-      disableMediaDownload: true,
-      maxCachedMessages: 0,
     });
   }
 }
 
-module.exports = AssClient;
+export default AssClient;
