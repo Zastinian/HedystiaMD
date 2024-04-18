@@ -10,7 +10,7 @@ exports.unixTimestampSeconds = unixTimestampSeconds
 
 exports.generateMessageTag = (epoch) => {
 	let tag = (0, exports.unixTimestampSeconds)().toString()
-	if (epoch) tag += `.--${epoch}` // attach epoch if provided
+	if (epoch) tag += `.--${epoch}`
 	return tag
 }
 
@@ -138,23 +138,12 @@ exports.tanggal = (numer) => {
 	thisDay = myDays[thisDay]
 	const yy = tgl.getYear()
 	const year = yy < 1000 ? yy + 1900 : yy
-	const time = moment.tz("Asia/Jakarta").format("DD/MM HH:mm:ss")
-	const d = new Date()
-	const locale = "id"
-	const gmt = new Date(0).getTime() - new Date("1 January 1970").getTime()
-	const weton = ["Pahing", "Pon", "Wage", "Kliwon", "Legi"][
-		Math.floor((d * 1 + gmt) / 84600000) % 5
-	]
 
 	return `${thisDay}, ${day} - ${myMonths[bulan]} - ${year}`
 }
 
 exports.jsonformat = (string) => {
 	return JSON.stringify(string, null, 2)
-}
-
-function format(...args) {
-	return util.format(...args)
 }
 
 exports.logic = (check, inp, out) => {
