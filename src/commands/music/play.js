@@ -36,7 +36,7 @@ module.exports = {
 				const name = `0x${v.videoId}${Date.now()}x0.mp3`
 				await downloader.download(v.videoId, name)
 				return bot.sendMessage(message.chat, {
-					audio: { url: `${path.join(__dirname, "../../../tmp")}\\${name}` },
+					audio: { url: `${path.join(__dirname, "../../../tmp")}/${name}` },
 					mimetype: "audio/mpeg",
 					fileName: `${name}`,
 				})
