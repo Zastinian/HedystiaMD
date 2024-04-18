@@ -5,7 +5,6 @@ const { Buffer } = require("node:buffer")
 const {
 	default: hedystiaConnect,
 	useMultiFileAuthState,
-	DisconnectReason,
 	generateForwardMessageContent,
 	prepareWAMessageMedia,
 	generateWAMessageFromContent,
