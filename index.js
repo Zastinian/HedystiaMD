@@ -13,7 +13,7 @@ const {
 	makeInMemoryStore,
 	jidDecode,
 	proto,
-} = require("@whiskeysockets/baileys")
+} = require("baileys")
 const pino = require("pino")
 const { Boom } = require("@hapi/boom")
 const FileType = require("file-type")

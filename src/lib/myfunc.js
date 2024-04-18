@@ -1,6 +1,6 @@
 const util = require("node:util")
 const { Buffer } = require("node:buffer")
-const { proto, getContentType } = require("@whiskeysockets/baileys")
+const { proto, getContentType } = require("baileys")
 const moment = require("moment-timezone")
 const Jimp = require("jimp")
 
