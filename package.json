@@ -21,8 +21,7 @@
   "author": "contact@hedystia.com",
   "license": "ISC",
   "dependencies": {
-    "@adiwajshing/keyed-db": "0.2.4",
-    "@whiskeysockets/baileys": "6.6.0",
+    "baileys": "npm:@whiskeysockets/baileys",
     "awesome-phonenumber": "2.68.0",
     "file-type": "16.5.3",
     "fluent-ffmpeg": "2.1.2",
