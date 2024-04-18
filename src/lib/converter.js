@@ -6,7 +6,7 @@ function ffmpeg(buffer, args = [], ext = "", ext2 = "") {
 	return new Promise((resolve, reject) => {
 		;(async () => {
 			try {
-				const tmp = path.join(__dirname, "../tmp", `${+new Date()}.${ext}`)
+				const tmp = path.join(__dirname, "../../tmp", `${+new Date()}.${ext}`)
 				const out = `${tmp}.${ext2}`
 				await promises.writeFile(tmp, buffer)
 				spawn("ffmpeg", ["-y", "-i", tmp, ...args, out])
