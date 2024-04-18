@@ -15,7 +15,6 @@ const {
 	proto,
 } = require("baileys")
 const pino = require("pino")
-const { Boom } = require("@hapi/boom")
 const FileType = require("file-type")
 const PhoneNumber = require("awesome-phonenumber")
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require("./src/lib/exif")
@@ -220,35 +219,18 @@ try {
 		hedystia.ev.on("connection.update", async (update) => {
 			const { connection, lastDisconnect } = update
 			if (connection === "close") {
-				const reason = new Boom(lastDisconnect?.error)?.output.statusCode
-				if (reason === DisconnectReason.badSession) {
-					console.log(`Bad Session File, Please Delete Session and Scan Again`)
-					hedystia.logout()
-				} else if (reason === DisconnectReason.connectionClosed) {
-					console.log("Connection closed, reconnecting....")
+				if (lastDisconnect?.error?.output.statusCode !== 401) {
 					startHedystia()
-				} else if (reason === DisconnectReason.connectionLost) {
-					console.log("Connection Lost from Server, reconnecting...")
+				} else {
+					console.log("Please scan the qr code again.")
+					fs.rmSync("hedystia", { recursive: true })
+					fs.rmSync("hedystia.json")
 					startHedystia()
-				} else if (reason === DisconnectReason.connectionReplaced) {
-					console.log(
-						"Connection Replaced, Another New Session Opened, Please Close Current Session First"
-					)
-					hedystia.logout()
-				} else if (reason === DisconnectReason.loggedOut) {
-					console.log(`Device Logged Out, Please Scan Again And Run.`)
-					hedystia.logout()
-				} else if (reason === DisconnectReason.restartRequired) {
-					console.log("Restart Required, Restarting...")
-					startHedystia()
-				} else if (reason === DisconnectReason.timedOut) {
-					console.log("Connection TimedOut, Reconnecting...")
-					startHedystia()
-				} else hedystia.end(`Unknown DisconnectReason: ${reason}|${connection}`)
+				}
 			}
 			console.clear()
 			console.log(`
-    ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄  ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄ ▄▄▄▄▄▄ 
+    ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄  ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄ ▄▄▄▄▄▄
     █  █ █  █       █      ██  █ █  █       █       █   █      █
     █  █▄█  █    ▄▄▄█  ▄    █  █▄█  █  ▄▄▄▄▄█▄     ▄█   █  ▄   █
     █       █   █▄▄▄█ █ █   █       █ █▄▄▄▄▄  █   █ █   █ █▄█  █
