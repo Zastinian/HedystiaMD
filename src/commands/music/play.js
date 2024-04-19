@@ -4,15 +4,12 @@ const DownloadYTAudio = require("../../util/downloadMusic")
 
 module.exports = {
 	name: "play",
-	run: async (bot, message, global, _args, text) => {
+	run: async (bot, lang, message, global, _args, text) => {
 		if (!text)
 			return bot.sendMessage(
 				message.chat,
 				{
-					text: `*You must put the song*\n\n*Example:*\n{0}play Miley Cyrus - Flowers`.replace(
-						"{0}",
-						global.prefix[0]
-					),
+					text: `${lang.music.play.no_song}`.replace("{0}", global.prefix[0]),
 				},
 				{ quoted: message }
 			)
@@ -28,11 +25,7 @@ module.exports = {
 			const r = await yts(text)
 			const videos = r.videos.slice(0, 1)
 			videos.forEach(async (v) => {
-				bot.sendMessage(
-					message.chat,
-					{ text: "I'm looking for and downloading the song!" },
-					{ quoted: message }
-				)
+				bot.sendMessage(message.chat, { text: lang.music.play.download }, { quoted: message })
 				const name = `0x${v.videoId}${Date.now()}x0.mp3`
 				await downloader.download(v.videoId, name)
 				return bot.sendMessage(message.chat, {
@@ -42,11 +35,7 @@ module.exports = {
 				})
 			})
 		} catch (e) {
-			return bot.sendMessage(
-				message.chat,
-				{ text: "There was an error playing the music" },
-				{ quoted: message }
-			)
+			return bot.sendMessage(message.chat, { text: lang.music.play.error }, { quoted: message })
 		}
 	},
 }

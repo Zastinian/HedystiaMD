@@ -2,7 +2,7 @@ const { sticker } = require("../../lib/sticker")
 
 module.exports = {
 	name: "smug",
-	run: async (bot, message, _global, _args, _text, _types) => {
+	run: async (bot, lang, message, _global) => {
 		const sender = message.sender
 		const response = await fetch("https://nekos.life/api/v2/img/smug")
 		const body = await response.json()
@@ -10,8 +10,8 @@ module.exports = {
 		const stiker = await sticker(
 			null,
 			image,
-			`${bot.getName(sender.replace("@s.whatsapp.net", ""))} is presuming`
+			`${bot.getName(sender.replace("@s.whatsapp.net", ""))} ${lang.interaction.smug}`
 		)
-		bot.sendFile(m.chat, stiker, null, { asSticker: true })
+		bot.sendFile(message.chat, stiker, null, { asSticker: true })
 	},
 }

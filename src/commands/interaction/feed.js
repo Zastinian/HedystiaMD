@@ -2,19 +2,11 @@ const { sticker } = require("../../lib/sticker")
 
 module.exports = {
 	name: "feed",
-	run: async (bot, message, _global, args, _text, _types) => {
+	run: async (bot, lang, message, _global, args) => {
 		if (!args[0])
-			return bot.sendMessage(
-				message.chat,
-				{ text: "You have not mentioned the user" },
-				{ quoted: message }
-			)
+			return bot.sendMessage(message.chat, { text: lang.global.mention }, { quoted: message })
 		if (!bot.getName(args[0].replace("@", "")))
-			return bot.sendMessage(
-				message.chat,
-				{ text: "You have not mentioned the user" },
-				{ quoted: message }
-			)
+			return bot.sendMessage(message.chat, { text: lang.global.mention }, { quoted: message })
 		const sender = message.sender
 		const response = await fetch("https://nekos.life/api/v2/img/feed")
 		const body = await response.json()
@@ -22,8 +14,8 @@ module.exports = {
 		const stiker = await sticker(
 			null,
 			image,
-			`${bot.getName(sender.replace("@s.whatsapp.net", ""))} has just fed ${bot.getName(args[0].replace("@", ""))}`
+			`${bot.getName(sender.replace("@s.whatsapp.net", ""))} ${lang.interaction.feed} ${bot.getName(args[0].replace("@", ""))}`
 		)
-		bot.sendFile(m.chat, stiker, null, { asSticker: true })
+		bot.sendFile(message.chat, stiker, null, { asSticker: true })
 	},
 }

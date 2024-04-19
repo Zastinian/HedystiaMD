@@ -1,7 +1,10 @@
 module.exports = {
 	name: "information",
-	run: async (bot, message, global, _args, _text) => {
-		const txt = `*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Information Commands ⤞*_\n  ⟿ ${global.prefix}help\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*`
-		bot.sendMessage(message.chat, { text: txt }, { quoted: message })
+	run: async (bot, lang, message, global) => {
+		bot.sendMessage(
+			message.chat,
+			{ text: `${lang.menus.information}`.replaceAll("{0}", global.prefix) },
+			{ quoted: message }
+		)
 	},
 }

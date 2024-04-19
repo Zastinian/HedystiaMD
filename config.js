@@ -6,6 +6,14 @@ globalThis.author = "Hedystia"
 globalThis.thumb = fs.readFileSync("./src/assets/smoke.gif")
 
 /**
+ * @default "en"
+ * @param "en", "es"
+ * @example
+ * globalThis.lang = "es"
+ */
+globalThis.lang = "en"
+
+/**
  * @description To use it on windows you must download ffmpeg and put the following where the bin file is located
  * @example
  * C:\\ffmpeg\\bin\\ffmpeg.exe

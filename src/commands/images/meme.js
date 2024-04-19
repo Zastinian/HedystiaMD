@@ -3,9 +3,14 @@ const memes = require("../../util/memes")
 
 module.exports = {
 	name: "meme",
-	run: async (bot) => {
-		const meme = await memes({ locale: "en", customSubredditName: false, fullRawBody: false })
+	run: async (bot, lang, message, global) => {
+		const meme = await memes({
+			locale: global.lang,
+			customSubredditName: false,
+			fullRawBody: false,
+		})
+		bot.sendMessage(message.chat, { text: `${lang.images.meme}` }, { quoted: message })
 		const stiker = await sticker(null, meme.image, meme.caption)
-		bot.sendFile(m.chat, stiker, null, { asSticker: true })
+		bot.sendFile(message.chat, stiker, null, { asSticker: true })
 	},
 }
