@@ -40,11 +40,15 @@ try {
 
 	fs.watch("./tmp", (eventType, filename) => {
 		if (eventType === "rename") {
+			let delete_time = 30000
+			if (filename.includes(".mp3")) {
+				delete_time = 120000
+			}
 			setTimeout(() => {
 				fs.unlink(`./tmp/${filename}`, (err) => {
 					if (err) return true
 				})
-			}, 120000)
+			}, delete_time)
 		}
 	})
 
