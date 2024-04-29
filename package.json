@@ -1,5 +1,5 @@
 {
-  "name": "whatsapp-hedystia",
+  "name": "hedystiamd",
   "version": "2.0.0",
   "description": "A whatsapp bot that can be used to play music",
   "main": "index.js",
@@ -7,11 +7,11 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "lint": "eslint --ext .ts,.js,.tsx .",
-    "lint:fix": "eslint --ext .ts,.js,.tsx . --fix",
+    "lint": "eslint . -c eslint.config.mjs",
+    "lint:fix": "eslint . --fix -c eslint.config.mjs",
     "format": "prettier --write src",
     "format:check": "prettier --check src",
-    "prepare": "husky"
+    "prepare:git": "husky"
   },
   "keywords": [
     "baileys",
@@ -22,26 +22,26 @@
   "license": "ISC",
   "dependencies": {
     "awesome-phonenumber": "2.68.0",
-    "baileys": "npm:@whiskeysockets/baileys",
+    "baileys": "6.7.1",
     "file-type": "16.5.3",
     "fluent-ffmpeg": "2.1.2",
     "formdata-node": "4.4.1",
     "jimp": "0.16.1",
     "moment-timezone": "0.5.34",
     "node-webpmux": "3.1.1",
+    "pino": "^9.0.0",
     "qrcode-terminal": "0.12.0",
     "wa-sticker-formatter": "4.4.4",
     "yt-search": "2.10.4",
     "ytdl-core": "^4.11.5"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "0.43.1",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.12.7",
-    "@typescript-eslint/parser": "7.5.0",
-    "eslint": "8.57.0",
+    "eslint": "9.1.1",
     "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-functional": "6.5.1",
+    "eslint-plugin-import": "2.29.1",
     "husky": "9.0.11",
     "lint-staged": "15.2.2",
     "prettier": "3.2.5"

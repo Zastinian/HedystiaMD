@@ -37,7 +37,6 @@ function queryURL(queries) {
 }
 
 function sticker2(img, url) {
-	// eslint-disable-next-line no-async-promise-executor
 	return new Promise(async (resolve, reject) => {
 		try {
 			if (url) {
@@ -139,7 +138,6 @@ async function sticker5(img, url, packname, author, categories = [""], extra = {
 }
 
 function sticker6(img, url) {
-	// eslint-disable-next-line no-async-promise-executor
 	return new Promise(async (resolve, reject) => {
 		if (url) {
 			const res = await fetch(url)
