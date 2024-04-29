@@ -72,11 +72,10 @@ try {
 	async function startHedystia() {
 		const { state, saveCreds } = await useMultiFileAuthState("hedystia")
 		const hedystia = hedystiaConnect({
-			logger: pino({ level: "error" }),
+			logger: pino({ level: "silent" }),
 			printQRInTerminal: true,
-			browser: ["Hedystia MD", "Safari", "1.0.1"],
+			browser: ["Hedystia MD", "Safari", "17.4"],
 			auth: state,
-			version: [2, 2204, 13],
 		})
 
 		hedystia.commands = commands
@@ -186,7 +185,7 @@ try {
 					displayName: await hedystia.getName(`${i}@s.whatsapp.net`),
 					vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await hedystia.getName(`${i}@s.whatsapp.net`)}\nFN:${await hedystia.getName(
 						`${i}@s.whatsapp.net`
-					)}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Ponsel\nitem2.EMAIL;type=INTERNET:contact@hedystia.com\nitem2.X-ABLabel:Email\nitem3.URL:https://www.instagram.com/zastinianyt\nitem3.X-ABLabel:Instagram\nitem4.ADR:;;Indonesia;;;;\nitem4.X-ABLabel:Region\nEND:VCARD`,
+					)}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Ponsel\nitem2.EMAIL;type=INTERNET:contact@hedystia.com\nitem2.X-ABLabel:Email\nEND:VCARD`,
 				})
 			}
 			hedystia.sendMessage(
@@ -433,7 +432,6 @@ try {
 			let { res, data: file, filename: pathFile } = type
 			if ((res && res.status !== 200) || file.length <= 65536) {
 				try {
-					// eslint-disable-next-line no-throw-literal
 					throw { json: JSON.parse(file.toString()) }
 				} catch (e) {
 					if (e.json) throw e.json
@@ -475,7 +473,6 @@ try {
 				if (!m)
 					m = await hedystia.sendMessage(jid, { ...message, [mtype]: file }, { ...opt, ...options })
 				file = null
-				// eslint-disable-next-line no-unsafe-finally
 				return m
 			}
 		}
@@ -505,7 +502,6 @@ try {
 			const { mime, ext, res, data, filename } = types
 			if ((res && res.status !== 200) || file.length <= 65536) {
 				try {
-					// eslint-disable-next-line no-throw-literal
 					throw { json: JSON.parse(file.toString()) }
 				} catch (e) {
 					if (e.json) throw e.json
@@ -651,5 +647,5 @@ try {
 	startHedystia()
 
 	process.on("uncaughtException", () => {})
-	process.on("unhandledRejection", (reason, promise) => {})
-} catch (err) {}
+	process.on("unhandledRejection", () => {})
+} catch {}
