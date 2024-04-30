@@ -1,0 +1,42 @@
+name: PR Request
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+      - unlocked
+    paths-ignore:
+      - ".github/ISSUE_TEMPLATE/**"
+      - ".github/CONTRIBUTING.md"
+      - ".github/PULL_REQUEST_TEMPLATE.md"
+      - ".husky/**"
+      - ".vscode/**"
+      - "tmp/**"
+      - ".gitignore"
+      - "**/*.md"
+
+jobs:
+  pr-request:
+    name: Pull Request
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v3
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Format Check
+        run: pnpm run format:check
+
+      - name: Lint Check
+        run: pnpm run lint
