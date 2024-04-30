@@ -9,8 +9,8 @@
     "dev": "nodemon index.js",
     "lint": "eslint . -c eslint.config.mjs",
     "lint:fix": "eslint . --fix -c eslint.config.mjs",
-    "format": "prettier --write src",
-    "format:check": "prettier --check src",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
     "prepare:git": "husky"
   },
   "keywords": [

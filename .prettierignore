@@ -4,3 +4,5 @@ bun.lockb
 yarn.lock
 node_modules/
 dist/
+tmp/
+.vscode/extensions.json

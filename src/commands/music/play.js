@@ -1,6 +1,6 @@
-const path = require("node:path")
-const yts = require("yt-search")
-const DownloadYTAudio = require("../../util/downloadMusic")
+const path = require("node:path");
+const yts = require("yt-search");
+const DownloadYTAudio = require("../../util/downloadMusic");
 
 module.exports = {
 	name: "play",
@@ -11,31 +11,31 @@ module.exports = {
 				{
 					text: `${lang.music.play.no_song}`.replace("{0}", global.prefix[0]),
 				},
-				{ quoted: message }
-			)
+				{ quoted: message },
+			);
 		const downloader = new DownloadYTAudio({
 			outputPath: "./tmp",
 			ffmpegPath: global.ffmpegPath,
 			fileNameGenerator: (videoTitle) => {
-				return videoTitle
+				return videoTitle;
 			},
 			maxParallelDownload: 10,
-		})
+		});
 		try {
-			const r = await yts(text)
-			const videos = r.videos.slice(0, 1)
+			const r = await yts(text);
+			const videos = r.videos.slice(0, 1);
 			videos.forEach(async (v) => {
-				bot.sendMessage(message.chat, { text: lang.music.play.download }, { quoted: message })
-				const name = `0x${v.videoId}${Date.now()}x0.mp3`
-				await downloader.download(v.videoId, name)
+				bot.sendMessage(message.chat, { text: lang.music.play.download }, { quoted: message });
+				const name = `0x${v.videoId}${Date.now()}x0.mp3`;
+				await downloader.download(v.videoId, name);
 				return bot.sendMessage(message.chat, {
 					audio: { url: `${path.join(__dirname, "../../../tmp")}/${name}` },
 					mimetype: "audio/mpeg",
 					fileName: `${name}`,
-				})
-			})
+				});
+			});
 		} catch (e) {
-			return bot.sendMessage(message.chat, { text: lang.music.play.error }, { quoted: message })
+			return bot.sendMessage(message.chat, { text: lang.music.play.error }, { quoted: message });
 		}
 	},
-}
+};

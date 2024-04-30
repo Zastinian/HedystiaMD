@@ -1,7 +1,7 @@
-require("./config")
-const fs = require("node:fs")
-const path = require("node:path")
-const { Buffer } = require("node:buffer")
+require("./config");
+const fs = require("node:fs");
+const path = require("node:path");
+const { Buffer } = require("node:buffer");
 const {
 	default: hedystiaConnect,
 	useMultiFileAuthState,
@@ -12,105 +12,105 @@ const {
 	makeInMemoryStore,
 	jidDecode,
 	proto,
-} = require("baileys")
-const pino = require("pino")
-const FileType = require("file-type")
-const PhoneNumber = require("awesome-phonenumber")
-const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require("./src/lib/exif")
-const { smsg, getBuffer, sleep } = require("./src/lib/myfunc")
+} = require("baileys");
+const pino = require("pino");
+const FileType = require("file-type");
+const PhoneNumber = require("awesome-phonenumber");
+const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require("./src/lib/exif");
+const { smsg, getBuffer, sleep } = require("./src/lib/myfunc");
 
-const commands = new Map()
+const commands = new Map();
 
 try {
-	const store = makeInMemoryStore({ logger: pino().child({ level: "silent" }) })
-	store?.readFromFile("./hedystia.json")
+	const store = makeInMemoryStore({ logger: pino().child({ level: "silent" }) });
+	store?.readFromFile("./hedystia.json");
 
 	setInterval(() => {
-		store?.writeToFile("./hedystia.json")
-	}, 10_000)
+		store?.writeToFile("./hedystia.json");
+	}, 10_000);
 
 	fs.readdir("./tmp", (err, files) => {
-		if (err) return
+		if (err) return;
 		files.map((file) => {
-			if (file === ".gitignore") return true
-			fs.unlink(`./tmp/${file}`, () => {})
-			return true
-		})
-	})
+			if (file === ".gitignore") return true;
+			fs.unlink(`./tmp/${file}`, () => {});
+			return true;
+		});
+	});
 
 	fs.watch("./tmp", (eventType, filename) => {
 		if (eventType === "rename") {
-			let delete_time = 30000
+			let delete_time = 30000;
 			if (filename.includes(".mp3")) {
-				delete_time = 120000
+				delete_time = 120000;
 			}
 			setTimeout(() => {
 				fs.unlink(`./tmp/${filename}`, (err) => {
-					if (err) return true
-				})
-			}, delete_time)
+					if (err) return true;
+				});
+			}, delete_time);
 		}
-	})
+	});
 
 	fs.readdir("./src/commands", (err, commandFolders) => {
-		if (err) return
+		if (err) return;
 		commandFolders.forEach((folder) => {
 			fs.readdir(`./src/commands/${folder}`, (err, commandFiles) => {
-				if (err) return
+				if (err) return;
 				commandFiles
 					.filter((file) => file.endsWith(".js"))
 					.forEach((file) => {
-						const command = require(`./src/commands/${folder}/${file}`)
+						const command = require(`./src/commands/${folder}/${file}`);
 						if (command.name) {
-							commands.set(command.name, command)
+							commands.set(command.name, command);
 						}
-					})
-			})
-		})
-	})
+					});
+			});
+		});
+	});
 
 	async function startHedystia() {
-		const { state, saveCreds } = await useMultiFileAuthState("hedystia")
+		const { state, saveCreds } = await useMultiFileAuthState("hedystia");
 		const hedystia = hedystiaConnect({
 			logger: pino({ level: "silent" }),
 			printQRInTerminal: true,
 			browser: ["Hedystia MD", "Safari", "17.4"],
 			auth: state,
-		})
+		});
 
-		hedystia.commands = commands
+		hedystia.commands = commands;
 
-		store.bind(hedystia.ev)
+		store.bind(hedystia.ev);
 
 		hedystia.ws.on("CB:call", async (json) => {
-			const callerId = json.content[0].attrs["call-creator"]
+			const callerId = json.content[0].attrs["call-creator"];
 			if (json.content[0].tag === "offer") {
 				hedystia.sendMessage(callerId, {
 					text: `_*A.I Auto Block System*_\nIt seems that you tried to call me, unfortunately you will be blocked automatically.`,
-				})
-				await sleep(8000)
-				await hedystia.updateBlockStatus(callerId, "block")
+				});
+				await sleep(8000);
+				await hedystia.updateBlockStatus(callerId, "block");
 			}
-		})
+		});
 
 		hedystia.ev.on("messages.upsert", async (chatUpdate) => {
 			try {
-				mek = chatUpdate.messages[0]
-				if (!mek.message) return
+				mek = chatUpdate.messages[0];
+				if (!mek.message) return;
 				mek.message =
 					Object.keys(mek.message)[0] === "ephemeralMessage"
 						? mek.message.ephemeralMessage.message
-						: mek.message
-				if (mek.key && mek.key.remoteJid === "status@broadcast") return
-				if (!hedystia.public && !mek.key.fromMe && chatUpdate.type === "notify") return
-				if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return
-				m = smsg(hedystia, mek, store)
-				require("./hedystia")(hedystia, m, chatUpdate, store)
+						: mek.message;
+				if (mek.key && mek.key.remoteJid === "status@broadcast") return;
+				if (!hedystia.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
+				if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return;
+				m = smsg(hedystia, mek, store);
+				require("./hedystia")(hedystia, m, chatUpdate, store);
 			} catch (err) {}
-		})
+		});
 
 		hedystia.ev.on("group-participants.update", async (anu) => {
-			return true
+			return true;
 			//   const metadata = await hedystia.groupMetadata(anu.id)
 			//   try {
 			//     const welkompic = { url: "" } // Image Url
@@ -130,36 +130,36 @@ try {
 			//       }
 			//     }
 			//   } catch (err) {}
-		})
+		});
 
 		hedystia.decodeJid = (jid) => {
-			if (!jid) return jid
+			if (!jid) return jid;
 			if (/:\d+@/gi.test(jid)) {
-				const decode = jidDecode(jid) || {}
-				return (decode.user && decode.server && `${decode.user}@${decode.server}`) || jid
-			} else return jid
-		}
+				const decode = jidDecode(jid) || {};
+				return (decode.user && decode.server && `${decode.user}@${decode.server}`) || jid;
+			} else return jid;
+		};
 		hedystia.ev.on("contacts.update", (update) => {
 			for (const contact of update) {
-				const id = hedystia.decodeJid(contact.id)
-				if (store && store.contacts) store.contacts[id] = { id, name: contact.notify }
+				const id = hedystia.decodeJid(contact.id);
+				if (store && store.contacts) store.contacts[id] = { id, name: contact.notify };
 			}
-		})
+		});
 
 		hedystia.getName = (jid, withoutContact = false) => {
-			id = hedystia.decodeJid(jid)
-			withoutContact = hedystia.withoutContact || withoutContact
-			let v
+			id = hedystia.decodeJid(jid);
+			withoutContact = hedystia.withoutContact || withoutContact;
+			let v;
 			if (id.endsWith("@g.us"))
 				return new Promise((resolve) => {
-					v = store.contacts[id] || {}
-					if (!(v.name || v.subject)) v = hedystia.groupMetadata(id) || {}
+					v = store.contacts[id] || {};
+					if (!(v.name || v.subject)) v = hedystia.groupMetadata(id) || {};
 					resolve(
 						v.name ||
 							v.subject ||
-							PhoneNumber(`+${id.replace("@s.whatsapp.net", "")}`).getNumber("international")
-					)
-				})
+							PhoneNumber(`+${id.replace("@s.whatsapp.net", "")}`).getNumber("international"),
+					);
+				});
 			else
 				v =
 					id === "0@s.whatsapp.net"
@@ -169,31 +169,31 @@ try {
 							}
 						: id === hedystia.decodeJid(hedystia.user.id)
 							? hedystia.user
-							: store.contacts[id] || {}
+							: store.contacts[id] || {};
 			return (
 				(withoutContact ? "" : v.name) ||
 				v.subject ||
 				v.verifiedName ||
 				PhoneNumber(`+${jid.replace("@s.whatsapp.net", "")}`).getNumber("international")
-			)
-		}
+			);
+		};
 
 		hedystia.sendContact = async (jid, kon, quoted = "", opts = {}) => {
-			const list = []
+			const list = [];
 			for (const i of kon) {
 				list.push({
 					displayName: await hedystia.getName(`${i}@s.whatsapp.net`),
 					vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await hedystia.getName(`${i}@s.whatsapp.net`)}\nFN:${await hedystia.getName(
-						`${i}@s.whatsapp.net`
+						`${i}@s.whatsapp.net`,
 					)}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Ponsel\nitem2.EMAIL;type=INTERNET:contact@hedystia.com\nitem2.X-ABLabel:Email\nEND:VCARD`,
-				})
+				});
 			}
 			hedystia.sendMessage(
 				jid,
 				{ contacts: { displayName: `${list.length} Kontak`, contacts: list }, ...opts },
-				{ quoted }
-			)
-		}
+				{ quoted },
+			);
+		};
 
 		hedystia.setStatus = (status) => {
 			hedystia.query({
@@ -210,27 +210,27 @@ try {
 						content: Buffer.from(status, "utf-8"),
 					},
 				],
-			})
-			return status
-		}
+			});
+			return status;
+		};
 
-		hedystia.public = true
+		hedystia.public = true;
 
-		hedystia.serializeM = (m) => smsg(hedystia, m, store)
+		hedystia.serializeM = (m) => smsg(hedystia, m, store);
 
 		hedystia.ev.on("connection.update", async (update) => {
-			const { connection, lastDisconnect } = update
+			const { connection, lastDisconnect } = update;
 			if (connection === "close") {
 				if (lastDisconnect?.error?.output.statusCode !== 401) {
-					startHedystia()
+					startHedystia();
 				} else {
-					console.log("Please scan the qr code again.")
-					fs.rmSync("hedystia", { recursive: true })
-					fs.rmSync("hedystia.json")
-					startHedystia()
+					console.log("Please scan the qr code again.");
+					fs.rmSync("hedystia", { recursive: true });
+					fs.rmSync("hedystia.json");
+					startHedystia();
 				}
 			}
-			console.clear()
+			console.clear();
 			console.log(`
     ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄  ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄ ▄▄▄▄▄▄
     █  █ █  █       █      ██  █ █  █       █       █   █      █
@@ -239,15 +239,15 @@ try {
     █   ▄   █    ▄▄▄█ █▄█   █▄     ▄█▄▄▄▄▄  █ █   █ █   █      █
     █  █ █  █   █▄▄▄█       █ █   █  ▄▄▄▄▄█ █ █   █ █   █  ▄   █
     █▄▄█ █▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄█  █▄▄▄█ █▄▄▄▄▄▄▄█ █▄▄▄█ █▄▄▄█▄█ █▄▄█
-    `)
-		})
+    `);
+		});
 
-		hedystia.ev.on("creds.update", saveCreds)
+		hedystia.ev.on("creds.update", saveCreds);
 		hedystia.send5ButImg = async (jid, text = "", footer = "", img, but = [], options = {}) => {
 			const message = await prepareWAMessageMedia(
 				{ image: img },
-				{ upload: hedystia.waUploadToServer }
-			)
+				{ upload: hedystia.waUploadToServer },
+			);
 			const template = generateWAMessageFromContent(
 				m.chat,
 				proto.Message.fromObject({
@@ -260,16 +260,16 @@ try {
 						},
 					},
 				}),
-				options
-			)
-			hedystia.relayMessage(jid, template.message, { messageId: template.key.id })
-		}
+				options,
+			);
+			hedystia.relayMessage(jid, template.message, { messageId: template.key.id });
+		};
 
 		hedystia.sendWelkom = async (jid, text = "", footer = "", img, but = [], options = {}) => {
 			const message = await prepareWAMessageMedia(
 				{ image: img },
-				{ upload: hedystia.waUploadToServer }
-			)
+				{ upload: hedystia.waUploadToServer },
+			);
 			const template = generateWAMessageFromContent(
 				jid,
 				proto.Message.fromObject({
@@ -282,10 +282,10 @@ try {
 						},
 					},
 				}),
-				options
-			)
-			hedystia.relayMessage(jid, template.message, { messageId: template.key.id })
-		}
+				options,
+			);
+			hedystia.relayMessage(jid, template.message, { messageId: template.key.id });
+		};
 		hedystia.sendButtonText = (jid, buttons = [], text, footer, quoted = "", options = {}) => {
 			const buttonMessage = {
 				text,
@@ -293,7 +293,7 @@ try {
 				buttons,
 				headerType: 2,
 				...options,
-			}
+			};
 			const template = generateWAMessageFromContent(
 				jid,
 				proto.Message.fromObject({
@@ -305,12 +305,12 @@ try {
 						},
 					},
 				}),
-				options
-			)
-			hedystia.relayMessage(jid, template.message, { messageId: template.key.id })
-		}
+				options,
+			);
+			hedystia.relayMessage(jid, template.message, { messageId: template.key.id });
+		};
 		hedystia.sendText = (jid, text, quoted = "", options) =>
-			hedystia.sendMessage(jid, { text, ...options }, { quoted })
+			hedystia.sendMessage(jid, { text, ...options }, { quoted });
 		hedystia.sendImage = async (jid, path, caption = "", quoted = "", options) => {
 			const buffer = Buffer.isBuffer(path)
 				? path
@@ -320,9 +320,9 @@ try {
 						? await await getBuffer(path)
 						: fs.existsSync(path)
 							? fs.readFileSync(path)
-							: Buffer.alloc(0)
-			return await hedystia.sendMessage(jid, { image: buffer, caption, ...options }, { quoted })
-		}
+							: Buffer.alloc(0);
+			return await hedystia.sendMessage(jid, { image: buffer, caption, ...options }, { quoted });
+		};
 		hedystia.sendVideo = async (jid, path, caption = "", quoted = "", gif = false, options) => {
 			const buffer = Buffer.isBuffer(path)
 				? path
@@ -332,13 +332,13 @@ try {
 						? await await getBuffer(path)
 						: fs.existsSync(path)
 							? fs.readFileSync(path)
-							: Buffer.alloc(0)
+							: Buffer.alloc(0);
 			return await hedystia.sendMessage(
 				jid,
 				{ video: buffer, caption, gifPlayback: gif, ...options },
-				{ quoted }
-			)
-		}
+				{ quoted },
+			);
+		};
 		hedystia.sendAudio = async (jid, path, quoted = "", ptt = false, options) => {
 			const buffer = Buffer.isBuffer(path)
 				? path
@@ -348,9 +348,9 @@ try {
 						? await await getBuffer(path)
 						: fs.existsSync(path)
 							? fs.readFileSync(path)
-							: Buffer.alloc(0)
-			return await hedystia.sendMessage(jid, { audio: buffer, ptt, ...options }, { quoted })
-		}
+							: Buffer.alloc(0);
+			return await hedystia.sendMessage(jid, { audio: buffer, ptt, ...options }, { quoted });
+		};
 		hedystia.sendTextWithMentions = async (jid, text, quoted, options = {}) =>
 			hedystia.sendMessage(
 				jid,
@@ -361,8 +361,8 @@ try {
 					},
 					...options,
 				},
-				{ quoted }
-			)
+				{ quoted },
+			);
 		hedystia.sendImageAsSticker = async (jid, path, quoted, options = {}) => {
 			const buff = Buffer.isBuffer(path)
 				? path
@@ -372,17 +372,17 @@ try {
 						? await await getBuffer(path)
 						: fs.existsSync(path)
 							? fs.readFileSync(path)
-							: Buffer.alloc(0)
-			let buffer
+							: Buffer.alloc(0);
+			let buffer;
 			if (options && (options.packname || options.author)) {
-				buffer = await writeExifImg(buff, options)
+				buffer = await writeExifImg(buff, options);
 			} else {
-				buffer = await imageToWebp(buff)
+				buffer = await imageToWebp(buff);
 			}
 
-			await hedystia.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted })
-			return buffer
-		}
+			await hedystia.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted });
+			return buffer;
+		};
 		hedystia.sendVideoAsSticker = async (jid, path, quoted, options = {}) => {
 			const buff = Buffer.isBuffer(path)
 				? path
@@ -392,33 +392,33 @@ try {
 						? await await getBuffer(path)
 						: fs.existsSync(path)
 							? fs.readFileSync(path)
-							: Buffer.alloc(0)
-			let buffer
+							: Buffer.alloc(0);
+			let buffer;
 			if (options && (options.packname || options.author)) {
-				buffer = await writeExifVid(buff, options)
+				buffer = await writeExifVid(buff, options);
 			} else {
-				buffer = await videoToWebp(buff)
+				buffer = await videoToWebp(buff);
 			}
 
-			await hedystia.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted })
-			return buffer
-		}
+			await hedystia.sendMessage(jid, { sticker: { url: buffer }, ...options }, { quoted });
+			return buffer;
+		};
 		hedystia.downloadAndSaveMediaMessage = async (message, filename, attachExtension = true) => {
-			const quoted = message.msg ? message.msg : message
-			const mime = (message.msg || message).mimetype || ""
+			const quoted = message.msg ? message.msg : message;
+			const mime = (message.msg || message).mimetype || "";
 			const messageType = message.mtype
 				? message.mtype.replace(/Message/gi, "")
-				: mime.split("/")[0]
-			const stream = await downloadContentFromMessage(quoted, messageType)
-			let buffer = Buffer.from([])
+				: mime.split("/")[0];
+			const stream = await downloadContentFromMessage(quoted, messageType);
+			let buffer = Buffer.from([]);
 			for await (const chunk of stream) {
-				buffer = Buffer.concat([buffer, chunk])
+				buffer = Buffer.concat([buffer, chunk]);
 			}
-			const type = await FileType.fromBuffer(buffer)
-			trueFileName = attachExtension ? `${filename}.${type.ext}` : filename
-			await fs.writeFileSync(trueFileName, buffer)
-			return trueFileName
-		}
+			const type = await FileType.fromBuffer(buffer);
+			trueFileName = attachExtension ? `${filename}.${type.ext}` : filename;
+			await fs.writeFileSync(trueFileName, buffer);
+			return trueFileName;
+		};
 		hedystia.sendFile = async (
 			jid,
 			path,
@@ -426,36 +426,36 @@ try {
 			caption = "",
 			quoted,
 			ptt = false,
-			options = {}
+			options = {},
 		) => {
-			const type = await hedystia.getFile(path, true)
-			let { res, data: file, filename: pathFile } = type
+			const type = await hedystia.getFile(path, true);
+			let { res, data: file, filename: pathFile } = type;
 			if ((res && res.status !== 200) || file.length <= 65536) {
 				try {
-					throw { json: JSON.parse(file.toString()) }
+					throw { json: JSON.parse(file.toString()) };
 				} catch (e) {
-					if (e.json) throw e.json
+					if (e.json) throw e.json;
 				}
 			}
-			const opt = {}
-			if (quoted) opt.quoted = quoted
-			if (!type) options.asDocument = true
-			let mtype = ""
-			let mimetype = options.mimetype || type.mime
-			let convert
+			const opt = {};
+			if (quoted) opt.quoted = quoted;
+			if (!type) options.asDocument = true;
+			let mtype = "";
+			let mimetype = options.mimetype || type.mime;
+			let convert;
 			if (/webp/.test(type.mime) || (/image/.test(type.mime) && options.asSticker))
-				mtype = "sticker"
+				mtype = "sticker";
 			else if (/image/.test(type.mime) || (/webp/.test(type.mime) && options.asImage))
-				mtype = "image"
-			else if (/video/.test(type.mime)) mtype = "video"
+				mtype = "image";
+			else if (/video/.test(type.mime)) mtype = "video";
 			else if (/audio/.test(type.mime))
 				(convert = await toAudio(file, type.ext)),
 					(file = convert.data),
 					(pathFile = convert.filename),
 					(mtype = "audio"),
-					(mimetype = options.mimetype || "audio/ogg; codecs=opus")
-			else mtype = "document"
-			if (options.asDocument) mtype = "document"
+					(mimetype = options.mimetype || "audio/ogg; codecs=opus");
+			else mtype = "document";
+			if (options.asDocument) mtype = "document";
 			const message = {
 				...options,
 				caption,
@@ -463,104 +463,108 @@ try {
 				[mtype]: { url: pathFile },
 				mimetype,
 				fileName: filename || pathFile.split("/").pop(),
-			}
-			let m
+			};
+			let m;
 			try {
-				m = await hedystia.sendMessage(jid, message, { ...opt, ...options })
+				m = await hedystia.sendMessage(jid, message, { ...opt, ...options });
 			} catch (e) {
-				m = null
+				m = null;
 			} finally {
 				if (!m)
-					m = await hedystia.sendMessage(jid, { ...message, [mtype]: file }, { ...opt, ...options })
-				file = null
-				return m
+					m = await hedystia.sendMessage(
+						jid,
+						{ ...message, [mtype]: file },
+						{ ...opt, ...options },
+					);
+				file = null;
+				return m;
 			}
-		}
+		};
 
 		hedystia.downloadMediaMessage = async (message) => {
-			const mime = (message.msg || message).mimetype || ""
+			const mime = (message.msg || message).mimetype || "";
 			const messageType = message.mtype
 				? message.mtype.replace(/Message/gi, "")
-				: mime.split("/")[0]
-			const stream = await downloadContentFromMessage(message, messageType)
-			let buffer = Buffer.from([])
+				: mime.split("/")[0];
+			const stream = await downloadContentFromMessage(message, messageType);
+			let buffer = Buffer.from([]);
 			for await (const chunk of stream) {
-				buffer = Buffer.concat([buffer, chunk])
+				buffer = Buffer.concat([buffer, chunk]);
 			}
 
-			return buffer
-		}
+			return buffer;
+		};
 		hedystia.sendMedia = async (
 			jid,
 			path,
 			fileName = "",
 			caption = "",
 			quoted = "",
-			options = {}
+			options = {},
 		) => {
-			const types = await hedystia.getFile(path, true)
-			const { mime, ext, res, data, filename } = types
+			const types = await hedystia.getFile(path, true);
+			const { mime, ext, res, data, filename } = types;
 			if ((res && res.status !== 200) || file.length <= 65536) {
 				try {
-					throw { json: JSON.parse(file.toString()) }
+					throw { json: JSON.parse(file.toString()) };
 				} catch (e) {
-					if (e.json) throw e.json
+					if (e.json) throw e.json;
 				}
 			}
-			let type = ""
-			let mimetype = mime
-			let pathFile = filename
-			if (options.asDocument) type = "document"
+			let type = "";
+			let mimetype = mime;
+			let pathFile = filename;
+			if (options.asDocument) type = "document";
 			if (options.asSticker || /webp/.test(mime)) {
-				const { writeExif } = require("./src/lib/exif")
-				const media = { mimetype: mime, data }
+				const { writeExif } = require("./src/lib/exif");
+				const media = { mimetype: mime, data };
 				pathFile = await writeExif(media, {
 					packname: options.packname ? options.packname : globalThis.packname,
 					author: options.author ? options.author : globalThis.author,
 					categories: options.categories ? options.categories : [],
-				})
-				await fs.promises.unlink(filename)
-				type = "sticker"
-				mimetype = "image/webp"
-			} else if (/image/.test(mime)) type = "image"
-			else if (/video/.test(mime)) type = "video"
-			else if (/audio/.test(mime)) type = "audio"
-			else type = "document"
+				});
+				await fs.promises.unlink(filename);
+				type = "sticker";
+				mimetype = "image/webp";
+			} else if (/image/.test(mime)) type = "image";
+			else if (/video/.test(mime)) type = "video";
+			else if (/audio/.test(mime)) type = "audio";
+			else type = "document";
 			await hedystia.sendMessage(
 				jid,
 				{ [type]: { url: pathFile }, caption, mimetype, fileName, ...options },
-				{ quoted, ...options }
-			)
-			return fs.promises.unlink(pathFile)
-		}
+				{ quoted, ...options },
+			);
+			return fs.promises.unlink(pathFile);
+		};
 		hedystia.copyNForward = async (jid, message, forceForward = false, options = {}) => {
-			let vtype
+			let vtype;
 			if (options.readViewOnce) {
 				message.message =
 					message.message &&
 					message.message.ephemeralMessage &&
 					message.message.ephemeralMessage.message
 						? message.message.ephemeralMessage.message
-						: message.message || undefined
-				vtype = Object.keys(message.message.viewOnceMessage.message)[0]
+						: message.message || undefined;
+				vtype = Object.keys(message.message.viewOnceMessage.message)[0];
 				delete (message.message && message.message.ignore
 					? message.message.ignore
-					: message.message || undefined)
-				delete message.message.viewOnceMessage.message[vtype].viewOnce
+					: message.message || undefined);
+				delete message.message.viewOnceMessage.message[vtype].viewOnce;
 				message.message = {
 					...message.message.viewOnceMessage.message,
-				}
+				};
 			}
 
-			const mtype = Object.keys(message.message)[0]
-			const content = generateForwardMessageContent(message, forceForward)
-			const ctype = Object.keys(content)[0]
-			let context = {}
-			if (mtype !== "conversation") context = message.message[mtype].contextInfo
+			const mtype = Object.keys(message.message)[0];
+			const content = generateForwardMessageContent(message, forceForward);
+			const ctype = Object.keys(content)[0];
+			let context = {};
+			if (mtype !== "conversation") context = message.message[mtype].contextInfo;
 			content[ctype].contextInfo = {
 				...context,
 				...content[ctype].contextInfo,
-			}
+			};
 			const waMessage = generateWAMessageFromContent(
 				jid,
 				content,
@@ -577,40 +581,40 @@ try {
 									}
 								: {}),
 						}
-					: {}
-			)
-			await hedystia.relayMessage(jid, waMessage.message, { messageId: waMessage.key.id })
-			return waMessage
-		}
+					: {},
+			);
+			await hedystia.relayMessage(jid, waMessage.message, { messageId: waMessage.key.id });
+			return waMessage;
+		};
 
 		hedystia.cMod = (jid, copy, text = "", sender = hedystia.user.id, options = {}) => {
-			let mtype = Object.keys(copy.message)[0]
-			const isEphemeral = mtype === "ephemeralMessage"
+			let mtype = Object.keys(copy.message)[0];
+			const isEphemeral = mtype === "ephemeralMessage";
 			if (isEphemeral) {
-				mtype = Object.keys(copy.message.ephemeralMessage.message)[0]
+				mtype = Object.keys(copy.message.ephemeralMessage.message)[0];
 			}
-			const msg = isEphemeral ? copy.message.ephemeralMessage.message : copy.message
-			const content = msg[mtype]
-			if (typeof content === "string") msg[mtype] = text || content
-			else if (content.caption) content.caption = text || content.caption
-			else if (content.text) content.text = text || content.text
+			const msg = isEphemeral ? copy.message.ephemeralMessage.message : copy.message;
+			const content = msg[mtype];
+			if (typeof content === "string") msg[mtype] = text || content;
+			else if (content.caption) content.caption = text || content.caption;
+			else if (content.text) content.text = text || content.text;
 			if (typeof content !== "string")
 				msg[mtype] = {
 					...content,
 					...options,
-				}
-			if (copy.key.participant) sender = copy.key.participant = sender || copy.key.participant
-			else if (copy.key.participant) sender = copy.key.participant = sender || copy.key.participant
-			if (copy.key.remoteJid.includes("@s.whatsapp.net")) sender = sender || copy.key.remoteJid
-			else if (copy.key.remoteJid.includes("@broadcast")) sender = sender || copy.key.remoteJid
-			copy.key.remoteJid = jid
-			copy.key.fromMe = sender === hedystia.user.id
+				};
+			if (copy.key.participant) sender = copy.key.participant = sender || copy.key.participant;
+			else if (copy.key.participant) sender = copy.key.participant = sender || copy.key.participant;
+			if (copy.key.remoteJid.includes("@s.whatsapp.net")) sender = sender || copy.key.remoteJid;
+			else if (copy.key.remoteJid.includes("@broadcast")) sender = sender || copy.key.remoteJid;
+			copy.key.remoteJid = jid;
+			copy.key.fromMe = sender === hedystia.user.id;
 
-			return proto.WebMessageInfo.fromObject(copy)
-		}
+			return proto.WebMessageInfo.fromObject(copy);
+		};
 
 		hedystia.getFile = async (PATH, save) => {
-			let res
+			let res;
 			const data = Buffer.isBuffer(PATH)
 				? PATH
 				: /^data:.*?\/.*?;base64,/i.test(PATH)
@@ -621,31 +625,31 @@ try {
 							? ((filename = PATH), fs.readFileSync(PATH))
 							: typeof PATH === "string"
 								? PATH
-								: Buffer.alloc(0)
+								: Buffer.alloc(0);
 			const type = (await FileType.fromBuffer(data)) || {
 				mime: "application/octet-stream",
 				ext: ".bin",
-			}
-			filename = path.join(__filename, `./tmp/${new Date() * 1}.${type.ext}`)
+			};
+			filename = path.join(__filename, `./tmp/${new Date() * 1}.${type.ext}`);
 			if (data && save)
 				(filename = path.join(__dirname, `./tmp/${new Date() * 1}.${type.ext}`)),
-					await fs.promises.writeFile(filename, data)
+					await fs.promises.writeFile(filename, data);
 			return {
 				res,
 				filename,
 				...type,
 				data,
 				deleteFile() {
-					return filename && fs.promises.unlink(filename)
+					return filename && fs.promises.unlink(filename);
 				},
-			}
-		}
+			};
+		};
 
-		return hedystia
+		return hedystia;
 	}
 
-	startHedystia()
+	startHedystia();
 
-	process.on("uncaughtException", () => {})
-	process.on("unhandledRejection", () => {})
+	process.on("uncaughtException", () => {});
+	process.on("unhandledRejection", () => {});
 } catch {}

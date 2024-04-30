@@ -1,5 +1,5 @@
-const { sticker } = require("../../lib/sticker")
-const memes = require("../../util/memes")
+const { sticker } = require("../../lib/sticker");
+const memes = require("../../util/memes");
 
 module.exports = {
 	name: "meme",
@@ -8,9 +8,9 @@ module.exports = {
 			locale: global.lang,
 			customSubredditName: false,
 			fullRawBody: false,
-		})
-		bot.sendMessage(message.chat, { text: `${lang.images.meme}` }, { quoted: message })
-		const stiker = await sticker(null, meme.image, meme.caption)
-		bot.sendFile(message.chat, stiker, null, { asSticker: true })
+		});
+		bot.sendMessage(message.chat, { text: `${lang.images.meme}` }, { quoted: message });
+		const stiker = await sticker(null, meme.image, meme.caption);
+		bot.sendFile(message.chat, stiker, null, { asSticker: true });
 	},
-}
+};

@@ -1,11 +1,11 @@
-import eslintConfigPrettier from "eslint-config-prettier"
-import functional from "eslint-plugin-functional"
-import imprt from "eslint-plugin-import"
+import eslintConfigPrettier from "eslint-config-prettier";
+import functional from "eslint-plugin-functional";
+import imprt from "eslint-plugin-import";
 
 export default [
 	eslintConfigPrettier,
 	{
-		files: ["src/**/*.{ts,js,tsx,jsx}"],
+		files: ["**/*.{ts,js}"],
 		plugins: {
 			functional,
 			import: imprt,
@@ -19,7 +19,7 @@ export default [
 		rules: {
 			"eol-last": "off",
 			"quotes": "off",
-			"semi": ["warn", "never"],
+			"semi": "off",
 			"@stylistic/js/no-tabs": "off",
 			"@stylistic/ts/indent": "off",
 			"no-constant-binary-expression": "warn",
@@ -55,4 +55,4 @@ export default [
 			"array-bracket-newline": ["warn", "consistent"],
 		},
 	},
-]
+];

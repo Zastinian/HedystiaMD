@@ -4,7 +4,7 @@ module.exports = {
 		bot.sendMessage(
 			message.chat,
 			{ text: `${lang.menus.interaction}`.replaceAll("{0}", global.prefix) },
-			{ quoted: message }
-		)
+			{ quoted: message },
+		);
 	},
-}
+};

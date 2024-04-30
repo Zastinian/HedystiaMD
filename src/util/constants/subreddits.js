@@ -8,6 +8,6 @@ const subreddit = {
 	it: "italianmemes",
 	ru: "YouSeeComrade",
 	tr: "burdurland",
-}
+};
 
-module.exports = subreddit
+module.exports = subreddit;
