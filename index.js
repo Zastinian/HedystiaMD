@@ -105,6 +105,7 @@ try {
 				if (!hedystia.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
 				if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return;
 				m = smsg(hedystia, mek, store);
+				hedystia.readMessages([mek.key]);
 				require("./hedystia")(hedystia, m, chatUpdate, store);
 			} catch (err) {}
 		});
