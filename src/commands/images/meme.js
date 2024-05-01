@@ -7,7 +7,6 @@ module.exports = {
 		const meme = await memes({
 			locale: global.lang,
 			customSubredditName: false,
-			fullRawBody: false,
 		});
 		bot.sendMessage(message.chat, { text: `${lang.images.meme}` }, { quoted: message });
 		const stiker = await sticker(null, meme.image, meme.caption);
