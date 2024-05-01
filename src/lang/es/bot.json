@@ -6,7 +6,7 @@
     "meme": "El meme se está descargando y convirtiendo!"
   },
   "info": {
-    "help": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Categorías ⤞*_\n  ⟿ {0}Information\n  ⟿ {0}Interaction\n  ⟿ {0}Music\n*┗━━━━━━━━━ツ━━━━━━━━━┛*"
+    "help": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Categorías ⤞*_\n  ⟿ {0}Images\n  ⟿ {0}Information\n  ⟿ {0}Interaction\n  ⟿ {0}Music\n*┗━━━━━━━━━ツ━━━━━━━━━┛*"
   },
   "interaction": {
     "feed": "acaba de alimentar a",
@@ -17,6 +17,7 @@
     "smug": "está presumiendo"
   },
   "menus": {
+    "images": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Comandos de Imagen ⤞*_\n  ⟿ {0}3000years\n  ⟿ {0}affect\n  ⟿ {0}approved\n  ⟿ {0}beautiful\n  ⟿ {0}bed\n  ⟿ {0}blur\n  ⟿ {0}circle\n  ⟿ {0}facepalm\n  ⟿ {0}invert\n  ⟿ {0}meme\n  ⟿ {0}rejected\n  ⟿ {0}wanted\n  ⟿ {0}wasted\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
     "information": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Comandos de Información ⤞*_\n  ⟿ {0}help\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
     "interaction": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Comandos de Interacción ⤞*_\n  ⟿ {0}feed\n  ⟿ {0}hug\n  ⟿ {0}kiss\n  ⟿ {0}pat\n  ⟿ {0}slap\n  ⟿ {0}smug\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
     "music": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Comandos de Música ⤞*_\n  ⟿ {0}play\n*┗━━━━━━━━━ツ━━━━━━━━━┛*"
