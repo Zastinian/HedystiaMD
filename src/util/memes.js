@@ -5,6 +5,11 @@ module.exports = async ({ locale, customSubredditName }) => {
 		const subredditName = locale ? subreddit[locale] : subreddit.en;
 		const response = await fetch(
 			`https://reddit.hedystia.com/api/data.json?name=${customSubredditName || subredditName}`,
+			{
+				headers: {
+					"User-Agent": "https://github.com/Zastinian/HedystiaMD",
+				},
+			},
 		);
 		const memeObject = await response.json();
 
