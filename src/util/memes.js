@@ -7,7 +7,9 @@ module.exports = async ({ locale, customSubredditName }) => {
 			`https://reddit.hedystia.com/api/data?name=${customSubredditName || subredditName}`,
 			{
 				headers: {
+					"Content-Type": "application/json",
 					"User-Agent": "https://github.com/Zastinian/HedystiaMD",
+					"Authorization": "Hedystia",
 				},
 			},
 		);
