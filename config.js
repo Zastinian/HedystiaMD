@@ -1,6 +1,6 @@
 const fs = require("node:fs");
 
-globalThis.prefix = ["!"];
+globalThis.prefix = "!";
 globalThis.packname = "Hedystia Bot";
 globalThis.author = "Hedystia";
 globalThis.thumb = fs.readFileSync("./src/assets/smoke.gif");
