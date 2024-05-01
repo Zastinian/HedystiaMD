@@ -4,7 +4,7 @@ module.exports = async ({ locale, customSubredditName }) => {
 	try {
 		const subredditName = locale ? subreddit[locale] : subreddit.en;
 		const response = await fetch(
-			`https://reddit.hedystia.com/api/data.json?name=${customSubredditName || subredditName}`,
+			`https://reddit.hedystia.com/api/data?name=${customSubredditName || subredditName}`,
 			{
 				headers: {
 					"User-Agent": "https://github.com/Zastinian/HedystiaMD",
