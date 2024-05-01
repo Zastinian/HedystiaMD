@@ -72,8 +72,6 @@ module.exports = hedystia = async (hedystia, m, _chatUpdate, _store) => {
 			budy,
 		};
 
-		const lang = require(`./src/lang/${globalThis.lang}/bot.json`);
-
-		commandBot.run(hedystia, lang, m, globalThis, args, text, types);
+		commandBot.run(hedystia, hedystia.lang, m, globalThis, args, text, types);
 	} catch (err) {}
 };

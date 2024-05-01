@@ -80,6 +80,8 @@ try {
 
 		hedystia.commands = commands;
 
+		hedystia.lang = require(`./src/lang/${globalThis.lang}/bot.json`);
+
 		store.bind(hedystia.ev);
 
 		hedystia.ws.on("CB:call", async (json) => {
