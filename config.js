@@ -6,6 +6,13 @@ globalThis.author = "Hedystia";
 globalThis.thumb = fs.readFileSync("./src/assets/smoke.gif");
 
 /**
+ * @description You need to generate a token you can use the dashboard or the api discord.
+ * @link https://strangeapi.hostz.me/dashboard
+ * @link https://discord.gg/vnkHAZJRvR
+ */
+global.imageToken = "";
+
+/**
  * @default "en"
  * @param "en", "es"
  * @example
@@ -14,7 +21,7 @@ globalThis.thumb = fs.readFileSync("./src/assets/smoke.gif");
 globalThis.lang = "en";
 
 /**
- * @description To use it on windows you must download ffmpeg and put the following where the bin file is located
+ * @description To use it on windows you must download ffmpeg and put the following where the bin file is located.
  * @example
  * LINUX
  * /usr/bin/ffmpeg
