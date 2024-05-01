@@ -28,7 +28,7 @@ async function canvas(code, type = "png", quality = 0.92) {
 			body: code,
 		},
 	);
-	const image = await res.buffer();
+	const image = Buffer.from(await res.arrayBuffer(), "base64");
 	return image;
 }
 
@@ -42,7 +42,7 @@ function sticker2(img, url) {
 			if (url) {
 				const res = await fetch(url);
 				if (res.status !== 200) throw await res.text();
-				img = await res.buffer();
+				img = Buffer.from(await res.arrayBuffer(), "base64");
 			}
 			const dateGet = new Date();
 			const inp = path.join(tmp, `${+dateGet}.jpeg`, img);
@@ -105,14 +105,14 @@ async function sticker3(img, url, packname, author) {
 			}),
 		)}`,
 	);
-	return await res.buffer();
+	return Buffer.from(await res.arrayBuffer(), "base64");
 }
 
 async function sticker4(img, url) {
 	if (url) {
 		const res = await fetch(url);
 		if (res.status !== 200) throw await res.text();
-		img = await res.buffer();
+		img = Buffer.from(await res.arrayBuffer(), "base64");
 	}
 	return await ffmpeg(
 		img,
@@ -224,7 +224,7 @@ async function addExif(webpSticker, packname, author, categories = [""], extra =
 		0x49, 0x49, 0x2a, 0x00, 0x08, 0x00, 0x00, 0x00, 0x01, 0x00, 0x41, 0x57, 0x07, 0x00, 0x00, 0x00,
 		0x00, 0x00, 0x16, 0x00, 0x00, 0x00,
 	]);
-	const jsonBuffer = Buffer.from(JSON.stringify(json), "utf8");
+	const jsonBuffer = Buffer.from(JSON.stringify(json), "base64");
 	const exif = Buffer.concat([exifAttr, jsonBuffer]);
 	exif.writeUIntLE(jsonBuffer.length, 14, 4);
 	await img.load(webpSticker);
