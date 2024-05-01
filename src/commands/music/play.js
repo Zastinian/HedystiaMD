@@ -9,7 +9,7 @@ module.exports = {
 			return bot.sendMessage(
 				message.chat,
 				{
-					text: `${lang.music.play.no_song}`.replace("{0}", global.prefix[0]),
+					text: `${lang.music.play.no_song}`,
 				},
 				{ quoted: message },
 			);
