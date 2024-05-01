@@ -29,7 +29,7 @@ module.exports = hedystia = async (hedystia, m, _chatUpdate, _store) => {
 												m.text
 											: "";
 		const budy = typeof m.text == "string" ? m.text : "";
-		const isCmd = prefix.includes(body !== "" && body.slice(0, 1)) && body.slice(1) !== "";
+		const isCmd = body.startsWith(prefix) && body.slice(prefix.length).trim() !== "";
 		if (!isCmd) return;
 		const command = isCmd ? body.slice(1).trim().split(" ")[0].toLowerCase() : "";
 
