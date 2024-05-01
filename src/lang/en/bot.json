@@ -6,7 +6,7 @@
     "meme": "The meme is being downloaded and converted"
   },
   "info": {
-    "help": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Categories ⤞*_\n  ⟿ {0}Images\n  ⟿ {0}Information\n  ⟿ {0}Interaction\n  ⟿ {0}Music\n*┗━━━━━━━━━ツ━━━━━━━━━┛*"
+    "help": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Categories ⤞*_{0}\n*┗━━━━━━━━━ツ━━━━━━━━━┛*"
   },
   "interaction": {
     "feed": "has just fed",
@@ -17,14 +17,14 @@
     "smug": "is presuming"
   },
   "menus": {
-    "images": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Image Commands ⤞*_\n  ⟿ {0}3000years\n  ⟿ {0}affect\n  ⟿ {0}approved\n  ⟿ {0}beautiful\n  ⟿ {0}bed\n  ⟿ {0}blur\n  ⟿ {0}circle\n  ⟿ {0}facepalm\n  ⟿ {0}invert\n  ⟿ {0}meme\n  ⟿ {0}rejected\n  ⟿ {0}wanted\n  ⟿ {0}wasted\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
-    "information": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Information Commands ⤞*_\n  ⟿ {0}help\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
-    "interaction": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Interaction Commands ⤞*_\n  ⟿ {0}feed\n  ⟿ {0}hug\n  ⟿ {0}kiss\n  ⟿ {0}pat\n  ⟿ {0}slap\n  ⟿ {0}smug\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
-    "music": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Music Commands ⤞*_\n  ⟿ {0}play\n*┗━━━━━━━━━ツ━━━━━━━━━┛*"
+    "images": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Image Commands ⤞*_{1}\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
+    "information": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Information Commands ⤞*_{2}\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
+    "interaction": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Interaction Commands ⤞*_{3}\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
+    "music": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Music Commands ⤞*_{4}\n*┗━━━━━━━━━ツ━━━━━━━━━┛*"
   },
   "music": {
     "play": {
-      "no_song": "*You must put the song*\n\n*Example:*\n{0}play Miley Cyrus - Flowers",
+      "no_song": "*You must put the song*\n\n*Example:*\n{5}play Miley Cyrus - Flowers",
       "download": "I'm looking for and downloading the song!",
       "error": "There was an error playing the music"
     }

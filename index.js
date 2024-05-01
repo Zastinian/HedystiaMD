@@ -52,6 +52,14 @@ try {
 		}
 	});
 
+	const categories = {
+		images: "",
+		info: "",
+		interaction: "",
+		menus: "",
+		music: "",
+	};
+
 	fs.readdir("./src/commands", (err, commandFolders) => {
 		if (err) return;
 		commandFolders.forEach((folder) => {
@@ -62,6 +70,7 @@ try {
 					.forEach((file) => {
 						const command = require(`./src/commands/${folder}/${file}`);
 						if (command.name) {
+							categories[folder] += `\\n  ⟿ ${globalThis.prefix}${command.name}`;
 							commands.set(command.name, command);
 						}
 					});
@@ -80,7 +89,15 @@ try {
 
 		hedystia.commands = commands;
 
-		hedystia.lang = require(`./src/lang/${globalThis.lang}/bot.json`);
+		hedystia.lang = JSON.parse(
+			`${JSON.stringify(require(`./src/lang/${globalThis.lang}/bot.json`))}`
+				.replace("{0}", categories.menus)
+				.replace("{1}", categories.images)
+				.replace("{2}", categories.info)
+				.replace("{3}", categories.interaction)
+				.replace("{4}", categories.music)
+				.replaceAll("{5}", globalThis.prefix),
+		);
 
 		store.bind(hedystia.ev);
 
