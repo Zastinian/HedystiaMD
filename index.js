@@ -25,9 +25,18 @@ try {
 	const store = makeInMemoryStore({ logger: pino().child({ level: "silent" }) });
 	store?.readFromFile("./hedystia.json");
 
+	Object.values(store.messages).forEach((m) => m.clear());
+
 	setInterval(() => {
 		store?.writeToFile("./hedystia.json");
-	}, 10_000);
+	}, 10000);
+
+	setInterval(
+		() => {
+			Object.values(store.messages).forEach((m) => m.clear());
+		},
+		8 * 60 * 60 * 1000,
+	);
 
 	fs.readdir("./tmp", (err, files) => {
 		if (err) return;
