@@ -28,5 +28,8 @@
       "download": "I'm looking for and downloading the song!",
       "error": "There was an error playing the music"
     }
+  },
+  "automod": {
+    "antilinks": "❌ | Error: I don't have admin so I can't delete links."
   }
 }
