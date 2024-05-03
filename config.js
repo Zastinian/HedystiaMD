@@ -13,7 +13,7 @@ global.antiLinks = {
 	allowed: ["https://hedystia.com", "https://zastinian.com"],
 	admins_allowed: true,
 	/**
-	 * @method action: delete | ban | kick
+	 * @method action: delete | kick
 	 */
 	action: "delete",
 };
