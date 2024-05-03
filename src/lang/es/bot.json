@@ -28,5 +28,8 @@
       "download": "¡Estoy buscando y descargando la canción!",
       "error": "Hubo un error al reproducir la música"
     }
+  },
+  "automod": {
+    "antilinks": "❌ | Error: No tengo admin así que no puedo borrar enlaces."
   }
 }
