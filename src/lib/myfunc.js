@@ -168,11 +168,23 @@ exports.parseMention = (text = "") => {
 	return [...text.matchAll(/@([0-9]{5,16}|0)/g)].map((v) => `${v[1]}@s.whatsapp.net`);
 };
 
-exports.getGroupAdmins = (participantes) => {
+exports.getGroupOwners = async (participants) => {
+	const owners = [];
+	await participants
+		.filter((u) => u.admin === "superadmin")
+		.map((u) => {
+			owners.push(u.id);
+		});
+	return owners;
+};
+
+exports.getGroupAdmins = async (participants) => {
 	const admins = [];
-	for (const i of participantes) {
-		i.admin === "admin" ? admins.push(i.id) : "";
-	}
+	await participants
+		.filter((u) => u.admin === "admin")
+		.map((u) => {
+			admins.push(u.id);
+		});
 	return admins;
 };
 
