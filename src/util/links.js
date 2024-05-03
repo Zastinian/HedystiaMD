@@ -1,4 +1,4 @@
-export const links = [
+module.exports = [
 	"https://",
 	"https://google.com/",
 	"https:",
