@@ -35,7 +35,7 @@ try {
 		() => {
 			Object.values(store.messages).forEach((m) => m.clear());
 		},
-		8 * 60 * 60 * 1000,
+		4 * 60 * 60 * 1000,
 	);
 
 	fs.readdir("./tmp", (err, files) => {
