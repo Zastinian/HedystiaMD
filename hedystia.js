@@ -29,6 +29,9 @@ module.exports = hedystia = async (hedystia, m, _chatUpdate, _store) => {
 												m.text
 											: "";
 		const budy = typeof m.text == "string" ? m.text : "";
+		const itsMe = m.sender === hedystia.user.id;
+		if (itsMe) return;
+		const isGroup = m.isGroup;
 		const isCmd = body.startsWith(prefix) && body.slice(prefix.length).trim() !== "";
 		if (!isCmd) return;
 		const command = isCmd ? body.slice(1).trim().split(" ")[0].toLowerCase() : "";
@@ -36,7 +39,6 @@ module.exports = hedystia = async (hedystia, m, _chatUpdate, _store) => {
 		const args = body.trim().split(/ +/).slice(1);
 		const botNumber = await hedystia.decodeJid(hedystia.user.id);
 
-		const itsMe = m.sender === hedystia.user.id;
 		const text = (q = args.join(" "));
 		const quoted = m.quoted ? m.quoted : m;
 		const mime = (quoted.msg || quoted).mimetype || "";
@@ -62,6 +64,7 @@ module.exports = hedystia = async (hedystia, m, _chatUpdate, _store) => {
 		if (!commandBot) return;
 
 		const types = {
+			isGroup,
 			itsMe,
 			isMedia,
 			isBotAdmins,
