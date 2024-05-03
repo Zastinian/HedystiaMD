@@ -11,7 +11,15 @@ module.exports = async (bot, settings, message, content, lang, isOwner, isAdmin,
 	if (!isBotAdmin) {
 		await bot.sendMessage(message.chat, { text: `${lang.automod.antilinks}` }, { quoted: message });
 	} else {
-		await bot.sendMessage(m.chat, { delete: m.key });
+		switch (settings.action) {
+			case "kick":
+				await bot.sendMessage(m.chat, { delete: m.key });
+				await bot.groupParticipantsUpdate(m.chat, [m.sender], "remove");
+				break;
+			default:
+				await bot.sendMessage(m.chat, { delete: m.key });
+				break;
+		}
 	}
 	return { status: false };
 };
