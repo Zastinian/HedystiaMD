@@ -1,9 +1,5 @@
 require("./config");
 
-const fs = require("node:fs");
-
-const nsfw = JSON.parse(fs.readFileSync("./src/assets/nsfw.json"));
-const rules = JSON.parse(fs.readFileSync("./src/assets/nsfw.json"));
 const { getGroupAdmins, getGroupOwners } = require("./src/lib/myfunc");
 const antilinks = require("./src/core/antilinks");
 
@@ -36,7 +32,7 @@ module.exports = hedystia = async (hedystia, m, _chatUpdate, _store) => {
 		const botNumber = await hedystia.decodeJid(hedystia.user.id);
 
 		const isGroup = m.isGroup;
-		const groupMetadata = isGroup ? await hedystia.groupMetadata(m.chat).catch((e) => {}) : "";
+		const groupMetadata = isGroup ? await hedystia.groupMetadata(m.chat).catch(() => {}) : "";
 		const participants = isGroup ? await groupMetadata.participants : "";
 		const groupOwners = isGroup ? await getGroupOwners(participants) : "";
 		const groupAdmins = isGroup ? await getGroupAdmins(participants) : "";
@@ -73,10 +69,6 @@ module.exports = hedystia = async (hedystia, m, _chatUpdate, _store) => {
 		const mime = (quoted.msg || quoted).mimetype || "";
 		const isMedia = /image|video|sticker|audio/.test(mime);
 
-		const isNsfw = isGroup ? nsfw.includes(groupMetadata.id) : false;
-
-		const savedRules = isGroup ? rules.includes(groupMetadata.id) : false;
-
 		const used = process.memoryUsage();
 
 		if (!hedystia.public) {
@@ -93,8 +85,6 @@ module.exports = hedystia = async (hedystia, m, _chatUpdate, _store) => {
 			isBotAdmins,
 			isGroupOwners,
 			isGroupAdmins,
-			isNsfw,
-			savedRules,
 			used,
 			budy,
 		};
