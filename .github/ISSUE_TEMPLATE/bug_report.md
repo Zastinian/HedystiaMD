@@ -1,3 +1,11 @@
+---
+name: Bug report
+about: Create a bug report
+title: "[BUG]"
+labels: bug
+assignees: ""
+---
+
 # Submit a feature request or bug report
 
 Before you submit an issue, check to see if it has [already been reported][1].
