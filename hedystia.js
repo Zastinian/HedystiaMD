@@ -64,7 +64,7 @@ module.exports = hedystia = async (hedystia, m, _chatUpdate, _store) => {
 
 		const args = body.trim().split(/ +/).slice(1);
 
-		const text = (q = args.join(" "));
+		const text = args.join(" ");
 		const quoted = m.quoted ? m.quoted : m;
 		const mime = (quoted.msg || quoted).mimetype || "";
 		const isMedia = /image|video|sticker|audio/.test(mime);
