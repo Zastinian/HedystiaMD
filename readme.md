@@ -21,6 +21,14 @@
     <a href="https://github.com/Zastinian/HedystiaMD/issues/new">Report Bug</a>
     ·
     <a href="/.github/CONTRIBUTING.md">Contributing</a>
+    ·
+    <a href="https://hedystia.com/support">Discord</a>
+    ·
+    <a href="https://whatsapp.com/channel/0029VaBmaSI2Jl8FwbQLTH1c">WhatsApp</a>
+	<br />
+    <a href="https://boxmineworld.com">BoxMine World (Hosting Free/Paid)</a>
+    ·
+    <a href="https://discord.gg/84qsr4v">BoxMine World Discord (Hosting Free/Paid)</a>
   </p>
 </div>
 
@@ -60,8 +68,10 @@ Before using the bot, make sure you have the following requirements installed:
 
 > - [Invite_Discord_Bot](https://hedystia.com/invite) (Discord bot invitation)
 > - [Discord](https://hedystia.com/support)
+> - [WhatsApp](https://whatsapp.com/channel/0029VaBmaSI2Jl8FwbQLTH1c)
 > - [Website](https://hedystia.com/)
 > - [Boxmine](https://boxmineworld.com/) (You can host it from this hosting)
+> - [Boxmine Discord](https://discord.gg/84qsr4v) (You can host it from this hosting)
 
 ## Issues
 
