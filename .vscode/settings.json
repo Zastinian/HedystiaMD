@@ -12,9 +12,6 @@
   },
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.formatOnSave": true,
-  "files.associations": {
-    "*.svg": "html"
-  },
   "eslint.validate": ["javascript", "typescript"],
   "javascript.format.insertSpaceBeforeFunctionParenthesis": false,
   "typescript.format.insertSpaceBeforeFunctionParenthesis": false,
@@ -22,7 +19,6 @@
   "typescript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
   "editor.insertSpaces": false,
   "editor.detectIndentation": false,
-  "tailwindCSS.classAttributes": ["class", "className", "ngClass", "class:list"],
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }
