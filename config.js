@@ -3,12 +3,11 @@ const fs = require("node:fs");
 globalThis.prefix = "!";
 globalThis.packname = "Hedystia Bot";
 globalThis.author = "Hedystia";
-globalThis.thumb = fs.readFileSync("./src/assets/smoke.gif");
 
 /**
  * @description Configuration of the anti-links section.
  */
-global.antiLinks = {
+globalThis.antiLinks = {
 	enabled: false,
 	allowed: ["https://hedystia.com", "https://zastinian.com"],
 	admins_allowed: true,
@@ -23,7 +22,7 @@ global.antiLinks = {
  * @link https://strangeapi.hostz.me/dashboard
  * @link https://discord.gg/f7ADs3Ncu3
  */
-global.imageToken = "";
+globalThis.imageToken = "";
 
 /**
  * @default "en"
