@@ -135,10 +135,10 @@ try {
 				m = smsg(hedystia, mek, store);
 				hedystia.readMessages([mek.key]);
 				require("./hedystia")(hedystia, m, chatUpdate, store);
-			} catch (err) {}
+			} catch {}
 		});
 
-		hedystia.ev.on("group-participants.update", async (anu) => {
+		hedystia.ev.on("group-participants.update", async () => {
 			return true;
 			//   const metadata = await hedystia.groupMetadata(anu.id)
 			//   try {
@@ -315,14 +315,7 @@ try {
 			);
 			hedystia.relayMessage(jid, template.message, { messageId: template.key.id });
 		};
-		hedystia.sendButtonText = (jid, buttons = [], text, footer, quoted = "", options = {}) => {
-			const buttonMessage = {
-				text,
-				footer,
-				buttons,
-				headerType: 2,
-				...options,
-			};
+		hedystia.sendButtonText = (jid, buttons = [], text, footer, options = {}) => {
 			const template = generateWAMessageFromContent(
 				jid,
 				proto.Message.fromObject({
@@ -496,7 +489,7 @@ try {
 			let m;
 			try {
 				m = await hedystia.sendMessage(jid, message, { ...opt, ...options });
-			} catch (e) {
+			} catch {
 				m = null;
 			} finally {
 				if (!m)
@@ -532,7 +525,7 @@ try {
 			options = {},
 		) => {
 			const types = await hedystia.getFile(path, true);
-			const { mime, ext, res, data, filename } = types;
+			const { mime, res, data, filename } = types;
 			if ((res && res.status !== 200) || file.length <= 65536) {
 				try {
 					throw { json: JSON.parse(file.toString()) };

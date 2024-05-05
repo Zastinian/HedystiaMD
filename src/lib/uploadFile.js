@@ -32,7 +32,7 @@ const RESTfulAPI = async (inp) => {
 		json = JSON.parse(json);
 		if (!Array.isArray(inp)) return json.files[0].url;
 		return json.files.map((res) => res.url);
-	} catch (e) {
+	} catch {
 		throw json;
 	}
 };

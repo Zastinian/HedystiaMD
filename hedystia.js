@@ -3,7 +3,7 @@ require("./config");
 const { getGroupAdmins, getGroupOwners } = require("./src/lib/myfunc");
 const antilinks = require("./src/core/antilinks");
 
-module.exports = hedystia = async (hedystia, m, _chatUpdate, _store) => {
+module.exports = hedystia = async (hedystia, m) => {
 	try {
 		const body =
 			m.mtype === "conversation"
@@ -90,5 +90,5 @@ module.exports = hedystia = async (hedystia, m, _chatUpdate, _store) => {
 		};
 
 		commandBot.run(hedystia, lang, m, globalThis, args, text, types);
-	} catch (err) {}
+	} catch {}
 };

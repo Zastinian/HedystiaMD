@@ -2,7 +2,7 @@ const { sticker } = require("../../lib/sticker");
 
 module.exports = {
 	name: "dexter",
-	run: async (bot, _lang, message, global, _args) => {
+	run: async (bot, _lang, message, global) => {
 		const who = message.quoted
 			? message.quoted.sender
 			: message.mentionedJid && message.mentionedJid[0]

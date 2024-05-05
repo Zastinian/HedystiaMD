@@ -34,7 +34,7 @@ module.exports = {
 					fileName: `${name}`,
 				});
 			});
-		} catch (e) {
+		} catch {
 			return bot.sendMessage(message.chat, { text: lang.music.play.error }, { quoted: message });
 		}
 	},

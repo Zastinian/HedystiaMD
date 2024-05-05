@@ -69,7 +69,7 @@ function sticker2(img, url) {
 				"webp:-",
 			];
 			const im = spawn(_spawnprocess, _spawnargs);
-			im.on("error", (e) => {});
+			im.on("error", () => {});
 			im.stdout.on("data", (chunk) => bufs.push(chunk));
 			ff.stdout.pipe(im.stdin);
 			im.on("exit", () => {
@@ -197,7 +197,7 @@ async function sticker(img, url, ...args) {
 			if (stiker.includes("WEBP")) {
 				try {
 					return await addExif(stiker, ...args);
-				} catch (e) {
+				} catch {
 					return stiker;
 				}
 			}

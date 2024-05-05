@@ -1,5 +1,3 @@
-const fs = require("node:fs");
-
 globalThis.prefix = "!";
 globalThis.packname = "Hedystia Bot";
 globalThis.author = "Hedystia";
