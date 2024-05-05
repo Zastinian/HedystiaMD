@@ -22,9 +22,8 @@ exports.getRandom = (ext) => {
 	return `${Math.floor(Math.random() * 10000)}${ext}`;
 };
 
-exports.getBuffer = async (url, options) => {
+exports.getBuffer = async (url, options = {}) => {
 	try {
-		options || {};
 		const headers = {
 			"DNT": 1,
 			"Upgrade-Insecure-Request": 1,
@@ -43,9 +42,8 @@ exports.getBuffer = async (url, options) => {
 	}
 };
 
-exports.fetchJson = async (url, options) => {
+exports.fetchJson = async (url, options = {}) => {
 	try {
-		options || {};
 		const headers = {
 			"User-Agent":
 				"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36",

@@ -470,13 +470,13 @@ try {
 			else if (/image/.test(type.mime) || (/webp/.test(type.mime) && options.asImage))
 				mtype = "image";
 			else if (/video/.test(type.mime)) mtype = "video";
-			else if (/audio/.test(type.mime))
-				(convert = await toAudio(file, type.ext)),
-					(file = convert.data),
-					(pathFile = convert.filename),
-					(mtype = "audio"),
-					(mimetype = options.mimetype || "audio/ogg; codecs=opus");
-			else mtype = "document";
+			else if (/audio/.test(type.mime)) {
+				convert = await toAudio(file, type.ext);
+				file = convert.data;
+				pathFile = convert.filename;
+				mtype = "audio";
+				mimetype = options.mimetype || "audio/ogg; codecs=opus";
+			} else mtype = "document";
 			if (options.asDocument) mtype = "document";
 			const message = {
 				...options,
@@ -653,9 +653,10 @@ try {
 				ext: ".bin",
 			};
 			filename = path.join(__filename, `./tmp/${new Date() * 1}.${type.ext}`);
-			if (data && save)
-				(filename = path.join(__dirname, `./tmp/${new Date() * 1}.${type.ext}`)),
-					await fs.promises.writeFile(filename, data);
+			if (data && save) {
+				filename = path.join(__dirname, `./tmp/${new Date() * 1}.${type.ext}`);
+				await fs.promises.writeFile(filename, data);
+			}
 			return {
 				res,
 				filename,

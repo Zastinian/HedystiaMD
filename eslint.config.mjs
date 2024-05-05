@@ -32,7 +32,7 @@ export default [
 			"no-trailing-spaces": "warn",
 			"no-case-declarations": "off",
 			"no-prototype-builtins": "off",
-			"no-unused-expressions": "off",
+			"no-unused-expressions": "warn",
 			"space-before-function-paren": "off",
 			"antfu/if-newline": "off",
 			"antfu/top-level-function": "off",
