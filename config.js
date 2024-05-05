@@ -6,13 +6,13 @@ globalThis.author = "Hedystia";
  * @description Configuration of the anti-links section.
  */
 globalThis.antiLinks = {
-	enabled: false,
-	allowed: ["https://hedystia.com", "https://zastinian.com"],
-	admins_allowed: true,
-	/**
-	 * @method action: delete | kick
-	 */
-	action: "delete",
+  enabled: false,
+  allowed: ["https://hedystia.com", "https://zastinian.com"],
+  admins_allowed: true,
+  /**
+   * @method action: delete | kick
+   */
+  action: "delete",
 };
 
 /**

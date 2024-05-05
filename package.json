@@ -42,6 +42,8 @@
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-functional": "6.5.1",
     "eslint-plugin-import": "2.29.1",
+    "eslint-plugin-n": "^17.4.0",
+    "eslint-plugin-promise": "^6.1.1",
     "husky": "9.0.11",
     "prettier": "3.2.5"
   },
