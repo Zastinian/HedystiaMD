@@ -28,20 +28,31 @@ try {
 
   Object.values(store.messages).forEach((m) => m.clear());
 
-  setInterval(() => {
-    store?.writeToFile("./hedystia.json");
-  }, 10000);
-
-  setInterval(
-    () => {
-      Object.values(store.messages).forEach((m) => m.clear());
-    },
-    4 * 60 * 60 * 1000,
-  );
+  fs.readdir("./hedystia", (err, files) => {
+    if (err) {
+      return;
+    }
+    const oneDayInMillis = 24 * 60 * 60 * 1000;
+    const oneDayAgo = new Date().getTime() - oneDayInMillis;
+    files.forEach((file) => {
+      if (file === "creds.json") return true;
+      const filePath = path.join("./hedystia", file);
+      fs.stat(filePath, (err, stats) => {
+        if (err) {
+          return true;
+        }
+        if (stats.birthtimeMs <= oneDayAgo) {
+          fs.unlink(filePath, (err) => {
+            if (err) return true;
+          });
+        }
+      });
+    });
+  });
 
   fs.readdir("./tmp", (err, files) => {
     if (err) return;
-    files.map((file) => {
+    files.forEach((file) => {
       if (file === ".gitignore") return true;
       fs.unlink(`./tmp/${file}`, () => {});
       return true;
@@ -61,6 +72,38 @@ try {
       }, deleteTime);
     }
   });
+
+  setInterval(() => {
+    store?.writeToFile("./hedystia.json");
+  }, 10000);
+
+  setInterval(
+    () => {
+      Object.values(store.messages).forEach((m) => m.clear());
+      fs.readdir("./hedystia", (err, files) => {
+        if (err) {
+          return;
+        }
+        const oneDayInMillis = 24 * 60 * 60 * 1000;
+        const oneDayAgo = new Date().getTime() - oneDayInMillis;
+        files.forEach((file) => {
+          if (file === "creds.json") return true;
+          const filePath = path.join("./hedystia", file);
+          fs.stat(filePath, (err, stats) => {
+            if (err) {
+              return true;
+            }
+            if (stats.birthtimeMs <= oneDayAgo) {
+              fs.unlink(filePath, (err) => {
+                if (err) return true;
+              });
+            }
+          });
+        });
+      });
+    },
+    4 * 60 * 60 * 1000,
+  );
 
   const categories = {
     images: "",
