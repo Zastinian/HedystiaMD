@@ -41,8 +41,7 @@ export default [
 			"@stylistic/js/multiline-ternary": "off",
 			"n/prefer-global/process": "off",
 			"@stylistic/js/no-mixed-spaces-and-tabs": "off",
-			"no-unused-vars": "off",
-			"unused-imports/no-unused-vars": "off",
+			"no-unused-vars": "warn",
 			"object-curly-newline": [
 				"warn",
 				{
