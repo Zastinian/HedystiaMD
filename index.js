@@ -97,8 +97,6 @@ try {
       auth: state,
     });
 
-    let m;
-
     hedystia.commands = commands;
 
     hedystia.lang = JSON.parse(
@@ -135,9 +133,9 @@ try {
         if (mek.key && mek.key.remoteJid === "status@broadcast") return;
         if (!hedystia.public && !mek.key.fromMe && chatUpdate.type === "notify") return;
         if (mek.key.id.startsWith("BAE5") && mek.key.id.length === 16) return;
-        m = smsg(hedystia, mek, store);
+        const m = smsg(hedystia, mek, store);
         hedystia.readMessages([mek.key]);
-        require("./hedystia")(hedystia, m, chatUpdate, store);
+        require("./hedystia")(hedystia, m);
       } catch {}
     });
 
@@ -282,7 +280,7 @@ try {
         { upload: hedystia.waUploadToServer },
       );
       const template = generateWAMessageFromContent(
-        m.chat,
+        jid.chat,
         proto.Message.fromObject({
           templateMessage: {
             hydratedTemplate: {
