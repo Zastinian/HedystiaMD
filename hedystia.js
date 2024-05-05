@@ -90,6 +90,6 @@ module.exports = async (hedystia, m) => {
       budy,
     };
 
-    commandBot.run({ hedystia, lang, m, globalThis, args, text, types });
+    commandBot.run({ bot: hedystia, lang, message: m, global: globalThis, args, text, types });
   } catch {}
 };
