@@ -4,7 +4,7 @@ const DownloadYTAudio = require("../../util/downloadMusic");
 
 module.exports = {
 	name: "play",
-	run: async (bot, lang, message, global, _args, text) => {
+	run: async ({ bot, lang, message, global, text }) => {
 		if (!text)
 			return bot.sendMessage(
 				message.chat,

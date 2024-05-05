@@ -2,7 +2,7 @@ const { sticker } = require("../../lib/sticker");
 
 module.exports = {
 	name: "smug",
-	run: async (bot, lang, message) => {
+	run: async ({ bot, lang, message }) => {
 		const sender = message.sender;
 		const response = await fetch("https://nekos.life/api/v2/img/smug");
 		const body = await response.json();

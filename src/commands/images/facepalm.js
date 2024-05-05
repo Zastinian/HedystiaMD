@@ -2,7 +2,7 @@ const { sticker } = require("../../lib/sticker");
 
 module.exports = {
 	name: "facepalm",
-	run: async (bot, _lang, message, global) => {
+	run: async ({ bot, message, global }) => {
 		const who = message.quoted
 			? message.quoted.sender
 			: message.mentionedJid && message.mentionedJid[0]

@@ -89,6 +89,6 @@ module.exports = hedystia = async (hedystia, m) => {
 			budy,
 		};
 
-		commandBot.run(hedystia, lang, m, globalThis, args, text, types);
+		commandBot.run({ hedystia, lang, m, globalThis, args, text, types });
 	} catch {}
 };

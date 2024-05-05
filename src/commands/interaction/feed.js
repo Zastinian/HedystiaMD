@@ -2,7 +2,7 @@ const { sticker } = require("../../lib/sticker");
 
 module.exports = {
 	name: "feed",
-	run: async (bot, lang, message, _global, args) => {
+	run: async ({ bot, lang, message, args }) => {
 		if (!args[0])
 			return bot.sendMessage(message.chat, { text: lang.global.mention }, { quoted: message });
 		if (!bot.getName(args[0].replace("@", "")))

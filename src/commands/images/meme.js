@@ -3,7 +3,7 @@ const memes = require("../../util/memes");
 
 module.exports = {
 	name: "meme",
-	run: async (bot, lang, message, global) => {
+	run: async ({ bot, lang, message, global }) => {
 		const meme = await memes({
 			locale: global.lang,
 			customSubredditName: false,
