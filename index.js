@@ -110,6 +110,7 @@ try {
     info: "",
     interaction: "",
     menus: "",
+    mod: "",
     utils: "",
   };
 
@@ -148,7 +149,8 @@ try {
         .replace("{1}", categories.images)
         .replace("{2}", categories.info)
         .replace("{3}", categories.interaction)
-        .replace("{4}", categories.utils)
+        .replace("{4}", categories.mod)
+        .replace("{5}", categories.utils)
         .replaceAll("{5}", globalThis.prefix),
     );
 
