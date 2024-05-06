@@ -3,7 +3,7 @@ const { sticker } = require("../../lib/sticker");
 module.exports = {
   name: "affect",
   run: async ({ bot, message, global }) => {
-    const who = message.quoted
+    const user = message.quoted
       ? message.quoted.sender
       : message.mentionedJid && message.mentionedJid[0]
         ? message.mentionedJid[0]
@@ -11,7 +11,7 @@ module.exports = {
           ? bot.user.jid
           : message.sender;
     const response = await fetch(
-      `https://strangeapi.hostz.me/api/generators/affect?image=${encodeURIComponent(await bot.profilePictureUrl(who).catch(() => "https://w7.pngwing.com/pngs/717/24/png-transparent-computer-icons-user-profile-user-account-avatar-heroes-silhouette-black-thumbnail.png"))}}`,
+      `https://strangeapi.hostz.me/api/generators/affect?image=${encodeURIComponent(await bot.profilePictureUrl(user).catch(() => "https://w7.pngwing.com/pngs/717/24/png-transparent-computer-icons-user-profile-user-account-avatar-heroes-silhouette-black-thumbnail.png"))}}`,
       {
         headers: {
           Authorization: `Bearer ${global.imageToken}`,
