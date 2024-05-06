@@ -97,6 +97,10 @@ module.exports = async (hedystia, m) => {
       message: m,
       global: globalThis,
       group: groupMetadata,
+      mentions: {
+        owners: groupOwners,
+        admins: groupAdmins,
+      },
       args,
       text,
       types,
