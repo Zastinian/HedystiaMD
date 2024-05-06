@@ -92,6 +92,7 @@ module.exports = async (hedystia, m) => {
 
     commandBot.run({
       bot: hedystia,
+      botNumber,
       lang,
       message: m,
       global: globalThis,
