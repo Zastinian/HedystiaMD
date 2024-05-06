@@ -1,6 +1,11 @@
 {
   "global": {
-    "mention": "No has mencionado al usuario"
+    "noAdmin": "❌ | No tengo el permiso de admin para poder usar este comando",
+    "noUserAdmin": "❌ | Usted no tiene permiso de usar este comando",
+    "mention": "❌ | No has mencionado al usuario",
+    "mentionSelf": "❌ | No se puede mencionar a usted mismo",
+    "mentionBot": "❌ | No se puede mencionar al bot",
+    "mentionOwner": "❌ | No puede mencionar al dueño del servidor"
   },
   "images": {
     "meme": "El meme se está descargando y convirtiendo!"
@@ -20,7 +25,8 @@
     "images": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Comandos de Imagen ⤞*_{1}\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
     "information": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Comandos de Información ⤞*_{2}\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
     "interaction": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Comandos de Interacción ⤞*_{3}\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
-    "utils": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Comandos de Utilidad ⤞*_{4}\n*┗━━━━━━━━━ツ━━━━━━━━━┛*"
+    "mod": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Comando de Moderación ⤞*_{4}\n*┗━━━━━━━━━ツ━━━━━━━━━┛*",
+    "utils": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Comandos de Utilidad ⤞*_{5}\n*┗━━━━━━━━━ツ━━━━━━━━━┛*"
   },
   "music": {
     "play": {
@@ -28,6 +34,9 @@
       "download": "¡Estoy buscando y descargando la canción!",
       "error": "Hubo un error al reproducir la música"
     }
+  },
+  "mod": {
+    "kick": "✔️ | Se expulsó al usuario correctamente"
   },
   "automod": {
     "antilinks": "❌ | Error: No tengo admin así que no puedo borrar enlaces."
