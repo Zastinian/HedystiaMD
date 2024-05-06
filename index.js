@@ -23,7 +23,7 @@ const { toAudio } = require("./src/lib/converter");
 const commands = new Map();
 
 try {
-  const store = makeInMemoryStore({ logger: pino().child({ level: "silent" }) });
+  const store = makeInMemoryStore({ logger: pino({ level: "silent" }) });
   store?.readFromFile("./hedystia.json");
 
   Object.values(store.messages).forEach((m) => m.clear());
