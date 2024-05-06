@@ -110,7 +110,8 @@ try {
     info: "",
     interaction: "",
     menus: "",
-    music: "",
+    mod: "",
+    utils: "",
   };
 
   fs.readdir("./src/commands", (err, commandFolders) => {
@@ -148,7 +149,8 @@ try {
         .replace("{1}", categories.images)
         .replace("{2}", categories.info)
         .replace("{3}", categories.interaction)
-        .replace("{4}", categories.music)
+        .replace("{4}", categories.mod)
+        .replace("{5}", categories.utils)
         .replaceAll("{5}", globalThis.prefix),
     );
 

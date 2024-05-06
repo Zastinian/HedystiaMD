@@ -1,6 +1,6 @@
 {
   "name": "hedystiamd",
-  "version": "2.6.2",
+  "version": "2.7.0",
   "description": "A whatsapp bot that can be used to play music",
   "main": "index.js",
   "type": "commonjs",
@@ -22,7 +22,7 @@
   "license": "ISC",
   "dependencies": {
     "awesome-phonenumber": "2.68.0",
-    "baileys": "6.7.1",
+    "baileys": "6.7.2",
     "file-type": "16.5.3",
     "fluent-ffmpeg": "2.1.2",
     "formdata-node": "4.4.1",
@@ -37,7 +37,7 @@
   },
   "devDependencies": {
     "@types/jsonwebtoken": "^9.0.6",
-    "@types/node": "^20.12.7",
+    "@types/node": "^20.12.10",
     "eslint": "9.1.1",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-functional": "6.5.1",
