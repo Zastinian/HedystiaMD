@@ -1,6 +1,6 @@
 {
   "name": "hedystiamd",
-  "version": "2.6.1",
+  "version": "2.6.2",
   "description": "A whatsapp bot that can be used to play music",
   "main": "index.js",
   "type": "commonjs",
