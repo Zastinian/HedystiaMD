@@ -11,7 +11,8 @@
     "meme": "El meme se está descargando y convirtiendo!"
   },
   "info": {
-    "help": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Categorías ⤞*_{0}\n*┗━━━━━━━━━ツ━━━━━━━━━┛*"
+    "help": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Categorías ⤞*_{0}\n*┗━━━━━━━━━ツ━━━━━━━━━┛*",
+    "info": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  *⟿ Dueño:*\n  ⤳ Zastinian\n\n  *⟿ Versión:*\n  ⤳ {7}\n\n  *⟿ Prefix:*\n  ⤳ {6}\n\n  *⟿ GitHub:*\n  ⤳ https://github.com/Zastinian/HedystiaMD\n\n  *⟿ Web:*\n  ⤳ https://hedystia.com\n\n  *⟿ WhatsApp:*\n  ⤳ https://whatsapp.com/channel/0029VaBmaSI2Jl8FwbQLTH1c\n\n  *⟿ Discord:*\n  ⤳ https://hedystia.com/discord\n\n  *⟿ Host:*\n  ⤳ https://boxmineworld.com\n*┗━━━━━━━━━ツ━━━━━━━━━┛*"
   },
   "interaction": {
     "feed": "acaba de alimentar a",
@@ -30,7 +31,7 @@
   },
   "music": {
     "play": {
-      "no_song": "*Debes poner la canción*\n\n*Ejemplo:*\n{5}play Miley Cyrus - Flowers",
+      "no_song": "*Debes poner la canción*\n\n*Ejemplo:*\n{6}play Miley Cyrus - Flowers",
       "download": "¡Estoy buscando y descargando la canción!",
       "error": "Hubo un error al reproducir la música"
     }
