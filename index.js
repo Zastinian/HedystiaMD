@@ -19,6 +19,7 @@ const PhoneNumber = require("awesome-phonenumber");
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require("./src/lib/exif");
 const { smsg, getBuffer, sleep } = require("./src/lib/myfunc");
 const { toAudio } = require("./src/lib/converter");
+const packageData = require("./package.json");
 
 const commands = new Map();
 
@@ -151,7 +152,8 @@ try {
         .replace("{3}", categories.interaction)
         .replace("{4}", categories.mod)
         .replace("{5}", categories.utils)
-        .replaceAll("{5}", globalThis.prefix),
+        .replaceAll("{6}", globalThis.prefix)
+        .replaceAll("{7}", packageData.version),
     );
 
     store.bind(hedystia.ev);
