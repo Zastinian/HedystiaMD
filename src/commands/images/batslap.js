@@ -2,7 +2,10 @@ const { sticker } = require("../../lib/sticker");
 
 module.exports = {
   name: "batslap",
-  run: async ({ bot, message, global }) => {
+  run: async ({ bot, lang, message, global }) => {
+    if (!global.imageToken) {
+      return bot.sendMessage(message.chat, { text: `${lang.images.token}` }, { quoted: message });
+    }
     const user = message.quoted
       ? message.quoted.sender
       : message.mentionedJid && message.mentionedJid[0]
