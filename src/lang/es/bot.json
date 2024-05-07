@@ -8,7 +8,8 @@
     "mentionOwner": "❌ | No puede mencionar al dueño del servidor"
   },
   "images": {
-    "meme": "El meme se está descargando y convirtiendo!"
+    "meme": "El meme se está descargando y convirtiendo!",
+    "token": "❌ | No se ha puesto el token de la API en la configuración, puede ir al archivo de config.js para ver como se añade"
   },
   "info": {
     "help": "*┏━━━━━━━━━ツ━━━━━━━━━┓*\n  _*⤝  Categorías ⤞*_{0}\n*┗━━━━━━━━━ツ━━━━━━━━━┛*",
