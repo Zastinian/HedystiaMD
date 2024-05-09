@@ -1,7 +1,6 @@
-require("./config");
-
 const { getGroupAdmins, getGroupOwners } = require("./src/lib/myfunc");
 const antilinks = require("./src/core/antilinks");
+const packageData = require("./package.json");
 
 module.exports = async (hedystia, m) => {
   try {
@@ -31,6 +30,7 @@ module.exports = async (hedystia, m) => {
 
     const botNumber = await hedystia.decodeJid(hedystia.user.id);
 
+    const owner = globalThis.db.config.select("owner", { id: "owner" })[0].value;
     const isGroup = m.isGroup;
     const groupMetadata = isGroup ? await hedystia.groupMetadata(m.chat).catch(() => {}) : "";
     const participants = isGroup ? await groupMetadata.participants : "";
@@ -39,29 +39,64 @@ module.exports = async (hedystia, m) => {
     const isGroupOwners = isGroup ? groupOwners.includes(m.sender) : false;
     const isGroupAdmins = isGroup ? groupAdmins.includes(m.sender) : false;
     const isBotAdmins = isGroup ? groupAdmins.includes(botNumber) : false;
+    const isBotOwner = m.sender === owner;
+    const prefix = globalThis.db.config.select("prefix", { id: "prefix" })[0].value;
 
-    const lang = hedystia.lang;
+    const categories = {
+      owner: "",
+      images: "",
+      info: "",
+      interaction: "",
+      menus: "",
+      mod: "",
+      utils: "",
+    };
+
+    hedystia.commandsFolder.forEach((command) => {
+      categories[command.folder] += `\\n  ⟿ ${prefix}${command.name}`;
+    });
+
+    const lang = JSON.parse(
+      `${JSON.stringify(hedystia.langs[globalThis.db.config.select("lang", { id: "lang" })[0].value])}`
+        .replace("{0}", categories.menus)
+        .replace("{1}", categories.images)
+        .replace("{2}", categories.info)
+        .replace("{3}", categories.interaction)
+        .replace("{4}", categories.mod)
+        .replace("{5}", categories.utils)
+        .replaceAll("{6}", prefix)
+        .replaceAll("{7}", packageData.version)
+        .replaceAll("{8}", categories.owner),
+    );
+
     let cont = true;
-    if (isGroup && globalThis.antiLinks.enabled) {
-      const { status } = await antilinks(
-        hedystia,
-        globalThis.antiLinks,
-        m,
-        body,
-        lang,
-        isGroupOwners,
-        isGroupAdmins,
-        isBotAdmins,
-      );
-      cont = status;
+    if (isGroup) {
+      const antiLinks = globalThis.db.config.select("antiLinks", { id: "antiLinks" })[0];
+      if (antiLinks.enabled) {
+        const { status } = await antilinks(
+          hedystia,
+          antiLinks,
+          m,
+          body,
+          lang,
+          isGroupOwners,
+          isGroupAdmins,
+          isBotAdmins,
+        );
+        cont = status;
+      }
     }
     if (!cont) {
       return;
     }
-    const isCmd =
-      body.startsWith(globalThis.prefix) && body.slice(globalThis.prefix.length).trim() !== "";
+    const isCmd = body.startsWith(prefix) && body.slice(prefix.length).trim() !== "";
     if (!isCmd) return;
+
     const command = isCmd ? body.slice(1).trim().split(" ")[0].toLowerCase() : "";
+
+    if (!owner && command !== "init") {
+      return hedystia.sendMessage(m.chat, { text: lang.owner.noOwner }, { quoted: m });
+    }
 
     const args = body.trim().split(/ +/).slice(1);
 
@@ -79,11 +114,16 @@ module.exports = async (hedystia, m) => {
     const commandBot = await hedystia.commands.get(command);
     if (!commandBot) return;
 
+    if (commandBot.group && !isGroup) {
+      return hedystia.sendMessage(m.chat, { text: lang.owner.noGroup }, { quoted: m });
+    }
+
     const types = {
       isGroup,
       itsMe,
       isMedia,
       isBotAdmins,
+      isBotOwner,
       isGroupOwners,
       isGroupAdmins,
       used,
