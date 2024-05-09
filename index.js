@@ -721,8 +721,6 @@ try {
 
   startHedystia();
 
-  //   process.on("uncaughtException", () => {});
-  //   process.on("unhandledRejection", () => {});
-} catch (e) {
-  console.log(e);
-}
+  process.on("uncaughtException", () => {});
+  process.on("unhandledRejection", () => {});
+} catch {}
