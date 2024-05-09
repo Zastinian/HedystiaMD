@@ -1,19 +1,6 @@
-globalThis.prefix = "!";
 globalThis.packname = "Hedystia Bot";
 globalThis.author = "Hedystia";
-
-/**
- * @description Configuration of the anti-links section.
- */
-globalThis.antiLinks = {
-  enabled: false,
-  allowed: ["https://hedystia.com", "https://zastinian.com"],
-  admins_allowed: true,
-  /**
-   * @method action: delete | kick
-   */
-  action: "delete",
-};
+globalThis.db = require("./db");
 
 /**
  * @description You need to generate a token you can use the dashboard or the api discord.
@@ -21,14 +8,6 @@ globalThis.antiLinks = {
  * @link https://discord.gg/f7ADs3Ncu3
  */
 globalThis.imageToken = "";
-
-/**
- * @default "en"
- * @param "en", "es"
- * @example
- * globalThis.lang = "es"
- */
-globalThis.lang = "en";
 
 /**
  * @description To use it on windows you must download ffmpeg and put the following where the bin file is located.
