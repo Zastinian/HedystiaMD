@@ -1,5 +1,6 @@
 module.exports = {
   name: "kick",
+  group: true,
   run: async ({ bot, botNumber, lang, message, mentions, types }) => {
     if (!types.isBotAdmins) {
       return bot.sendMessage(message.chat, { text: lang.global.noAdmin }, { quoted: message });

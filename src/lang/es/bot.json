@@ -2,6 +2,8 @@
   "global": {
     "noAdmin": "❌ | No tengo el permiso de admin para poder usar este comando",
     "noUserAdmin": "❌ | Usted no tiene permiso de usar este comando",
+    "noOwner": "❌ | No eres el dueño del bot no puedes usar este comando",
+    "noGroup": "❌ | Este comando sólo puede ejecutarse en un grupo",
     "mention": "❌ | No has mencionado al usuario",
     "mentionSelf": "❌ | No se puede mencionar a usted mismo",
     "mentionBot": "❌ | No se puede mencionar al bot",
@@ -24,6 +26,7 @@
     "smug": "está presumiendo"
   },
   "menus": {
+    "owner": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Comandos del Dueño ⤞*_{8}\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
     "images": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Comandos de Imagen ⤞*_{1}\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
     "information": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Comandos de Información ⤞*_{2}\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
     "interaction": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Comandos de Interacción ⤞*_{3}\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
@@ -39,6 +42,21 @@
   },
   "mod": {
     "kick": "✔️ | Se expulsó al usuario correctamente"
+  },
+  "owner": {
+    "lang": {
+      "noLang": "❌ | No ha especificado el idioma",
+      "errorExisting": "❌ | El idioma especificado no existe, los idiomas existentes son: {custom}",
+      "correct": "✔️ | El idioma se ha cambiado correctamente ahora el nuevo idioma es: {custom}"
+    },
+    "prefix": {
+      "noPrefix": "❌ | No ha especificado el prefix",
+      "errorLength": "❌ | El prefix debe tener una longitud máxima de 6",
+      "correct": "✔️ | El prefix se ha cambiado correctamente el nuevo prefix es: {custom}"
+    },
+    "defaultOwner": "✔️ | Ahora eres el dueño del bot si quieres que otro usuario sea el nuevo dueño del bot usa el comando {6}setowner",
+    "noOwner": "❌ | El bot no tiene dueño debes usar el comando {6}init para obtener ese rango",
+    "newOwner": "✔️ | El antiguo dueño acaba de renunciar a sus privilegios y ahora hay un nuevo dueño"
   },
   "automod": {
     "antilinks": "❌ | Error: No tengo admin así que no puedo borrar enlaces."

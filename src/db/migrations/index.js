@@ -1,0 +1,22 @@
+const wait = require("../../util/wait");
+const printText = require("../../util/printText");
+
+module.exports = async (migrations, config) => {
+  const m = require(`./2024-05-09T00-20-59.327Z`);
+  if (!migrations.select("version", { date: m.date })[0]) {
+    console.log("\n");
+    const migrationStart = `\x1b[97mCreating the migrations ${m.date}\x1b[0m`;
+    printText(migrationStart, 0);
+    await wait(migrationStart.length * 100 + 1000);
+    console.log("");
+    switch (m.type) {
+      case "config":
+        await m.run(migrations, config);
+        break;
+    }
+    console.log("");
+    const migrationDone = `\x1b[95mThe creation of the  migrations ${m.date} has been completed\x1b[0m`;
+    printText(migrationDone, 0);
+    await wait(migrationDone.length * 100 + 1000);
+  }
+};

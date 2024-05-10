@@ -2,6 +2,8 @@
   "global": {
     "noAdmin": "❌ | I don't have the admin permission to use this command",
     "noUserAdmin": "❌ | You are not allowed to use this command",
+    "noOwner": "❌ | You are not the owner of the bot you cannot use this command",
+    "noGroup": "❌ | This command can only be executed in a group",
     "mention": "❌ | You have not mentioned the user",
     "mentionSelf": "❌ | You cannot mention yourself",
     "mentionBot": "❌ | You cannot mention the bot",
@@ -24,6 +26,7 @@
     "smug": "is presuming"
   },
   "menus": {
+    "owner": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Owner Commands ⤞*_{8}\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
     "images": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Image Commands ⤞*_{1}\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
     "information": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Information Commands ⤞*_{2}\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
     "interaction": "*┏━━━━━━━━━━━━ツ━━━━━━━━━━━━┓*\n  _*⤝  Interaction Commands ⤞*_{3}\n*┗━━━━━━━━━━━━ツ━━━━━━━━━━━━┛*",
@@ -39,6 +42,21 @@
   },
   "mod": {
     "kick": "✔️ | The user was successfully expelled"
+  },
+  "owner": {
+    "lang": {
+      "noLang": "❌ | You have not specified the language",
+      "errorExisting": "❌ | The specified language does not exist, the existing languages are: {custom}",
+      "correct": "✔️ | The language has been changed correctly now the new language is: {custom}"
+    },
+    "prefix": {
+      "noPrefix": "❌ | You have not specified the prefix",
+      "errorLength": "❌ | The prefix must have a maximum length of 6",
+      "correct": "✔️ | The prefix was changed correctly the new prefix is: {custom}"
+    },
+    "defaultOwner": "✔️ | Now you are the owner of the bot if you want another user to be the new bot owner use the command {6}setowner",
+    "noOwner": "❌ | The bot has no owner you must use the {6}init command to get that rank",
+    "newOwner": "✔️ | The former owner has just relinquished privileges and now there is a new owner"
   },
   "automod": {
     "antilinks": "❌ | Error: I don't have admin so I can't delete links."

@@ -19,121 +19,114 @@ const PhoneNumber = require("awesome-phonenumber");
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require("./src/lib/exif");
 const { smsg, getBuffer, sleep } = require("./src/lib/myfunc");
 const { toAudio } = require("./src/lib/converter");
-const packageData = require("./package.json");
 
 const commands = new Map();
+const commandsFolder = new Map();
 
 try {
-  const store = makeInMemoryStore({ logger: pino({ level: "silent" }) });
-  store?.readFromFile("./hedystia.json");
+  async function startHedystia() {
+    await globalThis.db.executeDBCode;
 
-  Object.values(store.messages).forEach((m) => m.clear());
+    const store = makeInMemoryStore({ logger: pino({ level: "silent" }) });
+    store?.readFromFile("./hedystia.json");
 
-  fs.readdir("./hedystia", (err, files) => {
-    if (err) {
-      return;
-    }
-    const oneDayInMillis = 24 * 60 * 60 * 1000;
-    const oneDayAgo = new Date().getTime() - oneDayInMillis;
-    files.forEach((file) => {
-      if (file === "creds.json") return true;
-      const filePath = path.join("./hedystia", file);
-      fs.stat(filePath, (err, stats) => {
-        if (err) {
-          return true;
+    Object.values(store.messages).forEach((m) => m.clear());
+
+    fs.readdir("./hedystia", (err, files) => {
+      if (err) {
+        return;
+      }
+      const oneDayInMillis = 7 * 24 * 60 * 60 * 1000;
+      const oneDayAgo = new Date().getTime() - oneDayInMillis;
+      files.forEach((file) => {
+        if (file === "creds.json") return true;
+        const filePath = path.join("./hedystia", file);
+        fs.stat(filePath, (err, stats) => {
+          if (err) {
+            return true;
+          }
+          if (stats.birthtimeMs <= oneDayAgo) {
+            fs.unlink(filePath, (err) => {
+              if (err) return true;
+            });
+          }
+        });
+      });
+    });
+
+    fs.readdir("./tmp", (err, files) => {
+      if (err) return;
+      files.forEach((file) => {
+        if (file === ".gitignore") return true;
+        fs.unlink(`./tmp/${file}`, () => {});
+        return true;
+      });
+    });
+
+    fs.watch("./tmp", (eventType, filename) => {
+      if (eventType === "rename") {
+        let deleteTime = 30000;
+        if (filename.includes(".mp3")) {
+          deleteTime = 120000;
         }
-        if (stats.birthtimeMs <= oneDayAgo) {
-          fs.unlink(filePath, (err) => {
+        setTimeout(() => {
+          fs.unlink(`./tmp/${filename}`, (err) => {
             if (err) return true;
           });
-        }
-      });
-    });
-  });
-
-  fs.readdir("./tmp", (err, files) => {
-    if (err) return;
-    files.forEach((file) => {
-      if (file === ".gitignore") return true;
-      fs.unlink(`./tmp/${file}`, () => {});
-      return true;
-    });
-  });
-
-  fs.watch("./tmp", (eventType, filename) => {
-    if (eventType === "rename") {
-      let deleteTime = 30000;
-      if (filename.includes(".mp3")) {
-        deleteTime = 120000;
+        }, deleteTime);
       }
-      setTimeout(() => {
-        fs.unlink(`./tmp/${filename}`, (err) => {
-          if (err) return true;
-        });
-      }, deleteTime);
-    }
-  });
+    });
 
-  setInterval(() => {
-    store?.writeToFile("./hedystia.json");
-  }, 10000);
+    setInterval(() => {
+      store?.writeToFile("./hedystia.json");
+    }, 10000);
 
-  setInterval(
-    () => {
-      Object.values(store.messages).forEach((m) => m.clear());
-      fs.readdir("./hedystia", (err, files) => {
-        if (err) {
-          return;
-        }
-        const oneDayInMillis = 24 * 60 * 60 * 1000;
-        const oneDayAgo = new Date().getTime() - oneDayInMillis;
-        files.forEach((file) => {
-          if (file === "creds.json") return true;
-          const filePath = path.join("./hedystia", file);
-          fs.stat(filePath, (err, stats) => {
-            if (err) {
-              return true;
-            }
-            if (stats.birthtimeMs <= oneDayAgo) {
-              fs.unlink(filePath, (err) => {
-                if (err) return true;
-              });
-            }
+    setInterval(
+      () => {
+        Object.values(store.messages).forEach((m) => m.clear());
+        fs.readdir("./hedystia", (err, files) => {
+          if (err) {
+            return;
+          }
+          const oneDayInMillis = 7 * 24 * 60 * 60 * 1000;
+          const oneDayAgo = new Date().getTime() - oneDayInMillis;
+          files.forEach((file) => {
+            if (file === "creds.json") return true;
+            const filePath = path.join("./hedystia", file);
+            fs.stat(filePath, (err, stats) => {
+              if (err) {
+                return true;
+              }
+              if (stats.birthtimeMs <= oneDayAgo) {
+                fs.unlink(filePath, (err) => {
+                  if (err) return true;
+                });
+              }
+            });
           });
         });
-      });
-    },
-    4 * 60 * 60 * 1000,
-  );
+      },
+      4 * 60 * 60 * 1000,
+    );
 
-  const categories = {
-    images: "",
-    info: "",
-    interaction: "",
-    menus: "",
-    mod: "",
-    utils: "",
-  };
-
-  fs.readdir("./src/commands", (err, commandFolders) => {
-    if (err) return;
-    commandFolders.forEach((folder) => {
-      fs.readdir(`./src/commands/${folder}`, (err, commandFiles) => {
-        if (err) return;
-        commandFiles
-          .filter((file) => file.endsWith(".js"))
-          .forEach((file) => {
-            const command = require(`./src/commands/${folder}/${file}`);
-            if (command.name) {
-              categories[folder] += `\\n  ⟿ ${globalThis.prefix}${command.name}`;
-              commands.set(command.name, command);
-            }
-          });
+    fs.readdir("./src/commands", (err, commandFolders) => {
+      if (err) return;
+      commandFolders.forEach((folder) => {
+        fs.readdir(`./src/commands/${folder}`, (err, commandFiles) => {
+          if (err) return;
+          commandFiles
+            .filter((file) => file.endsWith(".js"))
+            .forEach((file) => {
+              const command = require(`./src/commands/${folder}/${file}`);
+              if (command.name) {
+                commands.set(command.name, command);
+                commandsFolder.set(command.name, { folder, name: command.name });
+              }
+            });
+        });
       });
     });
-  });
 
-  async function startHedystia() {
     const { state, saveCreds } = await useMultiFileAuthState("hedystia");
     const hedystia = hedystiaConnect({
       logger: pino({ level: "silent" }),
@@ -142,19 +135,13 @@ try {
       auth: state,
     });
 
-    hedystia.commands = commands;
+    hedystia.langs = {
+      en: require(`./src/lang/en/bot.json`),
+      es: require(`./src/lang/es/bot.json`),
+    };
 
-    hedystia.lang = JSON.parse(
-      `${JSON.stringify(require(`./src/lang/${globalThis.lang}/bot.json`))}`
-        .replace("{0}", categories.menus)
-        .replace("{1}", categories.images)
-        .replace("{2}", categories.info)
-        .replace("{3}", categories.interaction)
-        .replace("{4}", categories.mod)
-        .replace("{5}", categories.utils)
-        .replaceAll("{6}", globalThis.prefix)
-        .replaceAll("{7}", packageData.version),
-    );
+    hedystia.commands = commands;
+    hedystia.commandsFolder = commandsFolder;
 
     store.bind(hedystia.ev);
 
@@ -310,14 +297,14 @@ try {
       }
       console.clear();
       console.log(`
-    ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄  ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄ ▄▄▄▄▄▄
-    █  █ █  █       █      ██  █ █  █       █       █   █      █
-    █  █▄█  █    ▄▄▄█  ▄    █  █▄█  █  ▄▄▄▄▄█▄     ▄█   █  ▄   █
-    █       █   █▄▄▄█ █ █   █       █ █▄▄▄▄▄  █   █ █   █ █▄█  █
-    █   ▄   █    ▄▄▄█ █▄█   █▄     ▄█▄▄▄▄▄  █ █   █ █   █      █
-    █  █ █  █   █▄▄▄█       █ █   █  ▄▄▄▄▄█ █ █   █ █   █  ▄   █
-    █▄▄█ █▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄█  █▄▄▄█ █▄▄▄▄▄▄▄█ █▄▄▄█ █▄▄▄█▄█ █▄▄█
-    `);
+      ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄  ▄▄   ▄▄ ▄▄▄▄▄▄▄ ▄▄▄▄▄▄▄ ▄▄▄ ▄▄▄▄▄▄
+      █  █ █  █       █      ██  █ █  █       █       █   █      █
+      █  █▄█  █    ▄▄▄█  ▄    █  █▄█  █  ▄▄▄▄▄█▄     ▄█   █  ▄   █
+      █       █   █▄▄▄█ █ █   █       █ █▄▄▄▄▄  █   █ █   █ █▄█  █
+      █   ▄   █    ▄▄▄█ █▄█   █▄     ▄█▄▄▄▄▄  █ █   █ █   █      █
+      █  █ █  █   █▄▄▄█       █ █   █  ▄▄▄▄▄█ █ █   █ █   █  ▄   █
+      █▄▄█ █▄▄█▄▄▄▄▄▄▄█▄▄▄▄▄▄█  █▄▄▄█ █▄▄▄▄▄▄▄█ █▄▄▄█ █▄▄▄█▄█ █▄▄█
+      `);
     });
 
     hedystia.ev.on("creds.update", saveCreds);
