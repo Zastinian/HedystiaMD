@@ -16,7 +16,7 @@
   "author": "contact@hedystia.com",
   "license": "ISC",
   "dependencies": {
-    "@hedystia/db-rs": "^1.7.1",
+    "@hedystia/db-rs": "^1.8.1",
     "awesome-phonenumber": "2.68.0",
     "baileys": "6.7.2",
     "file-type": "16.5.3",
