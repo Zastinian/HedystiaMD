@@ -25,7 +25,7 @@ exports.getRandom = (ext) => {
 exports.getBuffer = async (url, options = {}) => {
   try {
     const headers = {
-      "DNT": 1,
+      DNT: 1,
       "Upgrade-Insecure-Request": 1,
     };
 

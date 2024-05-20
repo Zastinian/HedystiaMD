@@ -7,21 +7,16 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js",
-    "lint": "eslint . -c eslint.config.mjs",
-    "lint:fix": "eslint . --fix -c eslint.config.mjs",
-    "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "check": "biome ci .",
+    "lint": "biome lint --apply .",
+    "format": "biome format --write .",
     "prepare:git": "husky"
   },
-  "keywords": [
-    "baileys",
-    "hedystia",
-    "whatsapp"
-  ],
+  "keywords": ["baileys", "hedystia", "whatsapp"],
   "author": "contact@hedystia.com",
   "license": "ISC",
   "dependencies": {
-    "@hedystia/db": "^1.5.0",
+    "@hedystia/db": "^1.6.0",
     "awesome-phonenumber": "2.68.0",
     "baileys": "6.7.2",
     "file-type": "16.5.3",
@@ -37,16 +32,10 @@
     "ytdl-core": "^4.11.5"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.7.3",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.12.10",
-    "eslint": "9.1.1",
-    "eslint-config-prettier": "9.1.0",
-    "eslint-plugin-functional": "6.5.1",
-    "eslint-plugin-import": "2.29.1",
-    "eslint-plugin-n": "^17.4.0",
-    "eslint-plugin-promise": "^6.1.1",
-    "husky": "9.0.11",
-    "prettier": "3.2.5"
+    "husky": "9.0.11"
   },
   "directories": {
     "src": "src"

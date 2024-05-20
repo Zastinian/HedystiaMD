@@ -248,7 +248,9 @@ try {
       for (const i of kon) {
         list.push({
           displayName: await hedystia.getName(`${i}@s.whatsapp.net`),
-          vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await hedystia.getName(`${i}@s.whatsapp.net`)}\nFN:${await hedystia.getName(
+          vcard: `BEGIN:VCARD\nVERSION:3.0\nN:${await hedystia.getName(
+            `${i}@s.whatsapp.net`,
+          )}\nFN:${await hedystia.getName(
             `${i}@s.whatsapp.net`,
           )}\nitem1.TEL;waid=${i}:${i}\nitem1.X-ABLabel:Ponsel\nitem2.EMAIL;type=INTERNET:contact@hedystia.com\nitem2.X-ABLabel:Email\nEND:VCARD`,
         });

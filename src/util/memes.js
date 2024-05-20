@@ -9,7 +9,7 @@ module.exports = async ({ locale, customSubredditName }) => {
         headers: {
           "Content-Type": "application/json",
           "User-Agent": "https://github.com/Zastinian/HedystiaMD",
-          "Authorization": "Hedystia",
+          Authorization: "Hedystia",
         },
       },
     );
