@@ -18,7 +18,7 @@
   "dependencies": {
     "@hedystia/db-rs": "^1.8.1",
     "awesome-phonenumber": "2.68.0",
-    "baileys": "6.7.2",
+    "baileys": "6.7.4",
     "file-type": "16.5.3",
     "fluent-ffmpeg": "2.1.2",
     "formdata-node": "4.4.1",
