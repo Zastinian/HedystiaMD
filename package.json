@@ -1,6 +1,6 @@
 {
   "name": "hedystiamd",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "A whatsapp bot that can be used to play music",
   "main": "index.js",
   "type": "commonjs",
@@ -16,7 +16,7 @@
   "author": "contact@hedystia.com",
   "license": "ISC",
   "dependencies": {
-    "@hedystia/db-rs": "^1.8.1",
+    "@hedystia/db": "^1.8.0",
     "awesome-phonenumber": "2.68.0",
     "baileys": "6.7.4",
     "file-type": "16.5.3",

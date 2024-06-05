@@ -1,4 +1,4 @@
-const Database = require("@hedystia/db-rs");
+const Database = require("@hedystia/db");
 const fs = require("fs");
 const packageData = require("./package.json");
 const wait = require("./src/util/wait");
