@@ -2,9 +2,7 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
-    "package.json": "pnpm-lock.yaml, package-lock.json, yarn.lock, bun.lockb",
-    ".prettierrc.mjs": ".prettierignore",
-    "eslint.config.mjs": ".lintstagedrc"
+    "package.json": "pnpm-lock.yaml, package-lock.json, yarn.lock, bun.lockb"
   },
   "editor.linkedEditing": true,
   "editor.codeActionsOnSave": {
