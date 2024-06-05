@@ -2,17 +2,14 @@
   "explorer.fileNesting.enabled": true,
   "explorer.fileNesting.expand": false,
   "explorer.fileNesting.patterns": {
-    "package.json": "pnpm-lock.yaml, package-lock.json, yarn.lock, bun.lockb",
-    ".prettierrc.mjs": ".prettierignore",
-    "eslint.config.mjs": ".lintstagedrc"
+    "package.json": "pnpm-lock.yaml, package-lock.json, yarn.lock, bun.lockb"
   },
   "editor.linkedEditing": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": "explicit"
   },
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.defaultFormatter": "biomejs.biome",
   "editor.formatOnSave": true,
-  "eslint.validate": ["javascript", "typescript"],
   "javascript.format.insertSpaceBeforeFunctionParenthesis": false,
   "typescript.format.insertSpaceBeforeFunctionParenthesis": false,
   "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
@@ -20,6 +17,12 @@
   "editor.insertSpaces": false,
   "editor.detectIndentation": false,
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "biomejs.biome"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "biomejs.biome"
   }
 }

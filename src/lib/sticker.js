@@ -217,7 +217,7 @@ async function addExif(webpSticker, packname, author, categories = [""], extra =
     "sticker-pack-id": stickerPackId,
     "sticker-pack-name": packname,
     "sticker-pack-publisher": author,
-    "emojis": categories,
+    emojis: categories,
     ...extra,
   };
   const exifAttr = Buffer.from([

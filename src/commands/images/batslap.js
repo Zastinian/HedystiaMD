@@ -14,7 +14,21 @@ module.exports = {
           ? bot.user.jid
           : message.sender;
     const response = await fetch(
-      `https://strangeapi.hostz.me/api/generators/batslap?image1=${encodeURIComponent(await bot.profilePictureUrl(message.sender ?? message.quoted.sender).catch(() => "https://w7.pngwing.com/pngs/717/24/png-transparent-computer-icons-user-profile-user-account-avatar-heroes-silhouette-black-thumbnail.png"))}&image2=${encodeURIComponent(await bot.profilePictureUrl(user).catch(() => "https://w7.pngwing.com/pngs/717/24/png-transparent-computer-icons-user-profile-user-account-avatar-heroes-silhouette-black-thumbnail.png"))}`,
+      `https://strangeapi.hostz.me/api/generators/batslap?image1=${encodeURIComponent(
+        await bot
+          .profilePictureUrl(message.sender ?? message.quoted.sender)
+          .catch(
+            () =>
+              "https://w7.pngwing.com/pngs/717/24/png-transparent-computer-icons-user-profile-user-account-avatar-heroes-silhouette-black-thumbnail.png",
+          ),
+      )}&image2=${encodeURIComponent(
+        await bot
+          .profilePictureUrl(user)
+          .catch(
+            () =>
+              "https://w7.pngwing.com/pngs/717/24/png-transparent-computer-icons-user-profile-user-account-avatar-heroes-silhouette-black-thumbnail.png",
+          ),
+      )}`,
       {
         headers: {
           Authorization: `Bearer ${global.imageToken}`,

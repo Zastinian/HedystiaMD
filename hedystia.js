@@ -57,7 +57,9 @@ module.exports = async (hedystia, m) => {
     });
 
     const lang = JSON.parse(
-      `${JSON.stringify(hedystia.langs[globalThis.db.config.select("lang", { id: "lang" })[0].value])}`
+      `${JSON.stringify(
+        hedystia.langs[globalThis.db.config.select("lang", { id: "lang" })[0].value],
+      )}`
         .replace("{0}", categories.menus)
         .replace("{1}", categories.images)
         .replace("{2}", categories.info)

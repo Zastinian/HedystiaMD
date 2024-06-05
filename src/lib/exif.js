@@ -98,7 +98,7 @@ async function writeExifImg(media, metadata) {
       "sticker-pack-id": "https://github.com/Zastinian/HedystiaMD",
       "sticker-pack-name": metadata.packname,
       "sticker-pack-publisher": metadata.author,
-      "emojis": metadata.categories ? metadata.categories : [""],
+      emojis: metadata.categories ? metadata.categories : [""],
     };
     const exifAttr = Buffer.from([
       0x49, 0x49, 0x2a, 0x00, 0x08, 0x00, 0x00, 0x00, 0x01, 0x00, 0x41, 0x57, 0x07, 0x00, 0x00,
@@ -133,7 +133,7 @@ async function writeExifVid(media, metadata) {
       "sticker-pack-id": "https://github.com/Zastinian/HedystiaMD",
       "sticker-pack-name": metadata.packname,
       "sticker-pack-publisher": metadata.author,
-      "emojis": metadata.categories ? metadata.categories : [""],
+      emojis: metadata.categories ? metadata.categories : [""],
     };
     const exifAttr = Buffer.from([
       0x49, 0x49, 0x2a, 0x00, 0x08, 0x00, 0x00, 0x00, 0x01, 0x00, 0x41, 0x57, 0x07, 0x00, 0x00,
@@ -174,7 +174,7 @@ async function writeExif(media, metadata) {
       "sticker-pack-id": "https://github.com/Zastinian/HedystiaMD",
       "sticker-pack-name": metadata.packname,
       "sticker-pack-publisher": metadata.author,
-      "emojis": metadata.categories ? metadata.categories : [""],
+      emojis: metadata.categories ? metadata.categories : [""],
     };
     const exifAttr = Buffer.from([
       0x49, 0x49, 0x2a, 0x00, 0x08, 0x00, 0x00, 0x00, 0x01, 0x00, 0x41, 0x57, 0x07, 0x00, 0x00,

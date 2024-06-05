@@ -54,6 +54,18 @@
       "errorLength": "❌ | El prefix debe tener una longitud máxima de 6",
       "correct": "✔️ | El prefix se ha cambiado correctamente el nuevo prefix es: {custom}"
     },
+    "antiLinks": {
+      "enabled": "✔️ | El sistema de anti-links ha sido activado.",
+      "disabled": "✔️ | El sistema de anti-links ha sido desactivado.",
+      "noLink": "❌ | Por favor, proporciona un enlace.",
+      "added": "✔️ | El enlace ha sido añadido a la lista de permitidos:",
+      "removed": "✔️ | El enlace ha sido eliminado de la lista de permitidos:",
+      "invalidAction": "❌ | Acción no válida. Usa 'delete' o 'warn'.",
+      "actionSet": "✔️ | La acción para los enlaces no permitidos ha sido establecida a:",
+      "noLinks": "❌ | No hay enlaces permitidos.",
+      "list": "✔️ | Enlaces permitidos:",
+      "usage": "Uso: antiLinks <enable|disable|add|remove|action|list> [argumento]"
+    },
     "defaultOwner": "✔️ | Ahora eres el dueño del bot si quieres que otro usuario sea el nuevo dueño del bot usa el comando {6}setowner",
     "noOwner": "❌ | El bot no tiene dueño debes usar el comando {6}init para obtener ese rango",
     "newOwner": "✔️ | El antiguo dueño acaba de renunciar a sus privilegios y ahora hay un nuevo dueño"

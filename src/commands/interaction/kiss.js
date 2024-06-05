@@ -16,7 +16,9 @@ module.exports = {
     const stiker = await sticker(
       null,
       image,
-      `${bot.getName(sender.replace("@s.whatsapp.net", ""))} ${lang.interaction.kiss} ${bot.getName(args[0].replace("@", ""))}`,
+      `${bot.getName(sender.replace("@s.whatsapp.net", ""))} ${lang.interaction.kiss} ${bot.getName(
+        args[0].replace("@", ""),
+      )}`,
     );
     bot.sendFile(message.chat, stiker, null, { asSticker: true });
   },

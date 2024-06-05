@@ -115,7 +115,7 @@ module.exports = {
       admins_allowed: true,
       action: "delete",
     });
-    config.insert("owner", { id: "owner", value: null });
+    config.insert("owner", { id: "owner", value: false });
     const p = await getPrefix();
     config.insert("prefix", { id: "prefix", value: p });
     const l = await getLang();
