@@ -1,7 +1,7 @@
 const { sticker } = require("../../lib/sticker");
 
 module.exports = {
-  name: "bobross",
+  name: "mms",
   run: async ({ bot, lang, message, global }) => {
     if (!global.imageToken) {
       return bot.sendMessage(message.chat, { text: `${lang.images.token}` }, { quoted: message });
@@ -14,7 +14,7 @@ module.exports = {
           ? bot.user.jid
           : message.sender;
     const response = await fetch(
-      `https://strangeapi.hostz.me/api/generators/bobross?image=${encodeURIComponent(
+      `https://strangeapi.hostz.me/api/generators/mms?image=${encodeURIComponent(
         await bot
           .profilePictureUrl(user)
           .catch(

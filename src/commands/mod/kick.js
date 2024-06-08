@@ -6,7 +6,7 @@ module.exports = {
       return bot.sendMessage(message.chat, { text: lang.global.noAdmin }, { quoted: message });
     }
     if (types.isGroupOwners || types.isGroupAdmins) {
-      const user = message.mentionedJid && message.mentionedJid[0];
+      const user = message.mentionedJid?.[0];
       if (!user) {
         return bot.sendMessage(message.chat, { text: lang.global.mention }, { quoted: message });
       }
@@ -29,8 +29,7 @@ module.exports = {
       }
       await bot.groupParticipantsUpdate(message.chat, [user], "remove");
       return bot.sendMessage(message.chat, { text: `${lang.mod.kick}` }, { quoted: message });
-    } else {
-      return bot.sendMessage(message.chat, { text: lang.global.noUserAdmin }, { quoted: message });
     }
+    return bot.sendMessage(message.chat, { text: lang.global.noUserAdmin }, { quoted: message });
   },
 };

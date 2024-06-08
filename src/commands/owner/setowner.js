@@ -4,7 +4,7 @@ module.exports = {
     if (!types.isBotOwner) {
       return bot.sendMessage(message.chat, { text: lang.global.noOwner }, { quoted: message });
     }
-    const user = message.mentionedJid && message.mentionedJid[0];
+    const user = message.mentionedJid?.[0];
     if (!user) {
       return bot.sendMessage(message.chat, { text: lang.global.mention }, { quoted: message });
     }

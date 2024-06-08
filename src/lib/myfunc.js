@@ -1,5 +1,5 @@
-const util = require("node:util");
-const { Buffer } = require("node:buffer");
+const util = require("util");
+const { Buffer } = require("buffer");
 const { proto, getContentType } = require("baileys");
 const moment = require("moment-timezone");
 const Jimp = require("jimp");
@@ -9,6 +9,7 @@ const unixTimestampSeconds = (date = new Date()) => Math.floor(date.getTime() / 
 exports.unixTimestampSeconds = unixTimestampSeconds;
 
 exports.generateMessageTag = (epoch) => {
+  // biome-ignore lint/style/noCommaOperator: <explanation>
   let tag = (0, exports.unixTimestampSeconds)().toString();
   if (epoch) tag += `.--${epoch}`;
   return tag;
@@ -62,7 +63,8 @@ exports.fetchJson = async (url, options = {}) => {
   }
 };
 
-exports.runtime = function (seconds) {
+exports.runtime = (sec) => {
+  let seconds = sec;
   seconds = Number(seconds);
   const d = Math.floor(seconds / (3600 * 24));
   const h = Math.floor((seconds % (3600 * 24)) / 3600);
@@ -75,7 +77,7 @@ exports.runtime = function (seconds) {
   return dDisplay + hDisplay + mDisplay + sDisplay;
 };
 
-exports.clockString = function (seconds) {
+exports.clockString = (seconds) => {
   const h = Number.isNaN(seconds) ? "--" : Math.floor((seconds % (3600 * 24)) / 3600);
   const m = Number.isNaN(seconds) ? "--" : Math.floor((seconds % 3600) / 60);
   const s = Number.isNaN(seconds) ? "--" : Math.floor(seconds % 60);
@@ -95,9 +97,8 @@ exports.isUrl = (url) => {
 exports.getTime = (format, date) => {
   if (date) {
     return moment(date).locale("id").format(format);
-  } else {
-    return moment.tz("America/Sao_Paulo").locale("id").format(format);
   }
+  return moment.tz("America/Sao_Paulo").locale("id").format(format);
 };
 
 exports.formatDate = (n, locale = "id") => {
@@ -223,6 +224,7 @@ exports.smsg = (conn, m, store) => {
       (m.mtype === "buttonsResponseMessage" && m.msg.selectedButtonId) ||
       (m.mtype === "viewOnceMessage" && m.msg.caption) ||
       m.text;
+    // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
     const quoted = (m.quoted = m.msg.contextInfo ? m.msg.contextInfo.quotedMessage : null);
     m.mentionedJid = m.msg.contextInfo ? m.msg.contextInfo.mentionedJid : [];
     if (m.quoted) {
@@ -244,7 +246,7 @@ exports.smsg = (conn, m, store) => {
         ? m.quoted.id.startsWith("BAE5") && m.quoted.id.length === 16
         : false;
       m.quoted.sender = conn.decodeJid(m.msg.contextInfo.participant);
-      m.quoted.fromMe = m.quoted.sender === (conn.user && conn.user.id);
+      m.quoted.fromMe = m.quoted.sender === conn.user?.id;
       m.quoted.text =
         m.quoted.text ||
         m.quoted.caption ||
@@ -259,6 +261,7 @@ exports.smsg = (conn, m, store) => {
         const q = await store.loadMessage(m.chat, m.quoted.id, conn);
         return exports.smsg(conn, q, store);
       };
+      // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
       const vM = (m.quoted.fakeObj = M.fromObject({
         key: {
           remoteJid: m.quoted.chat,

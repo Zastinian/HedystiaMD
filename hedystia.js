@@ -52,9 +52,9 @@ module.exports = async (hedystia, m) => {
       utils: "",
     };
 
-    hedystia.commandsFolder.forEach((command) => {
+    for (const command of hedystia.commandsFolder) {
       categories[command.folder] += `\\n  ⟿ ${prefix}${command.name}`;
-    });
+    }
 
     const lang = JSON.parse(
       `${JSON.stringify(

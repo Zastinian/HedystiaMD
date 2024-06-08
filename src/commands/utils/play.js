@@ -1,4 +1,4 @@
-const path = require("node:path");
+const path = require("path");
 const yts = require("yt-search");
 const DownloadYTAudio = require("../../util/downloadMusic");
 
@@ -25,7 +25,7 @@ module.exports = {
     try {
       const r = await yts(text);
       const videos = r.videos.slice(0, 1);
-      videos.forEach(async (v) => {
+      for (const v of videos) {
         bot.sendMessage(message.chat, { text: lang.music.play.download }, { quoted: message });
         const name = `0x${v.videoId}${Date.now()}x0.mp3`;
         await downloader.download(v.videoId, name);
@@ -34,7 +34,7 @@ module.exports = {
           mimetype: "audio/mpeg",
           fileName: `${name}`,
         });
-      });
+      }
     } catch {
       return bot.sendMessage(message.chat, { text: lang.music.play.error }, { quoted: message });
     }
