@@ -2,7 +2,7 @@ const wait = require("../../util/wait");
 const printText = require("../../util/printText");
 
 module.exports = async (migrations, config) => {
-  const m = require(`./2024-05-09T00-20-59.327Z`);
+  const m = require("./2024-05-09T00-20-59.327Z");
   if (!migrations.select("version", { date: m.date })[0]) {
     console.log("\n");
     const migrationStart = `\x1b[97mCreating the migrations ${m.date}\x1b[0m`;

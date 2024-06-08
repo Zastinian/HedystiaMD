@@ -1,6 +1,6 @@
-const path = require("node:path");
-const { spawn } = require("node:child_process");
-const { promises } = require("node:fs");
+const path = require("path");
+const { spawn } = require("child_process");
+const { promises } = require("fs");
 
 function ffmpeg(buffer, args = [], ext = "", ext2 = "") {
   return new Promise((resolve, reject) => {

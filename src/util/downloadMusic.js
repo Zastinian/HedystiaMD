@@ -1,5 +1,5 @@
-const { once, EventEmitter } = require("node:events");
-const path = require("node:path");
+const { once, EventEmitter } = require("events");
+const path = require("path");
 const ytdl = require("ytdl-core");
 const ffmpeg = require("fluent-ffmpeg");
 

@@ -43,14 +43,13 @@ module.exports = {
         { text: `${lang.owner.lang.correct}`.replace("{custom}", n) },
         { quoted: message },
       );
-    } else {
-      return bot.sendMessage(
-        message.chat,
-        {
-          text: `${lang.owner.lang.errorExisting}`.replace("{custom}", "english, español"),
-        },
-        { quoted: message },
-      );
     }
+    return bot.sendMessage(
+      message.chat,
+      {
+        text: `${lang.owner.lang.errorExisting}`.replace("{custom}", "english, español"),
+      },
+      { quoted: message },
+    );
   },
 };

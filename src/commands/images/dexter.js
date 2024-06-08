@@ -8,7 +8,7 @@ module.exports = {
     }
     const user = message.quoted
       ? message.quoted.sender
-      : message.mentionedJid && message.mentionedJid[0]
+      : message.mentionedJid?.[0]
         ? message.mentionedJid[0]
         : message.fromMe
           ? bot.user.jid

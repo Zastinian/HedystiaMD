@@ -37,7 +37,7 @@ const RESTfulAPI = async (inp) => {
   }
 };
 
-module.exports = async function (inp) {
+module.exports = async (inp) => {
   let err = false;
   for (const upload of [RESTfulAPI, fileIO]) {
     try {

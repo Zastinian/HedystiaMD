@@ -25,7 +25,7 @@ module.exports = {
           { quoted: message },
         );
 
-      case "add":
+      case "add": {
         if (!subArgs[0]) {
           return bot.sendMessage(
             message.chat,
@@ -33,7 +33,7 @@ module.exports = {
             { quoted: message },
           );
         }
-        let config = global.db.config.get("antiLinks", { id: "antiLinks" });
+        const config = global.db.config.get("antiLinks", { id: "antiLinks" });
         if (!config.allowed.includes(subArgs[0])) {
           config.allowed.push(subArgs[0]);
           global.db.config.update("antiLinks", { id: "antiLinks" }, { allowed: config.allowed });
@@ -43,8 +43,9 @@ module.exports = {
           { text: `${lang.owner.antiLinks.added} ${subArgs[0]}` },
           { quoted: message },
         );
+      }
 
-      case "remove":
+      case "remove": {
         if (!subArgs[0]) {
           return bot.sendMessage(
             message.chat,
@@ -63,6 +64,7 @@ module.exports = {
           { text: `${lang.owner.antiLinks.removed} ${subArgs[0]}` },
           { quoted: message },
         );
+      }
 
       case "action":
         if (!subArgs[0] || !["delete", "warn"].includes(subArgs[0])) {

@@ -1,9 +1,9 @@
 /* eslint-disable array-element-newline */
-const fs = require("node:fs");
-const { tmpdir } = require("node:os");
-const Crypto = require("node:crypto");
-const path = require("node:path");
-const { Buffer } = require("node:buffer");
+const fs = require("fs");
+const { tmpdir } = require("os");
+const Crypto = require("crypto");
+const path = require("path");
+const { Buffer } = require("buffer");
 const ff = require("fluent-ffmpeg");
 const webp = require("node-webpmux");
 

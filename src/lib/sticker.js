@@ -1,9 +1,9 @@
 /* eslint-disable array-element-newline */
-const fs = require("node:fs");
-const path = require("node:path");
-const crypto = require("node:crypto");
-const { spawn } = require("node:child_process");
-const { Buffer } = require("node:buffer");
+const fs = require("fs");
+const path = require("path");
+const crypto = require("crypto");
+const { spawn } = require("child_process");
+const { Buffer } = require("buffer");
 const webp = require("node-webpmux");
 const { fromBuffer } = require("file-type");
 const fluentFFMPEG = require("fluent-ffmpeg");
@@ -36,52 +36,56 @@ function queryURL(queries) {
   return new URLSearchParams(Object.entries(queries));
 }
 
-function sticker2(img, url) {
-  return new Promise(async (resolve, reject) => {
-    try {
-      if (url) {
-        const res = await fetch(url);
-        if (res.status !== 200) throw await res.text();
-        img = Buffer.from(await res.arrayBuffer(), "base64");
+function sticker2(i, url) {
+  let img = i;
+  return new Promise((resolve, reject) => {
+    (async () => {
+      try {
+        if (url) {
+          const res = await fetch(url);
+          if (res.status !== 200) throw await res.text();
+          img = Buffer.from(await res.arrayBuffer(), "base64");
+        }
+        const dateGet = new Date();
+        const inp = path.join(tmp, `${+dateGet}.jpeg`, img);
+        await fs.promises.writeFile(tmp, `${+dateGet}.jpeg`, img);
+        const ff = spawn("ffmpeg", [
+          "-y",
+          "-i",
+          inp,
+          "-vf",
+          "scale=512:512:flags=lanczos:force_original_aspect_ratio=decrease,format=rgba,pad=512:512:(ow-iw)/2:(oh-ih)/2:color=#00000000,setsar=1",
+          "-f",
+          "png",
+          "-",
+        ]);
+        ff.on("error", reject);
+        ff.on("close", async () => {
+          await fs.promises.unlink(tmp, `${+dateGet}.jpeg`, img);
+        });
+        const bufs = [];
+        const [_spawnprocess, ..._spawnargs] = [
+          ...(module.exports.support.gm ? ["gm"] : module.exports.magick ? ["magick"] : []),
+          "convert",
+          "png:-",
+          "webp:-",
+        ];
+        const im = spawn(_spawnprocess, _spawnargs);
+        im.on("error", () => {});
+        im.stdout.on("data", (chunk) => bufs.push(chunk));
+        ff.stdout.pipe(im.stdin);
+        im.on("exit", () => {
+          resolve(Buffer.concat(bufs));
+        });
+      } catch (e) {
+        reject(e);
       }
-      const dateGet = new Date();
-      const inp = path.join(tmp, `${+dateGet}.jpeg`, img);
-      await fs.promises.writeFile(tmp, `${+dateGet}.jpeg`, img);
-      const ff = spawn("ffmpeg", [
-        "-y",
-        "-i",
-        inp,
-        "-vf",
-        "scale=512:512:flags=lanczos:force_original_aspect_ratio=decrease,format=rgba,pad=512:512:(ow-iw)/2:(oh-ih)/2:color=#00000000,setsar=1",
-        "-f",
-        "png",
-        "-",
-      ]);
-      ff.on("error", reject);
-      ff.on("close", async () => {
-        await fs.promises.unlink(tmp, `${+dateGet}.jpeg`, img);
-      });
-      const bufs = [];
-      const [_spawnprocess, ..._spawnargs] = [
-        ...(module.exports.support.gm ? ["gm"] : module.exports.magick ? ["magick"] : []),
-        "convert",
-        "png:-",
-        "webp:-",
-      ];
-      const im = spawn(_spawnprocess, _spawnargs);
-      im.on("error", () => {});
-      im.stdout.on("data", (chunk) => bufs.push(chunk));
-      ff.stdout.pipe(im.stdin);
-      im.on("exit", () => {
-        resolve(Buffer.concat(bufs));
-      });
-    } catch (e) {
-      reject(e);
-    }
+    })();
   });
 }
 
-async function sticker1(img, url) {
+async function sticker1(img, u) {
+  let url = u;
   url = url || (await uploadImage(img));
   const { mime } = url ? { mime: "image/jpeg" } : await fromBuffer(img);
   const sc = `let im = await loadImg('data:${mime};base64,'+(await window.loadToDataURI('${url}')))
@@ -94,7 +98,8 @@ async function sticker1(img, url) {
   return await canvas(sc, "webp");
 }
 
-async function sticker3(img, url, packname, author) {
+async function sticker3(img, u, packname, author) {
+  let url = u;
   url = url || (await uploadFile(img));
   const res = await fetch(
     `https://api.xteam.xyz/sticker/wm?${new URLSearchParams(
@@ -108,7 +113,8 @@ async function sticker3(img, url, packname, author) {
   return Buffer.from(await res.arrayBuffer(), "base64");
 }
 
-async function sticker4(img, url) {
+async function sticker4(i, url) {
+  let img = i;
   if (url) {
     const res = await fetch(url);
     if (res.status !== 200) throw await res.text();
@@ -137,49 +143,53 @@ async function sticker5(img, url, packname, author, categories = [""], extra = {
   return new Sticker(img || url, stickerMetadata).toBuffer();
 }
 
-function sticker6(img, url) {
-  return new Promise(async (resolve, reject) => {
-    if (url) {
-      const res = await fetch(url);
-      if (res.status !== 200) throw await res.text();
-      const buffer = await res.arrayBuffer();
-      img = Buffer.from(buffer);
-    }
-    const type = (await fromBuffer(img)) || {
-      mime: "application/octet-stream",
-      ext: "bin",
-    };
-    if (type.ext === "bin") reject(img);
-    const tmp = path.join(__dirname, `../../tmp/${+new Date()}.${type.ext}`);
-    const out = path.join(`${tmp}.webp`);
-    await fs.promises.writeFile(tmp, img);
-    const Fffmpeg = /video/i.test(type.mime)
-      ? fluentFFMPEG(tmp).inputFormat(type.ext)
-      : fluentFFMPEG(tmp).input(tmp);
-    Fffmpeg.on("error", () => {
-      fs.promises.unlink(tmp);
-      reject(img);
-    })
-      .on("end", async () => {
+function sticker6(i, url) {
+  let img = i;
+  return new Promise((resolve, reject) => {
+    (async () => {
+      if (url) {
+        const res = await fetch(url);
+        if (res.status !== 200) throw await res.text();
+        const buffer = await res.arrayBuffer();
+        img = Buffer.from(buffer);
+      }
+      const type = (await fromBuffer(img)) || {
+        mime: "application/octet-stream",
+        ext: "bin",
+      };
+      if (type.ext === "bin") reject(img);
+      const tmp = path.join(__dirname, `../../tmp/${+new Date()}.${type.ext}`);
+      const out = path.join(`${tmp}.webp`);
+      await fs.promises.writeFile(tmp, img);
+      const Fffmpeg = /video/i.test(type.mime)
+        ? fluentFFMPEG(tmp).inputFormat(type.ext)
+        : fluentFFMPEG(tmp).input(tmp);
+      Fffmpeg.on("error", () => {
         fs.promises.unlink(tmp);
-        resolve(await fs.promises.readFile(out));
+        reject(img);
       })
-      .addOutputOptions([
-        "-vcodec",
-        "libwebp",
-        "-vf",
-        "scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse",
-      ])
-      .toFormat("webp")
-      .save(out);
-    setTimeout(() => {
-      fs.promises.unlink(`${tmp}.webp`);
-    }, 20000);
+        .on("end", async () => {
+          fs.promises.unlink(tmp);
+          resolve(await fs.promises.readFile(out));
+        })
+        .addOutputOptions([
+          "-vcodec",
+          "libwebp",
+          "-vf",
+          "scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse",
+        ])
+        .toFormat("webp")
+        .save(out);
+      setTimeout(() => {
+        fs.promises.unlink(`${tmp}.webp`);
+      }, 20000);
+    })();
   });
 }
 
 async function sticker(img, url, ...args) {
-  let lastError, stiker;
+  let lastError;
+  let stiker;
   for (const func of [
     sticker3,
     // eslint-disable-next-line no-constant-binary-expression
@@ -204,7 +214,6 @@ async function sticker(img, url, ...args) {
       throw stiker.toString();
     } catch (err) {
       lastError = err;
-      continue;
     }
   }
   return lastError;

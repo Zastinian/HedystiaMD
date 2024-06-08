@@ -1,7 +1,7 @@
 require("./config");
-const fs = require("node:fs");
-const path = require("node:path");
-const { Buffer } = require("node:buffer");
+const fs = require("fs");
+const path = require("path");
+const { Buffer } = require("buffer");
 const {
   default: hedystiaConnect,
   useMultiFileAuthState,
@@ -30,7 +30,9 @@ try {
     const store = makeInMemoryStore({ logger: pino({ level: "silent" }) });
     store?.readFromFile("./hedystia.json");
 
-    Object.values(store.messages).forEach((m) => m.clear());
+    for (const m of Object.values(store.messages)) {
+      m.clear();
+    }
 
     fs.readdir("./hedystia", (err, files) => {
       if (err) {
@@ -38,29 +40,29 @@ try {
       }
       const oneDayInMillis = 7 * 24 * 60 * 60 * 1000;
       const oneDayAgo = new Date().getTime() - oneDayInMillis;
-      files.forEach((file) => {
-        if (file === "creds.json") return true;
+      for (const file of files) {
+        if (file === "creds.json") return;
         const filePath = path.join("./hedystia", file);
         fs.stat(filePath, (err, stats) => {
           if (err) {
-            return true;
+            return;
           }
           if (stats.birthtimeMs <= oneDayAgo) {
             fs.unlink(filePath, (err) => {
-              if (err) return true;
+              if (err) return;
             });
           }
         });
-      });
+      }
     });
 
     fs.readdir("./tmp", (err, files) => {
       if (err) return;
-      files.forEach((file) => {
-        if (file === ".gitignore") return true;
+      for (const file of files) {
+        if (file === ".gitignore") return;
         fs.unlink(`./tmp/${file}`, () => {});
-        return true;
-      });
+        return;
+      }
     });
 
     fs.watch("./tmp", (eventType, filename) => {
@@ -83,27 +85,29 @@ try {
 
     setInterval(
       () => {
-        Object.values(store.messages).forEach((m) => m.clear());
+        for (const m of Object.values(store.messages)) {
+          m.clear();
+        }
         fs.readdir("./hedystia", (err, files) => {
           if (err) {
             return;
           }
           const oneDayInMillis = 7 * 24 * 60 * 60 * 1000;
           const oneDayAgo = new Date().getTime() - oneDayInMillis;
-          files.forEach((file) => {
-            if (file === "creds.json") return true;
+          for (const file of files) {
+            if (file === "creds.json") return;
             const filePath = path.join("./hedystia", file);
             fs.stat(filePath, (err, stats) => {
               if (err) {
-                return true;
+                return;
               }
               if (stats.birthtimeMs <= oneDayAgo) {
                 fs.unlink(filePath, (err) => {
-                  if (err) return true;
+                  if (err) return;
                 });
               }
             });
-          });
+          }
         });
       },
       4 * 60 * 60 * 1000,
@@ -111,20 +115,18 @@ try {
 
     fs.readdir("./src/commands", (err, commandFolders) => {
       if (err) return;
-      commandFolders.forEach((folder) => {
+      for (const folder of commandFolders) {
         fs.readdir(`./src/commands/${folder}`, (err, commandFiles) => {
           if (err) return;
-          commandFiles
-            .filter((file) => file.endsWith(".js"))
-            .forEach((file) => {
-              const command = require(`./src/commands/${folder}/${file}`);
-              if (command.name) {
-                commands.set(command.name, command);
-                commandsFolder.set(command.name, { folder, name: command.name });
-              }
-            });
+          for (const file of commandFiles) {
+            const command = require(`./src/commands/${folder}/${file}`);
+            if (command.name) {
+              commands.set(command.name, command);
+              commandsFolder.set(command.name, { folder, name: command.name });
+            }
+          }
         });
-      });
+      }
     });
 
     const { state, saveCreds } = await useMultiFileAuthState("hedystia");
@@ -136,8 +138,8 @@ try {
     });
 
     hedystia.langs = {
-      en: require(`./src/lang/en/bot.json`),
-      es: require(`./src/lang/es/bot.json`),
+      en: require("./src/lang/en/bot.json"),
+      es: require("./src/lang/es/bot.json"),
     };
 
     hedystia.commands = commands;
@@ -201,18 +203,19 @@ try {
       if (/:\d+@/gi.test(jid)) {
         const decode = jidDecode(jid) || {};
         return (decode.user && decode.server && `${decode.user}@${decode.server}`) || jid;
-      } else return jid;
+      }
+      return jid;
     };
     hedystia.ev.on("contacts.update", (update) => {
       for (const contact of update) {
         const id = hedystia.decodeJid(contact.id);
-        if (store && store.contacts) store.contacts[id] = { id, name: contact.notify };
+        if (store?.contacts) store.contacts[id] = { id, name: contact.notify };
       }
     });
 
     hedystia.getName = (jid, withoutContact = false) => {
       const id = hedystia.decodeJid(jid);
-      withoutContact = hedystia.withoutContact || withoutContact;
+      const withoutContactFilter = hedystia.withoutContact || withoutContact;
       let v;
       if (id.endsWith("@g.us")) {
         return new Promise((resolve) => {
@@ -224,19 +227,18 @@ try {
               PhoneNumber(`+${id.replace("@s.whatsapp.net", "")}`).getNumber("international"),
           );
         });
-      } else {
-        v =
-          id === "0@s.whatsapp.net"
-            ? {
-                id,
-                name: "WhatsApp",
-              }
-            : id === hedystia.decodeJid(hedystia.user.id)
-              ? hedystia.user
-              : store.contacts[id] || {};
       }
+      v =
+        id === "0@s.whatsapp.net"
+          ? {
+              id,
+              name: "WhatsApp",
+            }
+          : id === hedystia.decodeJid(hedystia.user.id)
+            ? hedystia.user
+            : store.contacts[id] || {};
       return (
-        (withoutContact ? "" : v.name) ||
+        (withoutContactFilter ? "" : v.name) ||
         v.subject ||
         v.verifiedName ||
         PhoneNumber(`+${jid.replace("@s.whatsapp.net", "")}`).getNumber("international")
@@ -539,7 +541,7 @@ try {
           );
         }
         file = null;
-        // eslint-disable-next-line no-unsafe-finally
+        // biome-ignore lint/correctness/noUnsafeFinally: <explanation>
         return m;
       }
     };
@@ -604,17 +606,12 @@ try {
     hedystia.copyNForward = async (jid, message, forceForward = false, options = {}) => {
       let vtype;
       if (options.readViewOnce) {
-        message.message =
-          message.message &&
-          message.message.ephemeralMessage &&
-          message.message.ephemeralMessage.message
-            ? message.message.ephemeralMessage.message
-            : message.message || undefined;
+        message.message = message.message?.ephemeralMessage?.message
+          ? message.message.ephemeralMessage.message
+          : message.message || undefined;
         vtype = Object.keys(message.message.viewOnceMessage.message)[0];
-        delete (message.message && message.message.ignore
-          ? message.message.ignore
-          : message.message || undefined);
-        delete message.message.viewOnceMessage.message[vtype].viewOnce;
+        delete (message.message?.ignore ? message.message.ignore : message.message || undefined);
+        message.message.viewOnceMessage.message[vtype].viewOnce = undefined;
         message.message = {
           ...message.message.viewOnceMessage.message,
         };
@@ -651,7 +648,8 @@ try {
       return waMessage;
     };
 
-    hedystia.cMod = (jid, copy, text = "", sender = hedystia.user.id, options = {}) => {
+    hedystia.cMod = (jid, copy, text = "", s = hedystia.user.id, options = {}) => {
+      let sender = s;
       let mtype = Object.keys(copy.message)[0];
       const isEphemeral = mtype === "ephemeralMessage";
       if (isEphemeral) {
@@ -692,9 +690,12 @@ try {
         : /^data:.*?\/.*?;base64,/i.test(PATH)
           ? Buffer.from(PATH.split`,`[1], "base64")
           : /^https?:\/\//.test(PATH)
-            ? await (res = await getBuffer(PATH))
+            ? // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
+              await (res = await getBuffer(PATH))
             : fs.existsSync(PATH)
-              ? ((filename = PATH), fs.readFileSync(PATH))
+              ? // biome-ignore lint/suspicious/noAssignInExpressions: <explanation>
+                // biome-ignore lint/style/noCommaOperator: <explanation>
+                ((filename = PATH), fs.readFileSync(PATH))
               : typeof PATH === "string"
                 ? PATH
                 : Buffer.alloc(0);

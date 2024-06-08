@@ -1,4 +1,5 @@
-const printText = (text, index, time = 100) => {
+const printText = (text, i, time = 100) => {
+  let index = i;
   process.stdout.write(text[index]);
   index++;
   if (index < text.length) {
