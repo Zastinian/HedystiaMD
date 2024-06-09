@@ -1,6 +1,6 @@
 const { once, EventEmitter } = require("events");
 const path = require("path");
-const ytdl = require("ytdl-core");
+const ytdl = require("@distube/ytdl-core");
 const ffmpeg = require("fluent-ffmpeg");
 
 const YOUTUBE_URL = "http://youtube.com/watch?v=";
