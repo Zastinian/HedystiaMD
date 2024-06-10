@@ -68,7 +68,8 @@
     },
     "defaultOwner": "✔️ | Now you are the owner of the bot if you want another user to be the new bot owner use the command {6}setowner",
     "noOwner": "❌ | The bot has no owner you must use the {6}init command to get that rank",
-    "newOwner": "✔️ | The former owner has just relinquished privileges and now there is a new owner"
+    "newOwner": "✔️ | The former owner has just relinquished privileges and now there is a new owner",
+    "alreadyInit": "❌ | The bot is already initialized"
   },
   "automod": {
     "antilinks": "❌ | Error: I don't have admin so I can't delete links."

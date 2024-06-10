@@ -68,7 +68,8 @@
     },
     "defaultOwner": "✔️ | Ahora eres el dueño del bot si quieres que otro usuario sea el nuevo dueño del bot usa el comando {6}setowner",
     "noOwner": "❌ | El bot no tiene dueño debes usar el comando {6}init para obtener ese rango",
-    "newOwner": "✔️ | El antiguo dueño acaba de renunciar a sus privilegios y ahora hay un nuevo dueño"
+    "newOwner": "✔️ | El antiguo dueño acaba de renunciar a sus privilegios y ahora hay un nuevo dueño",
+    "alreadyInit": "❌ | El bot ya está inicializado"
   },
   "automod": {
     "antilinks": "❌ | Error: No tengo admin así que no puedo borrar enlaces."
