@@ -5,31 +5,12 @@ const wait = require("./src/util/wait");
 const printText = require("./src/util/printText");
 const migrationDB = require("./src/db/migrations");
 
-const P = [
-  "\x1b[96m(ノಠ益ಠ)ノ彡\x1b[97m┻━┻\x1b[0m",
-  "\x1b[96m(ノಠ益ಠ)ノ彡\x1b[97m ┻━┻\x1b[0m",
-  "\x1b[96m(ノಠ益ಠ)ノ彡\x1b[97m  ┻━┻\x1b[0m",
-  "\x1b[96m(ノಠ益ಠ)ノ彡\x1b[97m   ┻━┻\x1b[0m",
-  "\x1b[96m(ノಠ益ಠ)ノ彡\x1b[97m    ┬─┬\x1b[0m",
-  "\x1b[97m ┬─┬ \x1b[96mノ( ゜-゜ノ)\x1b[0m",
-  "\x1b[97m ┬━┬ \x1b[96mノ( ゜-゜ノ)\x1b[0m",
-];
-let x = 0;
-
-const loader = setInterval(() => {
-  process.stdout.clearLine();
-  process.stdout.cursorTo(0);
-  process.stdout.write(`\x1b[96m${P[x]}\x1b[0m`);
-  x = (x + 1) % P.length;
-}, 500);
-
 const migrations = new Database("./src/db/store/migrations.ht", packageData.author);
 
 const config = new Database("./src/db/store/config.ht", packageData.author);
 
 const executeDBCode = new Promise((resolve) => {
   setTimeout(async () => {
-    clearInterval(loader);
     process.stdout.clearLine();
     process.stdout.cursorTo(0);
     const checkDB = "\x1b[97mReviewing database\x1b[0m";

@@ -122,7 +122,7 @@ try {
             const command = require(`./src/commands/${folder}/${file}`);
             if (command.name) {
               commands.set(command.name, command);
-              commandsFolder.set(command.name, { folder, name: command.name });
+              commandsFolder.set(command.name, { folder });
             }
           }
         });
