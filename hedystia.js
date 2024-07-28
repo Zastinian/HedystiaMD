@@ -53,7 +53,7 @@ module.exports = async (hedystia, m) => {
     };
 
     for (const command of hedystia.commandsFolder) {
-      categories[command.folder] += `\\n  ⟿ ${prefix}${command.name}`;
+      categories[command[1].folder] += `\\n  ⟿ ${prefix}${command[0]}`;
     }
 
     const lang = JSON.parse(
