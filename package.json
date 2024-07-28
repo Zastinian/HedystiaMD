@@ -32,7 +32,7 @@
     "yt-search": "^2.11.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.8.0",
+    "@biomejs/biome": "^1.8.3",
     "@types/jsonwebtoken": "^9.0.6",
     "@types/node": "^20.14.2",
     "husky": "9.0.11"
