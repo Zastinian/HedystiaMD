@@ -10,7 +10,7 @@ const migrations = new Database("./src/db/store/migrations.ht", packageData.auth
 const config = new Database("./src/db/store/config.ht", packageData.author);
 
 const executeDBCode = new Promise((resolve) => {
-  setTimeout(async () => {
+  (async () => {
     process.stdout.clearLine();
     process.stdout.cursorTo(0);
     const checkDB = "\x1b[97mReviewing database\x1b[0m";
@@ -33,7 +33,7 @@ const executeDBCode = new Promise((resolve) => {
     printText(checkDBDone, 0);
     await wait(checkDBDone.length * 100 + 1000);
     resolve();
-  }, 10000);
+  })();
 });
 
 module.exports = { config, executeDBCode };
