@@ -1,6 +1,4 @@
 const readline = require("readline");
-const wait = require("../../util/wait");
-const printText = require("../../util/printText");
 
 function getPrefix() {
   return new Promise((resolve) => {
@@ -10,22 +8,15 @@ function getPrefix() {
     });
     const askPrefix = async () => {
       console.log("");
-      const pref = "\x1b[93mTell me the prefix you want to use\x1b[0m";
-      printText(pref, 0);
-      await wait(pref.length * 100 + 1000);
       rl.question("\x1b[93mTell me the prefix you want to use\x1b[94m\n⤳\x1b[0m ", (input) => {
         const prefix = input.trim();
         if (prefix.length > 6) {
           console.log("");
-          const err = "\x1b[91mERROR: \x1b[92mThe prefix must have a maximum length of 6\x1b[0m";
-          printText(err, 0);
-          setTimeout(
-            () => {
-              console.log("");
-              askPrefix();
-            },
-            err.length * 100 + 1000,
-          );
+          console.log("\x1b[91mERROR: \x1b[92mThe prefix must have a maximum length of 6\x1b[0m");
+          setTimeout(() => {
+            console.log("");
+            askPrefix();
+          });
           return;
         }
         resolve(prefix);
@@ -44,9 +35,6 @@ function getLang() {
     });
     const askLang = async () => {
       console.log("");
-      const pref = "\x1b[93mTell me the language you want to use (English/Español)\x1b[0m";
-      printText(pref, 0);
-      await wait(pref.length * 100 + 1000);
       rl.question(
         "\x1b[93mTell me the language you want to use (English/Español)\x1b[94m\n⤳\x1b[0m ",
         (input) => {
@@ -79,15 +67,11 @@ function getLang() {
             rl.close();
           } else {
             console.log("");
-            const err = "\x1b[91mERROR: \x1b[92mThe language provided is not correct\x1b[0m";
-            printText(err, 0);
-            setTimeout(
-              () => {
-                console.log("");
-                askLang();
-              },
-              err.length * 100 + 1000,
-            );
+            console.log("\x1b[91mERROR: \x1b[92mThe language provided is not correct\x1b[0m");
+            setTimeout(() => {
+              console.log("");
+              askLang();
+            });
           }
         },
       );
