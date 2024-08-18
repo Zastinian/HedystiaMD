@@ -36,6 +36,7 @@
   "music": {
     "play": {
       "no_song": "*You must put the song*\n\n*Example:*\n{5}play Miley Cyrus - Flowers",
+      "not_found": "The song was not found",
       "download": "I'm looking for and downloading the song!",
       "error": "There was an error playing the music"
     }
