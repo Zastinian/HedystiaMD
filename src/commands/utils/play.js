@@ -2,7 +2,7 @@ const cloud = require("soundcloud.ts").default;
 
 module.exports = {
   name: "play",
-  run: async ({ bot, lang, message, global, text }) => {
+  run: async ({ bot, lang, message, text }) => {
     if (!text) {
       return bot.sendMessage(
         message.chat,
