@@ -12,20 +12,17 @@ module.exports = {
         { quoted: message },
       );
     }
-
     const client = new cloud();
     const customRegex = /^.+\/.+$/;
-
+    bot.sendMessage(message.chat, { text: lang.music.play.download }, { quoted: message });
     let track;
     if (customRegex.test(text)) {
       track = await client.tracks.getAlt(text);
     } else {
       track = await client.tracks.searchAlt(text);
     }
-
     if (!track || !track[0])
       return bot.sendMessage(message.chat, { text: lang.music.play.not_found });
-
     try {
       await client.util.downloadTrack(`${track[0].user.permalink}/${track[0].permalink}`, "./tmp");
       return bot.sendMessage(message.chat, {
