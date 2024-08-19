@@ -1,10 +1,8 @@
-const path = require("path");
-const yts = require("yt-search");
-const DownloadYTAudio = require("../../util/downloadMusic");
+const cloud = require("soundcloud.ts").default;
 
 module.exports = {
   name: "play",
-  run: async ({ bot, lang, message, global, text }) => {
+  run: async ({ bot, lang, message, text }) => {
     if (!text) {
       return bot.sendMessage(
         message.chat,
@@ -14,27 +12,24 @@ module.exports = {
         { quoted: message },
       );
     }
-    const downloader = new DownloadYTAudio({
-      outputPath: "./tmp",
-      ffmpegPath: global.ffmpegPath,
-      fileNameGenerator: (videoTitle) => {
-        return videoTitle;
-      },
-      maxParallelDownload: 10,
-    });
+    const client = new cloud();
+    const customRegex = /^.+\/.+$/;
+    bot.sendMessage(message.chat, { text: lang.music.play.download }, { quoted: message });
+    let track;
+    if (customRegex.test(text)) {
+      track = await client.tracks.getAlt(text);
+    } else {
+      track = await client.tracks.searchAlt(text);
+    }
+    if (!track || !track[0])
+      return bot.sendMessage(message.chat, { text: lang.music.play.not_found });
     try {
-      const r = await yts(text);
-      const videos = r.videos.slice(0, 1);
-      for (const v of videos) {
-        bot.sendMessage(message.chat, { text: lang.music.play.download }, { quoted: message });
-        const name = `0x${v.videoId}${Date.now()}x0.mp3`;
-        await downloader.download(v.videoId, name);
-        return bot.sendMessage(message.chat, {
-          audio: { url: `${path.join(__dirname, "../../../tmp")}/${name}` },
-          mimetype: "audio/mpeg",
-          fileName: `${name}`,
-        });
-      }
+      await client.util.downloadTrack(`${track[0].user.permalink}/${track[0].permalink}`, "./tmp");
+      return bot.sendMessage(message.chat, {
+        audio: { url: `${path.join(__dirname, "../../../tmp")}/${track[0].title}.mp3` },
+        mimetype: "audio/mpeg",
+        fileName: `${track[0].title}`,
+      });
     } catch {
       return bot.sendMessage(message.chat, { text: lang.music.play.error }, { quoted: message });
     }
