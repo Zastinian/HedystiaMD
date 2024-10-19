@@ -80,30 +80,25 @@ function getLang() {
   });
 }
 
-module.exports = {
-  date: "2024-05-09T00:20:59.327Z",
-  type: "config",
-  run: async (migrations, config) => {
-    config.deleteTableIfExists("antiLinks");
-    config.deleteTableIfExists("owner");
-    config.deleteTableIfExists("prefix");
-    config.deleteTableIfExists("lang");
-    config.createTable("antiLinks", ["id", "enabled", "allowed", "admins_allowed", "action"]);
-    config.createTable("owner", ["id", "value"]);
-    config.createTable("prefix", ["id", "value"]);
-    config.createTable("lang", ["id", "value"]);
-    config.insert("antiLinks", {
-      id: "antiLinks",
-      enabled: false,
-      allowed: ["https://hedystia.com", "https://zastinian.com"],
-      admins_allowed: true,
-      action: "delete",
-    });
-    config.insert("owner", { id: "owner", value: false });
-    const p = await getPrefix();
-    config.insert("prefix", { id: "prefix", value: p });
-    const l = await getLang();
-    config.insert("lang", { id: "lang", value: l });
-    migrations.insert("version", { date: "2024-05-09T00:20:59.327Z" });
-  },
+module.exports = async (config) => {
+  config.deleteTableIfExists("antiLinks");
+  config.deleteTableIfExists("owner");
+  config.deleteTableIfExists("prefix");
+  config.deleteTableIfExists("lang");
+  config.createTable("antiLinks", ["id", "enabled", "allowed", "admins_allowed", "action"]);
+  config.createTable("owner", ["id", "value"]);
+  config.createTable("prefix", ["id", "value"]);
+  config.createTable("lang", ["id", "value"]);
+  config.insert("antiLinks", {
+    id: "antiLinks",
+    enabled: false,
+    allowed: ["https://hedystia.com", "https://zastinian.com"],
+    admins_allowed: true,
+    action: "delete",
+  });
+  config.insert("owner", { id: "owner", value: false });
+  const p = await getPrefix();
+  config.insert("prefix", { id: "prefix", value: p });
+  const l = await getLang();
+  config.insert("lang", { id: "lang", value: l });
 };

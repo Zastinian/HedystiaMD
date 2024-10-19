@@ -14,7 +14,7 @@ module.exports = {
           ? bot.user.jid
           : message.sender;
     const response = await fetch(
-      `https://strangeapi.hostz.me/api/generators/mms?image=${encodeURIComponent(
+      `https://gens.hedystia.com/generators/mms?image=${encodeURIComponent(
         await bot
           .profilePictureUrl(user)
           .catch(
@@ -24,7 +24,7 @@ module.exports = {
       )}}`,
       {
         headers: {
-          Authorization: `Bearer ${global.imageToken}`,
+          Authorization: "Hedystia",
         },
       },
     );
