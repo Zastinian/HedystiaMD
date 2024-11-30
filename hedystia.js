@@ -90,8 +90,10 @@ module.exports = async (hedystia, m) => {
     }
     const privateStatus = globalThis.db.config.select("private", { id: "private" })[0].value;
     if (!privateStatus) {
-      if (!isGroup) {
-        return;
+      if (!isBotOwner) {
+        if (!isGroup) {
+          return;
+        }
       }
     }
     if (!cont) {
