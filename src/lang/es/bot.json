@@ -55,6 +55,11 @@
       "errorLength": "❌ | El prefix debe tener una longitud máxima de 6",
       "correct": "✔️ | El prefix se ha cambiado correctamente el nuevo prefix es: {custom}"
     },
+    "private": {
+      "noPrivate": "❌ | No has especificado si deseas desactivar o activar los chats privados",
+      "errorExisting": "❌ | El estado especificado no existe, los estados existentes son: {custom}",
+      "correct": "✔️ | El estado ha sido cambiado correctamente ahora el nuevo estado es: {custom}"
+    },
     "antiLinks": {
       "enabled": "✔️ | El sistema de anti-links ha sido activado.",
       "disabled": "✔️ | El sistema de anti-links ha sido desactivado.",

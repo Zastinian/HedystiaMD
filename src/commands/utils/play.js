@@ -1,4 +1,17 @@
-const cloud = require("soundcloud.ts").default;
+const getYouTubeId = (url) => {
+  let match = null;
+  const regexWatch =
+    /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|(?:.*?[?&]v=))([a-zA-Z0-9_-]{11}))/;
+  const regexShorts = /(?:https?:\/\/(?:www\.)?youtu\.be\/([a-zA-Z0-9_-]{11}))/;
+  const regexDirectShorts = /(?:https?:\/\/(?:www\.)?youtube\.com\/shorts\/([a-zA-Z0-9_-]{11}))/;
+  match = url.match(regexWatch);
+  if (match) return match[1];
+  match = url.match(regexShorts);
+  if (match) return match[1];
+  match = url.match(regexDirectShorts);
+  if (match) return match[1];
+  return null;
+};
 
 module.exports = {
   name: "play",
@@ -12,24 +25,64 @@ module.exports = {
         { quoted: message },
       );
     }
-    const client = new cloud();
-    const customRegex = /^.+\/.+$/;
     bot.sendMessage(message.chat, { text: lang.music.play.download }, { quoted: message });
     let track;
-    if (customRegex.test(text)) {
-      track = await client.tracks.getAlt(text);
+    const id = getYouTubeId(text);
+    if (id) {
+      const song = await fetch(`https://scrapers.hedystia.com/search/youtube/video?id=${id}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-GitHub-First-Request-URL": "https://github.com/Zastinian/HedystiaMD",
+          "X-GitHub-Second-Request-URL": "https://github.com/Hidekijs",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => data)
+        .catch(() => null);
+      if (!song) return bot.sendMessage(message.chat, { text: lang.music.play.not_found });
+      track = await fetch(`https://scrapers.hedystia.com/downloads/yt-music?url=${song.url}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-GitHub-First-Request-URL": "https://github.com/Zastinian/HedystiaMD",
+          "X-GitHub-Second-Request-URL": "https://github.com/Hidekijs",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => data)
+        .catch(() => null);
     } else {
-      track = await client.tracks.searchAlt(text);
+      const songs = await fetch(`https://scrapers.hedystia.com/search/youtube/name?text=${text}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-GitHub-First-Request-URL": "https://github.com/Zastinian/HedystiaMD",
+          "X-GitHub-Second-Request-URL": "https://github.com/Hidekijs",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => data)
+        .catch(() => null);
+      if (!songs || !songs[0])
+        return bot.sendMessage(message.chat, { text: lang.music.play.not_found });
+      track = await fetch(`https://scrapers.hedystia.com/downloads/yt-music?url=${songs[0].url}`, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-GitHub-First-Request-URL": "https://github.com/Zastinian/HedystiaMD",
+          "X-GitHub-Second-Request-URL": "https://github.com/Hidekijs",
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => data)
+        .catch(() => null);
     }
-    if (!track || !track[0])
+    if (!track) return bot.sendMessage(message.chat, { text: lang.music.play.not_found });
+    if (!track.lowFileLink)
       return bot.sendMessage(message.chat, { text: lang.music.play.not_found });
     try {
-      await client.util.downloadTrack(`${track[0].user.permalink}/${track[0].permalink}`, "./tmp");
-      return bot.sendMessage(message.chat, {
-        audio: { url: `${path.join(__dirname, "../../../tmp")}/${track[0].title}.mp3` },
-        mimetype: "audio/mpeg",
-        fileName: `${track[0].title}`,
-      });
+      return await bot.replyAudio(track.lowFileLink, message, { replyAudio: false });
     } catch {
       return bot.sendMessage(message.chat, { text: lang.music.play.error }, { quoted: message });
     }

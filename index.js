@@ -413,6 +413,25 @@ try {
               : Buffer.alloc(0);
       return await hedystia.sendMessage(jid, { audio: buffer, ptt, ...options }, { quoted });
     };
+    hedystia.replyAudio = async (path, m, opts = {}) => {
+      const p = /^https?/.test(path) ? { url: path } : path;
+      return await hedystia.sendMessage(
+        opts.chat || m.chat,
+        {
+          audio: p,
+          fileName: opts.filename || `${Date.now}.mp3`,
+          ptt: opts.ptt || false,
+          mimetype: opts.ptt ? "audio/ogg; codecs=opus" : "audio/mpeg",
+          contextInfo: {
+            mentionedJid: opts.mentions || [m.sender],
+          },
+        },
+        {
+          quoted: m || m,
+          ephemeralExpiration: m.ephemeral || null,
+        },
+      );
+    };
     hedystia.sendTextWithMentions = async (jid, text, quoted, options = {}) =>
       hedystia.sendMessage(
         jid,
