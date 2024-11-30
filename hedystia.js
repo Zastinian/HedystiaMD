@@ -88,6 +88,12 @@ module.exports = async (hedystia, m) => {
         cont = status;
       }
     }
+    const privateStatus = globalThis.db.config.select("private", { id: "private" })[0].value;
+    if (privateStatus) {
+      if (!isGroup) {
+        return hedystia.sendMessage(m.chat, { text: lang.owner.private }, { quoted: m });
+      }
+    }
     if (!cont) {
       return;
     }
