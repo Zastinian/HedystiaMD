@@ -9,7 +9,7 @@ function getPrivateStatus() {
     const askPrivate = async () => {
       console.log("");
       rl.question(
-        "\x1b[93mTell me if you want to disable private chats (true/false)\x1b[94m\n⤳\x1b[0m ",
+        "\x1b[93mTell me if you want to disable or enable private chats (true/false)\x1b[94m\n⤳\x1b[0m ",
         (input) => {
           const value = input.toLowerCase().trim();
           if (
