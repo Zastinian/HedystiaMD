@@ -15,7 +15,7 @@ function getPrivateStatus() {
           if (
             value === "true" ||
             value === "on" ||
-            lang === "encendido" ||
+            value === "encendido" ||
             value === "enabled" ||
             value === "false" ||
             value === "off" ||
