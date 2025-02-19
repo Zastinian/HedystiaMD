@@ -14,7 +14,7 @@ const {
   proto,
 } = require("baileys");
 const pino = require("pino");
-const FileType = require("file-type");
+const { fromBuffer } = import("file-type");
 const PhoneNumber = require("awesome-phonenumber");
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require("./src/lib/exif");
 const { smsg, getBuffer, sleep } = require("./src/lib/myfunc");
@@ -490,7 +490,7 @@ async function startHedystia() {
     for await (const chunk of stream) {
       buffer = Buffer.concat([buffer, chunk]);
     }
-    const type = await FileType.fromBuffer(buffer);
+    const type = await fromBuffer(buffer);
     const trueFileName = attachExtension ? `${filename}.${type.ext}` : filename;
     await fs.writeFileSync(trueFileName, buffer);
     return trueFileName;
@@ -707,7 +707,7 @@ async function startHedystia() {
             : typeof PATH === "string"
               ? PATH
               : Buffer.alloc(0);
-    const type = (await FileType.fromBuffer(data)) || {
+    const type = (await fromBuffer(data)) || {
       mime: "application/octet-stream",
       ext: ".bin",
     };
