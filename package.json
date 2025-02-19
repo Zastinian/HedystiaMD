@@ -7,7 +7,7 @@
   "scripts": {
     "start": "node index.js",
     "check": "biome ci .",
-    "lint": "biome lint --apply .",
+    "lint": "biome lint --write .",
     "format": "biome format --write .",
     "prepare:git": "husky"
   },
