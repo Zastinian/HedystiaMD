@@ -1,4 +1,4 @@
-const Database = require("@hedystia/db");
+const { default: Database } = require("@hedystia/db");
 const fs = require("fs");
 const packageData = require("./package.json");
 const migrationDB = require("./src/db/migrations");
