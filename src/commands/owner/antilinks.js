@@ -5,6 +5,8 @@ module.exports = {
       return bot.sendMessage(message.chat, { text: lang.global.noOwner }, { quoted: message });
     }
 
+    let config;
+
     const subCommand = args[0];
     const subArgs = args.slice(1);
 
@@ -33,8 +35,10 @@ module.exports = {
             { quoted: message },
           );
         }
-        const config = global.db.config.get("antiLinks", { id: "antiLinks" });
+        const config = global.db.config.select("antiLinks", { id: "antiLinks" })[0];
+        // @ts-ignore
         if (!config.allowed.includes(subArgs[0])) {
+          // @ts-ignore
           config.allowed.push(subArgs[0]);
           global.db.config.update("antiLinks", { id: "antiLinks" }, { allowed: config.allowed });
         }
@@ -53,9 +57,11 @@ module.exports = {
             { quoted: message },
           );
         }
-        config = global.db.config.get("antiLinks", { id: "antiLinks" });
+        config = global.db.config.select("antiLinks", { id: "antiLinks" })[0];
+        // @ts-ignore
         const index = config.allowed.indexOf(subArgs[0]);
         if (index > -1) {
+          // @ts-ignore
           config.allowed.splice(index, 1);
           global.db.config.update("antiLinks", { id: "antiLinks" }, { allowed: config.allowed });
         }
@@ -82,7 +88,8 @@ module.exports = {
         );
 
       case "list":
-        config = global.db.config.get("antiLinks", { id: "antiLinks" });
+        config = global.db.config.select("antiLinks", { id: "antiLinks" })[0];
+        // @ts-ignore
         if (!config.allowed || config.allowed.length === 0) {
           return bot.sendMessage(
             message.chat,
@@ -92,6 +99,7 @@ module.exports = {
         }
         return bot.sendMessage(
           message.chat,
+          // @ts-ignore
           { text: `${lang.owner.antiLinks.list} ${config.allowed.join(", ")}` },
           { quoted: message },
         );

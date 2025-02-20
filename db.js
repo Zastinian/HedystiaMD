@@ -9,7 +9,7 @@ const config = new Database("./src/db/store/config.ht", packageData.author);
 
 const executeDBCode = new Promise((resolve) => {
   (async () => {
-    process.stdout.clearLine();
+    process.stdout.clearLine(0);
     process.stdout.cursorTo(0);
     console.log("\x1b[97mReviewing database\x1b[0m");
     if (!fs.existsSync("./src/db/store/migrations.ht")) {
