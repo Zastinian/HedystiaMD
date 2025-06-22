@@ -15,10 +15,9 @@
   "author": "contact@hedystia.com",
   "license": "ISC",
   "dependencies": {
-    "@adiwajshing/keyed-db": "^0.2.4",
     "@hedystia/db": "^2.0.0",
     "awesome-phonenumber": "2.68",
-    "baileys": "6.7.18",
+    "baileys": "6.7.13",
     "file-type": "16.5",
     "fluent-ffmpeg": "^2.1.3",
     "formdata-node": "6.0.3",

@@ -27,22 +27,109 @@ const waLabelAssociationKey = {
 
 const makeMessagesDictionary = () => makeOrderedDictionary(waMessageID);
 
+// Clase simple para reemplazar KeyedDB
+class SimpleKeyedCollection {
+  constructor(keyConfig, idExtractor) {
+    this.items = new Map();
+    this.keyConfig = keyConfig;
+    this.idExtractor = idExtractor;
+  }
+
+  upsert(...items) {
+    const added = [];
+    for (const item of items) {
+      const id = this.idExtractor ? this.idExtractor(item) : item.id;
+      if (!this.items.has(id)) {
+        added.push(item);
+      }
+      this.items.set(id, item);
+    }
+    return added;
+  }
+
+  insertIfAbsent(...items) {
+    const added = [];
+    for (const item of items) {
+      const id = this.idExtractor ? this.idExtractor(item) : item.id;
+      if (!this.items.has(id)) {
+        this.items.set(id, item);
+        added.push(item);
+      }
+    }
+    return added;
+  }
+
+  get(id) {
+    return this.items.get(id);
+  }
+
+  update(id, updateFn) {
+    const item = this.items.get(id);
+    if (item) {
+      updateFn(item);
+      return true;
+    }
+    return false;
+  }
+
+  delete(item) {
+    const id = this.idExtractor ? this.idExtractor(item) : item.id;
+    return this.items.delete(id);
+  }
+
+  deleteById(id) {
+    return this.items.delete(id);
+  }
+
+  clear() {
+    this.items.clear();
+  }
+
+  filter(filterFn) {
+    const filtered = new SimpleKeyedCollection(this.keyConfig, this.idExtractor);
+    for (const [id, item] of this.items) {
+      if (filterFn(item)) {
+        filtered.items.set(id, item);
+      }
+    }
+    return {
+      all: () => Array.from(filtered.items.values()),
+    };
+  }
+
+  all() {
+    return Array.from(this.items.values());
+  }
+
+  values() {
+    return Array.from(this.items.values());
+  }
+
+  keys() {
+    return Array.from(this.items.keys());
+  }
+
+  size() {
+    return this.items.size;
+  }
+}
+
 module.exports = (config) => {
   const socket = config.socket;
   const chatKey = config.chatKey || waChatKey(true);
   const labelAssociationKey = config.labelAssociationKey || waLabelAssociationKey;
   const logger =
     config.logger || DEFAULT_CONNECTION_CONFIG.logger.child({ stream: "in-mem-store" });
-  const KeyedDB = require("@adiwajshing/keyed-db").default;
 
-  const chats = new KeyedDB(chatKey, (c) => c.id);
+  // Reemplazar KeyedDB con SimpleKeyedCollection
+  const chats = new SimpleKeyedCollection(chatKey, (c) => c.id);
   const messages = {};
   const contacts = {};
   const groupMetadata = {};
   const presences = {};
   const state = { connection: "close" };
   const labels = new ObjectRepository();
-  const labelAssociations = new KeyedDB(labelAssociationKey, labelAssociationKey.key);
+  const labelAssociations = new SimpleKeyedCollection(labelAssociationKey, labelAssociationKey.key);
 
   const assertMessageList = (jid) => {
     if (!messages[jid]) {
@@ -337,11 +424,11 @@ module.exports = (config) => {
   };
 
   const toJSON = () => ({
-    chats,
+    chats: chats.values(),
     contacts,
     messages,
     labels,
-    labelAssociations,
+    labelAssociations: labelAssociations.values(),
   });
 
   const fromJSON = (json) => {
