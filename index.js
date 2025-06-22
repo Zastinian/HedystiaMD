@@ -11,6 +11,7 @@ const {
   downloadContentFromMessage,
   jidDecode,
   proto,
+  makeInMemoryStore,
 } = require("baileys");
 const { pino } = require("pino");
 const { fromBuffer } = require("file-type");
@@ -18,7 +19,6 @@ const PhoneNumber = require("awesome-phonenumber");
 const { imageToWebp, videoToWebp, writeExifImg, writeExifVid } = require("./src/lib/exif");
 const { smsg, getBuffer, sleep } = require("./src/lib/myfunc");
 const { toAudio } = require("./src/lib/converter");
-const makeInMemoryStore = require("./src/util/make-in-memory-store");
 
 const commands = new Map();
 const commandsFolder = new Map();
