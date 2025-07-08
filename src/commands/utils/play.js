@@ -1,7 +1,7 @@
 const getYouTubeId = (url) => {
   let match = null;
   const regexWatch =
-    /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^\/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|(?:.*?[?&]v=))([a-zA-Z0-9_-]{11}))/;
+    /(?:https?:\/\/(?:www\.)?youtube\.com\/(?:[^/\n\s]+\/\S+\/|(?:v|e(?:mbed)?)\/|(?:.*?[?&]v=))([a-zA-Z0-9_-]{11}))/;
   const regexShorts = /(?:https?:\/\/(?:www\.)?youtu\.be\/([a-zA-Z0-9_-]{11}))/;
   const regexDirectShorts = /(?:https?:\/\/(?:www\.)?youtube\.com\/shorts\/([a-zA-Z0-9_-]{11}))/;
   match = url.match(regexWatch);
@@ -64,8 +64,7 @@ module.exports = {
         .then((res) => res.json())
         .then((data) => data)
         .catch(() => null);
-      if (!songs || !songs[0])
-        return bot.sendMessage(message.chat, { text: lang.music.play.not_found });
+      if (!songs[0]) return bot.sendMessage(message.chat, { text: lang.music.play.not_found });
       track = await fetch(`https://scrapers.hedystia.com/downloads/yt-music?url=${songs[0].url}`, {
         method: "GET",
         headers: {

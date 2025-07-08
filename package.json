@@ -11,7 +11,11 @@
     "format": "biome format --write .",
     "prepare:git": "husky"
   },
-  "keywords": ["baileys", "hedystia", "whatsapp"],
+  "keywords": [
+    "baileys",
+    "hedystia",
+    "whatsapp"
+  ],
   "author": "contact@hedystia.com",
   "license": "ISC",
   "dependencies": {
