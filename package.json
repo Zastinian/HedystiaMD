@@ -1,43 +1,12 @@
 {
   "name": "hedystiamd",
-  "version": "3.3.3",
-  "description": "A whatsapp bot that can be used to play music",
-  "main": "index.js",
-  "type": "commonjs",
-  "scripts": {
-    "start": "bun index.js",
-    "check": "biome ci .",
-    "lint": "biome lint --write .",
-    "format": "biome format --write .",
-    "prepare:git": "husky"
-  },
-  "keywords": [
-    "baileys",
-    "hedystia",
-    "whatsapp"
-  ],
-  "author": "contact@hedystia.com",
-  "license": "ISC",
-  "dependencies": {
-    "@hedystia/db": "^2.0.0",
-    "awesome-phonenumber": "2.68",
-    "baileys": "6.7.13",
-    "file-type": "16.5",
-    "fluent-ffmpeg": "^2.1.3",
-    "formdata-node": "6.0.3",
-    "jimp": "^1.6.0",
-    "moment-timezone": "^0.5.47",
-    "node-webpmux": "^3.2.0",
-    "pino": "^9.6.0",
-    "qrcode-terminal": "0.12.0",
-    "wa-sticker-formatter": "4.4.4"
-  },
+  "module": "src/index.ts",
+  "type": "module",
+  "private": true,
   "devDependencies": {
-    "@biomejs/biome": "^2.0.4",
-    "@types/node": "^22.13.4",
-    "husky": "^9.1.7"
+    "@types/bun": "1.3.14"
   },
-  "directories": {
-    "src": "src"
+  "peerDependencies": {
+    "typescript": "6.0.3"
   }
 }

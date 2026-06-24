@@ -1,0 +1,14 @@
+telemetry = false
+
+[install]
+minimumReleaseAge = 86400
+exact = true
+saveTextLockfile = true
+ignoreScripts = true
+
+[run]
+bun = true
+
+[test]
+randomize = true
+onlyFailures = true
