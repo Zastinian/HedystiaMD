@@ -1,0 +1,34 @@
+{
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports.biome": "explicit",
+    "source.organizeImports": "never"
+  },
+  "[astro]": {
+    "editor.codeActionsOnSave": {
+      "source.organizeImports.biome": "never",
+      "source.organizeImports": "never"
+    }
+  },
+  "cSpell.words": [
+    "adblock",
+    "adblocker",
+    "Adblockers",
+    "adligature",
+    "basecoat",
+    "creem",
+    "github",
+    "homead",
+    "nanostores",
+    "paseto",
+    "quantserve",
+    "Segoe",
+    "sitekey",
+    "srvtrack",
+    "Tahoma",
+    "tinyint",
+    "Verdana",
+    "yieldkit"
+  ]
+}
