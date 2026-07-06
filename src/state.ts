@@ -18,7 +18,7 @@ const absent = new Set<string>();
 
 let flushTimer: ReturnType<typeof setTimeout> | null = null;
 
-function schedulFlush(folder: string) {
+function scheduleFlush(folder: string) {
   if (flushTimer) {
     return;
   }
@@ -57,7 +57,7 @@ function cacheSet(key: string, value: unknown, folder: string) {
   absent.delete(key);
   cache.set(key, value);
   dirty.add(key);
-  schedulFlush(folder);
+  scheduleFlush(folder);
 }
 
 async function cacheDelete(key: string, folder: string) {
